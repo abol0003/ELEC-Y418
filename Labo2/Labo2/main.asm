@@ -14,11 +14,11 @@
 .equ BUZZER_PORT    = PORTB
 .equ BUZZER_PIN     = PINB
 
-; Timer 1: Reload value for overflow at 880Hz
+; Timer 1: Reload value for overflow at 440Hz
 ; clock of 16MHz then number of cycles equal 16MHz x(1/880)= 18182 cycles 
 ; we are on 16 bit timer then we want to precharge 2^16-18182= 47354 cycles to reach the overflow after 18182 cycles
 ; the interrupt toggle 
-.equ TCNT1_RESET_880 = 47354 ;56445 is the value for sound at 880MHz
+.equ TCNT1_RESET_440 = 47354 ; 56445 is the value for sound at 880MHz
 .equ JOYSTICK_BTN   = 2      ; PB2
 .equ JOYSTICK_DDR   = DDRB
 .equ JOYSTICK_PORT  = PORTB
@@ -28,7 +28,7 @@
 .ORG 0x0000
     rjmp init
 
-; Interrupt vector assignment for Timer1 Overflow (address 0x001A)
+
 .ORG 0x001A
     rjmp timer1_ovf  ; Jump  when the Timer1 overflow interrupt occurs
 
@@ -50,8 +50,8 @@ LDI r16, (1<<CS10)  ; Load the value with CS10 set to 1 into r16
 STS TCCR1B, r16     ; Store the value in TCCR1B to set prescaler to 1
 
 ; Load the reload value into Timer1 as it is 16 bit it is split into 2 bytes (2x8 bits) then just load in two separate bytes
-LDI r16, HIGH(TCNT1_RESET_880)   
-LDI r17, LOW(TCNT1_RESET_880)    
+LDI r16, HIGH(TCNT1_RESET_440)   
+LDI r17, LOW(TCNT1_RESET_440)    
 STS TCNT1H, r16     ; Store high byte into TCNT1H
 STS TCNT1L, r17     ; Store low byte into TCNT1L
 
@@ -77,8 +77,8 @@ JoyNotPressed:
     RJMP main_loop
 
 timer1_ovf:
-    LDI r16, HIGH(TCNT1_RESET_880)
-    LDI r17, LOW(TCNT1_RESET_880)
+    LDI r16, HIGH(TCNT1_RESET_440)
+    LDI r17, LOW(TCNT1_RESET_440)
     STS TCNT1H, r16
     STS TCNT1L, r17
 

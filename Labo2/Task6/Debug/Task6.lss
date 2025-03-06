@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm Wed Mar 05 14:32:00 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm Thu Mar 06 14:07:24 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm(8): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
@@ -1046,7 +1046,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  ; Timer reload values for desired sound frequencies:
                                  .equ TCNT1_RESET_440 = 47354  ; explanation on task5
-                                 .equ TCNT1_RESET_880 = 59445  ; 
+                                 .equ TCNT1_RESET_880 = 56445  ; 
                                  
                                  ; Joystick button 
                                  .equ JOYSTICK_BTN   = 2
@@ -1064,13 +1064,14 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  .ORG 0x0000
 000000 c01a                          rjmp init
                                  
-                                 ; Interrupt vector assignment for Timer1 Overflow (address 0x001A)
+                                 ; Interrupt vector assignment for Timer1 Overflow 
                                  .ORG 0x001A
 00001a c01d                          rjmp timer1_ovf  ; Jump  when the Timer1 overflow interrupt occurs
                                  
                                  init:
-                                     ; Setup buzzer output and turn it off
-00001b 9a21                          SBI BUZZER_DDR, BUZZER_P
+                                 	 ;This sets the port pin as an output.
+00001b 9a21                          SBI BUZZER_DDR, BUZZER_P ;BUZZER_P is a constant indicating the bit number to be modified in BUZZER_DDR
+                                 	;This sets the output value to low, turning off the buzzer
 00001c 9829                          CBI BUZZER_PORT, BUZZER_P
                                  
                                      ; Configure joystick button as input 
@@ -1090,8 +1091,8 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000025 9300 0081                 STS TCCR1B, r16     ; Store the value in TCCR1B to set prescaler to 1
                                  
                                  ; Load the reload value into Timer1 as it is 16 bit it is split into 2 bytes (2x8 bits) then just load in two separate bytes
-000027 ee08                      LDI r16, HIGH(TCNT1_RESET_880)   
-000028 e315                      LDI r17, LOW(TCNT1_RESET_880)    
+000027 ed0c                      LDI r16, HIGH(TCNT1_RESET_880)   
+000028 e71d                      LDI r17, LOW(TCNT1_RESET_880)    
 000029 9300 0085                 STS TCNT1H, r16     ; Store high byte into TCNT1H
 00002b 9310 0084                 STS TCNT1L, r17     ; Store low byte into TCNT1L
                                  
@@ -1121,8 +1122,8 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 00003a c000                      	RJMP Load880
                                  
                                  Load880:
-00003b ee08                          LDI r16, HIGH(TCNT1_RESET_880)
-00003c e315                          LDI r17, LOW(TCNT1_RESET_880)
+00003b ed0c                          LDI r16, HIGH(TCNT1_RESET_880)
+00003c e71d                          LDI r17, LOW(TCNT1_RESET_880)
 00003d c002                          RJMP LoadReload
                                  
                                  Load440:
@@ -1134,10 +1135,10 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000040 9300 0085                     STS TCNT1H, r16
 000042 9310 0084                     STS TCNT1L, r17
                                  
-                                     ; Toggle buzzer output to generate square wave
+                                     ;buzzer toggle: writing 1 to BUZZER_PIN changes its state
 000044 9a19                          SBI BUZZER_PIN, BUZZER_P
                                  
-000045 9518                          RETI
+000045 9518                          RETI ;end interupt
 
 
 RESOURCE USE INFORMATION

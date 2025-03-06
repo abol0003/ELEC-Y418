@@ -33,13 +33,14 @@
 .ORG 0x0000
     rjmp init
 
-; Interrupt vector assignment for Timer1 Overflow (address 0x001A)
+; Interrupt vector assignment for Timer1 Overflow 
 .ORG 0x001A
     rjmp timer1_ovf  ; Jump  when the Timer1 overflow interrupt occurs
 
 init:
-    ; Setup buzzer output and turn it off
-    SBI BUZZER_DDR, BUZZER_P
+	 ;This sets the port pin as an output.
+    SBI BUZZER_DDR, BUZZER_P ;BUZZER_P is a constant indicating the bit number to be modified in BUZZER_DDR
+	;This sets the output value to low, turning off the buzzer
     CBI BUZZER_PORT, BUZZER_P
 
     ; Configure joystick button as input 

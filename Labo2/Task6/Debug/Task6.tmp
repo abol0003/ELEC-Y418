@@ -24,11 +24,11 @@
  </OUTPUT_FILES>
  <LABELS>
   <init><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>40</LINE></init>
-  <timer1_ovf><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>86</LINE></timer1_ovf>
-  <main_loop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>73</LINE></main_loop>
-  <JoyNotPressed><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>80</LINE></JoyNotPressed>
-  <Load440><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>97</LINE></Load440>
-  <Load880><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>92</LINE></Load880>
-  <LoadReload><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>101</LINE></LoadReload>
+  <timer1_ovf><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>87</LINE></timer1_ovf>
+  <main_loop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>74</LINE></main_loop>
+  <JoyNotPressed><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>81</LINE></JoyNotPressed>
+  <Load440><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>98</LINE></Load440>
+  <Load880><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>93</LINE></Load880>
+  <LoadReload><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo2\Task6\main.asm</FILE><LINE>102</LINE></LoadReload>
  </LABELS>
 </ASSEMBLER_INFO>
