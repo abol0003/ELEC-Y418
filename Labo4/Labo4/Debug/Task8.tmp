@@ -1,0 +1,34 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\Debug\Task8.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Task8.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Task8.map</FILE>
+  <FILE>Task8.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <init><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\main.asm</FILE><LINE>21</LINE></init>
+  <main><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\main.asm</FILE><LINE>28</LINE></main>
+  <ColLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\main.asm</FILE><LINE>61</LINE></ColLoop>
+  <RowLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\main.asm</FILE><LINE>69</LINE></RowLoop>
+  <Delay><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\main.asm</FILE><LINE>76</LINE></Delay>
+  <DelayOuter><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\main.asm</FILE><LINE>78</LINE></DelayOuter>
+  <DelayInner><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Labo4\main.asm</FILE><LINE>80</LINE></DelayInner>
+ </LABELS>
+</ASSEMBLER_INFO>

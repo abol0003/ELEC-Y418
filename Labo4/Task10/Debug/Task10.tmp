@@ -1,0 +1,43 @@
+<ASSEMBLER_INFO>
+ <VERSION>2.2.8</VERSION>
+ <DEVICE>"ATmega328P"</DEVICE>
+ <WORKING_DIR>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\Debug</WORKING_DIR>
+ <INCLUDE_PATH>
+  <DIR>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc</DIR>
+  <DIR>C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avrassembler\Include</DIR>
+  <DIR></DIR>
+ </INCLUDE_PATH>
+ <SOURCE_FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</SOURCE_FILE>
+ <INCLUDED_FILES>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc</FILE>
+  <FILE>C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc</FILE>
+ </INCLUDED_FILES>
+ <OBJECT_FILES>
+  <FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\Debug\Task10.obj</FILE>
+ </OBJECT_FILES>
+ <HEX_FILES>
+  <FILE>Task10.hex</FILE>
+ </HEX_FILES>
+ <OUTPUT_FILES>
+  <FILE>Task10.map</FILE>
+  <FILE>Task10.lss</FILE>
+ </OUTPUT_FILES>
+ <LABELS>
+  <init><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>43</LINE></init>
+  <main><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>58</LINE></main>
+  <DisplaySymbol><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>70</LINE></DisplaySymbol>
+  <Delay><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>126</LINE></Delay>
+  <CharacterA><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>141</LINE></CharacterA>
+  <notreset><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>77</LINE></notreset>
+  <ColLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>84</LINE></ColLoop>
+  <endDisplay><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>113</LINE></endDisplay>
+  <DelayOuter><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>128</LINE></DelayOuter>
+  <DelayInner><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>130</LINE></DelayInner>
+  <CharacterBite><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>144</LINE></CharacterBite>
+  <CharacterL><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>147</LINE></CharacterL>
+  <CharacterE><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>150</LINE></CharacterE>
+  <CharacterX><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>153</LINE></CharacterX>
+  <CharacterI><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>156</LINE></CharacterI>
+  <CharacterS><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Labo4\Task10\main.asm</FILE><LINE>159</LINE></CharacterS>
+ </LABELS>
+</ASSEMBLER_INFO>
