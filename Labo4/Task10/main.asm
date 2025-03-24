@@ -1,13 +1,10 @@
 ;---------------------------------------------------------
 ; Task10_Task9Style.asm
-; Created: 19-03-25 14:45:14 (adapted)
+; Created: 19-03-25 14:45:14 $
 ; Author : alexb
-; Description: This version of Task10 has been restructured to follow Task9's architecture.
-;              It displays a character (CharacterBite) by shifting out 80 column bits and 8 row bits,
-;              then performs a latch sequence.
-;---------------------------------------------------------
+$
 
-.include "m328pdef.inc"          ; Include the microcontroller definitions
+.include "m328pdef.inc"          
 
 ;------------ 
 ; CONSTANTS 
