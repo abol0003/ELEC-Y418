@@ -1,10 +1,10 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Mar 25 19:08:54 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Mar 25 19:18:22 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
-C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(5): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
+C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(6): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
-C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(5): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
+C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(6): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
                                  
                                  ;---------------------------------------------------------
                                  
@@ -987,8 +987,9 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  ; ***** END OF FILE ******************************************************
                                  
-                                 ; Projet_corrige_mod.asm - Gestion de l'écran (80x7) avec buffer SRAM
-                                 ; Version avec un délai beaucoup plus long pour ralentir le déplacement
+                                 ; Projet_corrige_mod_inverted.asm - Gestion de l'écran (80x7) avec buffer SRAM
+                                 ; Version avec inversion verticale pour obtenir un pixel en haut à gauche
+                                 ; et un délai prolongé.
                                  ;---------------------------------------------------------
                                  .include "m328pdef.inc"
                                  
@@ -1058,244 +1059,255 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000003 2700                          CLR r16
 000004 b905                          OUT SCREEN_PORT, r16
                                  
-000005 d03e                          RCALL ScreenInit
+000005 d045                          RCALL ScreenInit
                                  
-                                     ; Allumer le pixel initial (ligne 0, colonne 0)
-000006 e040                          LDI r20, 0        ; ligne 0
-000007 e050                          LDI r21, 0        ; colonne 0
-000008 d070                          RCALL SetScreenBit
+                                     ; Initialisation : on souhaite que le pixel « logique » (row 0, col 0)
+                                     ; s'affiche en haut à gauche. Pour cela, on calcule une "row effective" :
+                                     ; effective_row = 7 – CurrentRow. Ici, CurrentRow = 0, donc effective_row = 7.
+000006 e060                          LDI CurrentRow, 0        ; Indice logique = 0 (haut)
+000007 e0a7                          LDI r26, 7               ; r26 = 7
+000008 2f4a                          MOV r20, r26             ; r20 reçoit la row effective (7)
+000009 e050                          LDI r21, 0              ; colonne 0
+00000a d075                          RCALL SetScreenBit
                                  
-                                     ; Afficher le buffer pour vérifier
-000009 d04a                          RCALL Display
+00000b d04f                          RCALL Display
                                  
-                                     ; Initialisation de la position et de la direction
-00000a e060                          LDI CurrentRow, 0
-00000b e071                          LDI Direction, 1       ; 1 = descente
+00000c e071                          LDI Direction, 1         ; 1 = descente (logique)
                                  
-00000c c000                          RJMP main
+00000d c000                          RJMP main
                                  
-                                 ;---------------------------------------------------------
-                                 ; Boucle principale modifiée :
-                                 ; - Effacer l'ancien pixel
-                                 ; - Mettre à jour la position
-                                 ; - Allumer le nouveau pixel
-                                 ; - Actualiser l'affichage et attendre un long délai
                                  main:
                                      ; Effacer le pixel courant
-00000d 2f46                          MOV r20, CurrentRow
-00000e e050                          LDI r21, 0
-00000f d092                          RCALL ClearScreenBit
+                                     ; Calculer effective_row = 7 – CurrentRow
+00000e 2fa6                          MOV r26, CurrentRow
+00000f e0b7                          LDI r27, 7
+000010 1bba                          SUB r27, r26           ; r27 = 7 – CurrentRow
+000011 2f4b                          MOV r20, r27           ; utiliser cette valeur comme indice de ligne pour le buffer
+000012 e050                          LDI r21, 0
+000013 d095                          RCALL ClearScreenBit
                                  
-                                     ; Mise à jour de la position verticale
-000010 3071                          CPI Direction, 1
-000011 f009                          BREQ Down
-000012 c006                          RJMP Up
+                                     ; Mise à jour de CurrentRow (logique)
+000014 3071                          CPI Direction, 1
+000015 f009                          BREQ Down
+000016 c006                          RJMP Up
                                  
                                  Down:
-000013 9563                          INC CurrentRow
-000014 3067                          CPI CurrentRow, 7
-000015 f040                          BRLO Continue
-000016 e070                          LDI Direction, 0    ; Inverser la direction (remonter)
-000017 956a                          DEC CurrentRow
-000018 c005                          RJMP Continue
+000017 9563                          INC CurrentRow
+000018 3067                          CPI CurrentRow, 7
+000019 f040                          BRLO Continue
+00001a e070                          LDI Direction, 0    ; inverser la direction (remonter)
+00001b 956a                          DEC CurrentRow
+00001c c005                          RJMP Continue
                                  
                                  Up:
-000019 956a                          DEC CurrentRow
-00001a f00a                          BRMI ChangeDown
-00001b c002                          RJMP Continue
+00001d 956a                          DEC CurrentRow
+00001e f00a                          BRMI ChangeDown
+00001f c002                          RJMP Continue
                                  
                                  ChangeDown:
-00001c e071                          LDI Direction, 1    ; Inverser la direction (redescendre)
-00001d 9563                          INC CurrentRow
+000020 e071                          LDI Direction, 1    ; inverser la direction (redescendre)
+000021 9563                          INC CurrentRow
                                  
                                  Continue:
-                                     ; Allumer le pixel à la nouvelle position dans le buffer
-00001e 2f46                          MOV r20, CurrentRow
-00001f e050                          LDI r21, 0
-000020 d058                          RCALL SetScreenBit
+                                     ; Calculer la nouvelle row effective pour le pixel
+000022 2fa6                          MOV r26, CurrentRow
+000023 e0b7                          LDI r27, 7
+000024 1bba                          SUB r27, r26         ; effective_row = 7 – CurrentRow
+000025 2f4b                          MOV r20, r27
+000026 e050                          LDI r21, 0
+000027 d058                          RCALL SetScreenBit
                                  
-                                     ; Actualiser l'affichage
-000021 d032                          RCALL Display
+000028 d032                          RCALL Display
                                  
-                                     ; Appel d'un délai prolongé pour ralentir le mouvement
-000022 d001                          RCALL LongDelay
+000029 d001                          RCALL LongDelay
                                  
-000023 cfe9                          RJMP main
+00002a cfe3                          RJMP main
                                  
                                  ;---------------------------------------------------------
-                                 ; Sous-programme LongDelay : triple boucle imbriquée pour un délai très long
+                                 ; Sous-programme LongDelay (délai prolongé)
                                  LongDelay:
-000024 930f                          PUSH r16
-000025 931f                          PUSH r17
-000026 932f                          PUSH r18
-                                     ; Ces valeurs peuvent être ajustées pour obtenir le délai désiré
-000027 e302                          LDI r16, 50       ; boucle extérieure
+00002b 930f                          PUSH r16
+00002c 931f                          PUSH r17
+00002d 932f                          PUSH r18
+00002e e302                          LDI r16, 50       ; Ajustez ces valeurs pour obtenir le délai souhaité
                                  LongDelay_Outer:
-000028 ec18                          LDI r17, 200      ; boucle intermédiaire
+00002f ec18                          LDI r17, 200
                                  LongDelay_Middle:
-000029 ef2a                          LDI r18, 250      ; boucle intérieure
+000030 ef2a                          LDI r18, 250
                                  LongDelay_Inner:
-00002a 952a                          DEC r18
-00002b f7f1                          BRNE LongDelay_Inner
-00002c 951a                          DEC r17
-00002d f7d9                          BRNE LongDelay_Middle
-00002e 950a                          DEC r16
-00002f f7c1                          BRNE LongDelay_Outer
-000030 912f                          POP r18
-000031 911f                          POP r17
-000032 910f                          POP r16
-000033 9508                          RET
+000031 952a                          DEC r18
+000032 f7f1                          BRNE LongDelay_Inner
+000033 951a                          DEC r17
+000034 f7d9                          BRNE LongDelay_Middle
+000035 950a                          DEC r16
+000036 f7c1                          BRNE LongDelay_Outer
+000037 912f                          POP r18
+000038 911f                          POP r17
+000039 910f                          POP r16
+00003a 9508                          RET
                                  
                                  ;---------------------------------------------------------
-                                 ; Sous-routines inchangées (shift_out_byte, ScreenInit, Display, SetScreenBit, 
-                                 ; GetByteAndMask, ClearScreenBit)
-                                 
+                                 ; Envoi d'un octet au registre à décalage (MSB d'abord)
                                  shift_out_byte:
-000034 930f                          PUSH r16
-000035 931f                          PUSH r17
-000036 2f10                          MOV r17, r16          ; sauvegarder r16 dans r17
-000037 e008                          LDI r16, 8
+00003b 930f                          PUSH r16
+00003c 931f                          PUSH r17
+00003d 2f10                          MOV r17, r16          ; sauvegarder r16 dans r17
+00003e e008                          LDI r16, 8
                                  shift_loop:
-000038 1f11                          ROL r17
-000039 f410                          BRCC zero_bit
-00003a 9a2b                          SBI SCREEN_PORT, 3
-00003b c001                          RJMP clock_pulse
+00003f 1f11                          ROL r17
+000040 f410                          BRCC zero_bit
+000041 9a2b                          SBI SCREEN_PORT, 3
+000042 c001                          RJMP clock_pulse
                                  zero_bit:
-00003c 982b                          CBI SCREEN_PORT, 3
+000043 982b                          CBI SCREEN_PORT, 3
                                  clock_pulse:
-00003d 9a2d                          SBI SCREEN_PORT, 5
-00003e 982d                          CBI SCREEN_PORT, 5
-00003f 950a                          DEC r16
-000040 f7b9                          BRNE shift_loop
-000041 911f                          POP r17
-000042 910f                          POP r16
-000043 9508                          RET
+000044 9a2d                          SBI SCREEN_PORT, 5
+000045 982d                          CBI SCREEN_PORT, 5
+000046 950a                          DEC r16
+000047 f7b9                          BRNE shift_loop
+000048 911f                          POP r17
+000049 910f                          POP r16
+00004a 9508                          RET
                                  
                                  ScreenInit:
-000044 930f                          PUSH r16
-000045 931f                          PUSH r17
-000046 93cf                          PUSH YL
-000047 93df                          PUSH YH
-000048 e416                          LDI r17, ScreenLength
-000049 e0c0                          LDI YL, ScreenL
-00004a e0d1                          LDI YH, ScreenH
-00004b 2700                          CLR r16
+00004b 930f                          PUSH r16
+00004c 931f                          PUSH r17
+00004d 93cf                          PUSH YL
+00004e 93df                          PUSH YH
+00004f e416                          LDI r17, ScreenLength
+000050 e0c0                          LDI YL, ScreenL
+000051 e0d1                          LDI YH, ScreenH
+000052 2700                          CLR r16
                                  ClearLoop:
-00004c 9309                          ST Y+, r16
-00004d 951a                          DEC r17
-00004e f7e9                          BRNE ClearLoop
-00004f 91df                          POP YH
-000050 91cf                          POP YL
-000051 911f                          POP r17
-000052 910f                          POP r16
-000053 9508                          RET
+000053 9309                          ST Y+, r16
+000054 951a                          DEC r17
+000055 f7e9                          BRNE ClearLoop
+000056 91df                          POP YH
+000057 91cf                          POP YL
+000058 911f                          POP r17
+000059 910f                          POP r16
+00005a 9508                          RET
                                  
+                                 ;---------------------------------------------------------
+                                 ; Routine d'affichage
+                                 ; Modification : calcul de la ligne active en partant de 0b10000000 et en décalant à droite.
                                  Display:
-000054 930f                          PUSH r16
-000055 931f                          PUSH r17
-000056 932f                          PUSH r18
-000057 933f                          PUSH r19
-000058 93cf                          PUSH YL
-000059 93df                          PUSH YH
-00005a e020                          LDI r18, 0              ; index de ligne
+00005b 930f                          PUSH r16
+00005c 931f                          PUSH r17
+00005d 932f                          PUSH r18
+00005e 933f                          PUSH r19
+00005f 93cf                          PUSH YL
+000060 93df                          PUSH YH
+000061 e020                          LDI r18, 0              ; index de ligne dans le buffer (0 = première ligne)
                                  DisplayLoop:
-00005b e03a                          LDI r19, ColsPerLine    ; nombre d'octets par ligne
-00005c e0c0                          LDI YL, ScreenL
-00005d e0d1                          LDI YH, ScreenH
-00005e 9f23                          MUL r18, r19
-00005f 0dc0                          ADD YL, r0
-000060 1dd1                          ADC YH, r1
+000062 e03a                          LDI r19, ColsPerLine    ; nombre d'octets par ligne
+000063 e0c0                          LDI YL, ScreenL
+000064 e0d1                          LDI YH, ScreenH
+000065 9f23                          MUL r18, r19
+000066 0dc0                          ADD YL, r0
+000067 1dd1                          ADC YH, r1
                                  ColLoop:
-000061 9109                          LD r16, Y+
-000062 dfd1                          RCALL shift_out_byte
-000063 953a                          DEC r19
-000064 f7e1                          BRNE ColLoop
-                                     ; Calcul du bit de ligne active
-000065 e001                          LDI r16, 0b00000001
-000066 2f32                          MOV r19, r18
-                                 RowShift:
-000067 3030                          CPI r19, 0
-000068 f019                          BREQ RowDone
-000069 0f00                          LSL r16
+000068 9109                          LD r16, Y+
+000069 dfd1                          RCALL shift_out_byte
 00006a 953a                          DEC r19
-00006b cffb                          RJMP RowShift
+00006b f7e1                          BRNE ColLoop
+                                     ; Calcul du bit de ligne actif avec inversion : 
+                                     ; Partir de 0b10000000 et décaler à droite pour correspondre à effective_row.
+00006c e800                          LDI r16, 0b10000000
+00006d 2f32                          MOV r19, r18
+                                 RowShift:
+00006e 3030                          CPI r19, 0
+00006f f019                          BREQ RowDone
+000070 9506                          LSR r16
+000071 953a                          DEC r19
+000072 cffb                          RJMP RowShift
                                  RowDone:
-00006c dfc7                          RCALL shift_out_byte
-00006d 9a2c                          SBI SCREEN_PORT, 4
-00006e 982c                          CBI SCREEN_PORT, 4
-00006f 9523                          INC r18
-000070 3027                          CPI r18, 7
-000071 f348                          BRLO DisplayLoop
-000072 91df                          POP YH
-000073 91cf                          POP YL
-000074 913f                          POP r19
-000075 912f                          POP r18
-000076 911f                          POP r17
-000077 910f                          POP r16
-000078 9508                          RET
+000073 dfc7                          RCALL shift_out_byte
+000074 9a2c                          SBI SCREEN_PORT, 4
+000075 982c                          CBI SCREEN_PORT, 4
+000076 9523                          INC r18
+000077 3027                          CPI r18, 7
+000078 f348                          BRLO DisplayLoop
+000079 91df                          POP YH
+00007a 91cf                          POP YL
+00007b 913f                          POP r19
+00007c 912f                          POP r18
+00007d 911f                          POP r17
+00007e 910f                          POP r16
+00007f 9508                          RET
                                  
+                                 ;---------------------------------------------------------
+                                 ; Allumer un pixel dans le buffer
+                                 ; Entrées : r20 = effective_row, r21 = colonne
                                  SetScreenBit:
-000079 930f                          PUSH r16
-00007a 931f                          PUSH r17
-00007b 932f                          PUSH r18
-00007c 93cf                          PUSH YL
-00007d 93df                          PUSH YH
-00007e d008                          RCALL GetByteAndMask
-00007f 2b01                          OR r16, r17
-000080 8308                          ST Y, r16
-000081 91df                          POP YH
-000082 91cf                          POP YL
-000083 912f                          POP r18
-000084 911f                          POP r17
-000085 910f                          POP r16
-000086 9508                          RET
+000080 930f                          PUSH r16
+000081 931f                          PUSH r17
+000082 932f                          PUSH r18
+000083 93cf                          PUSH YL
+000084 93df                          PUSH YH
+000085 d008                          RCALL GetByteAndMask
+000086 2b01                          OR r16, r17
+000087 8308                          ST Y, r16
+000088 91df                          POP YH
+000089 91cf                          POP YL
+00008a 912f                          POP r18
+00008b 911f                          POP r17
+00008c 910f                          POP r16
+00008d 9508                          RET
                                  
+                                 ;---------------------------------------------------------
+                                 ; Calculer l'adresse et le masque du bit dans le buffer
+                                 ; Entrées : r20 = effective_row, r21 = colonne
+                                 ; Sorties : r16 = octet actuel, r17 = masque
                                  GetByteAndMask:
-000087 930f                          PUSH r16
-000088 931f                          PUSH r17
-000089 932f                          PUSH r18
-00008a e0c0                          LDI YL, ScreenL
-00008b e0d1                          LDI YH, ScreenH
-00008c e00a                          LDI r16, ColsPerLine
-00008d 9f40                          MUL r20, r16
-00008e 0dc0                          ADD YL, r0
-00008f 1dd1                          ADC YH, r1
-000090 e018                          LDI r17, 8
+00008e 930f                          PUSH r16
+00008f 931f                          PUSH r17
+000090 932f                          PUSH r18
+000091 e0c0                          LDI YL, ScreenL
+000092 e0d1                          LDI YH, ScreenH
+000093 e00a                          LDI r16, ColsPerLine
+000094 9f40                          MUL r20, r16
+000095 0dc0                          ADD YL, r0
+000096 1dd1                          ADC YH, r1
+000097 e018                          LDI r17, 8
                                  ColLoop_GBM:
-000091 1751                          CP r21, r17
-000092 f018                          BRLO FoundByte
-000093 1b51                          SUB r21, r17
-000094 9621                          ADIW YL, 1
-000095 cffb                          RJMP ColLoop_GBM
+000098 1751                          CP r21, r17
+000099 f018                          BRLO FoundByte
+00009a 1b51                          SUB r21, r17
+00009b 9621                          ADIW YL, 1
+00009c cffb                          RJMP ColLoop_GBM
                                  FoundByte:
-000096 e820                          LDI r18, 0b10000000
+00009d e820                          LDI r18, 0b10000000
                                  ShiftMask:
-000097 2355                          TST r21
-000098 f019                          BREQ DoneMask
-000099 9526                          LSR r18
-00009a 955a                          DEC r21
-00009b cffb                          RJMP ShiftMask
+00009e 2355                          TST r21
+00009f f019                          BREQ DoneMask
+0000a0 9526                          LSR r18
+0000a1 955a                          DEC r21
+0000a2 cffb                          RJMP ShiftMask
                                  DoneMask:
-00009c 8108                          LD r16, Y
-00009d 2f12                          MOV r17, r18
-00009e 912f                          POP r18
-00009f 911f                          POP r17
-0000a0 910f                          POP r16
-0000a1 9508                          RET
+0000a3 8108                          LD r16, Y
+0000a4 2f12                          MOV r17, r18
+0000a5 912f                          POP r18
+0000a6 911f                          POP r17
+0000a7 910f                          POP r16
+0000a8 9508                          RET
                                  
+                                 ;---------------------------------------------------------
+                                 ; Effacer un pixel dans le buffer
+                                 ; Entrées : r20 = effective_row, r21 = colonne
                                  ClearScreenBit:
-0000a2 930f                          PUSH r16
-0000a3 93cf                          PUSH YL
-0000a4 93df                          PUSH YH
-0000a5 dfe1                          RCALL GetByteAndMask
-0000a6 ef2f                          LDI r18, 0xFF
-0000a7 2712                          EOR r17, r18
-0000a8 2301                          AND r16, r17
-0000a9 8308                          ST Y, r16
-0000aa 91df                          POP YH
-0000ab 91cf                          POP YL
-0000ac 910f                          POP r16
-0000ad 9508                          RET
+0000a9 930f                          PUSH r16
+0000aa 93cf                          PUSH YL
+0000ab 93df                          PUSH YH
+0000ac dfe1                          RCALL GetByteAndMask
+0000ad ef2f                          LDI r18, 0xFF
+0000ae 2712                          EOR r17, r18         ; Inverser le masque
+0000af 2301                          AND r16, r17         ; Effacer le bit ciblé
+0000b0 8308                          ST Y, r16
+0000b1 91df                          POP YH
+0000b2 91cf                          POP YL
+0000b3 910f                          POP r16
+0000b4 9508                          RET
 
 
 RESOURCE USE INFORMATION
@@ -1316,9 +1328,9 @@ counted separately from r26..r31 here.
 x  :   0 y  :   5 z  :   0 r0 :   2 r1 :   2 r2 :   0 r3 :   0 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
 r13:   0 r14:   0 r15:   0 r16:  35 r17:  25 r18:  20 r19:   8 r20:   4 
-r21:   7 r22:   8 r23:   4 r24:   0 r25:   0 r26:   0 r27:   0 r28:  14 
+r21:   7 r22:   8 r23:   4 r24:   0 r25:   0 r26:   6 r27:   6 r28:  14 
 r29:  13 r30:   0 r31:   0 
-Registers used: 13 out of 35 (37.1%)
+Registers used: 15 out of 35 (42.9%)
 
 "ATmega328P" instruction use summary:
 .lds  :   0 .sts  :   0 adc   :   2 add   :   2 adiw  :   1 and   :   1 
@@ -1331,21 +1343,21 @@ clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   2 cls   :   0
 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   1 cpc   :   0 
 cpi   :   4 cpse  :   0 dec   :  10 eor   :   1 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 inc   :   3 jmp   :   0 
-ld    :   2 ldd   :   0 ldi   :  27 lds   :   0 lpm   :   0 lsl   :   1 
-lsr   :   1 mov   :   5 movw  :   0 mul   :   2 muls  :   0 mulsu :   0 
+ld    :   2 ldd   :   0 ldi   :  29 lds   :   0 lpm   :   0 lsl   :   0 
+lsr   :   2 mov   :   8 movw  :   0 mul   :   2 muls  :   0 mulsu :   0 
 neg   :   0 nop   :   0 or    :   1 ori   :   0 out   :   2 pop   :  26 
 push  :  26 rcall :  11 ret   :   7 reti  :   0 rjmp  :  10 rol   :   1 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   3 sbic  :   0 sbis  :   0 
 sbiw  :   0 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 seh   :   0 
 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   3 std   :   0 sts   :   0 
-sub   :   1 subi  :   0 swap  :   0 tst   :   1 wdr   :   0 
-Instructions used: 34 out of 113 (30.1%)
+sub   :   3 subi  :   0 swap  :   0 tst   :   1 wdr   :   0 
+Instructions used: 33 out of 113 (29.2%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00015c    348      0    348   32768   1.1%
+[.cseg] 0x000000 0x00016a    362      0    362   32768   1.1%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Mar 25 19:08:54 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Mar 25 19:18:22 2025
 
 
 EQU  SIGNATURE_000 0000001e
@@ -704,30 +704,30 @@ EQU  ColsPerLine  0000000a
 DEF  CurrentRow   r22
 DEF  Direction    r23
 CSEG init         00000001
-CSEG ScreenInit   00000044
-CSEG SetScreenBit 00000079
-CSEG Display      00000054
-CSEG main         0000000d
-CSEG ClearScreenBit 000000a2
-CSEG Down         00000013
-CSEG Up           00000019
-CSEG Continue     0000001e
-CSEG ChangeDown   0000001c
-CSEG LongDelay    00000024
-CSEG LongDelay_Outer 00000028
-CSEG LongDelay_Middle 00000029
-CSEG LongDelay_Inner 0000002a
-CSEG shift_out_byte 00000034
-CSEG shift_loop   00000038
-CSEG zero_bit     0000003c
-CSEG clock_pulse  0000003d
-CSEG ClearLoop    0000004c
-CSEG DisplayLoop  0000005b
-CSEG ColLoop      00000061
-CSEG RowShift     00000067
-CSEG RowDone      0000006c
-CSEG GetByteAndMask 00000087
-CSEG ColLoop_GBM  00000091
-CSEG FoundByte    00000096
-CSEG ShiftMask    00000097
-CSEG DoneMask     0000009c
+CSEG ScreenInit   0000004b
+CSEG SetScreenBit 00000080
+CSEG Display      0000005b
+CSEG main         0000000e
+CSEG ClearScreenBit 000000a9
+CSEG Down         00000017
+CSEG Up           0000001d
+CSEG Continue     00000022
+CSEG ChangeDown   00000020
+CSEG LongDelay    0000002b
+CSEG LongDelay_Outer 0000002f
+CSEG LongDelay_Middle 00000030
+CSEG LongDelay_Inner 00000031
+CSEG shift_out_byte 0000003b
+CSEG shift_loop   0000003f
+CSEG zero_bit     00000043
+CSEG clock_pulse  00000044
+CSEG ClearLoop    00000053
+CSEG DisplayLoop  00000062
+CSEG ColLoop      00000068
+CSEG RowShift     0000006e
+CSEG RowDone      00000073
+CSEG GetByteAndMask 0000008e
+CSEG ColLoop_GBM  00000098
+CSEG FoundByte    0000009d
+CSEG ShiftMask    0000009e
+CSEG DoneMask     000000a3

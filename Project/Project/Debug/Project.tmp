@@ -23,33 +23,33 @@
   <FILE>Project.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <init><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>23</LINE></init>
-  <ScreenInit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>143</LINE></ScreenInit>
-  <SetScreenBit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>206</LINE></SetScreenBit>
-  <Display><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>162</LINE></Display>
-  <main><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>52</LINE></main>
-  <ClearScreenBit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>255</LINE></ClearScreenBit>
+  <init><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>24</LINE></init>
+  <ScreenInit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>141</LINE></ScreenInit>
+  <SetScreenBit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>211</LINE></SetScreenBit>
+  <Display><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>163</LINE></Display>
+  <main><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>48</LINE></main>
+  <ClearScreenBit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>267</LINE></ClearScreenBit>
   <Down><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>63</LINE></Down>
   <Up><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>71</LINE></Up>
   <Continue><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>80</LINE></Continue>
   <ChangeDown><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>76</LINE></ChangeDown>
-  <LongDelay><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>96</LINE></LongDelay>
+  <LongDelay><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>97</LINE></LongDelay>
   <LongDelay_Outer><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>102</LINE></LongDelay_Outer>
   <LongDelay_Middle><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>104</LINE></LongDelay_Middle>
   <LongDelay_Inner><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>106</LINE></LongDelay_Inner>
-  <shift_out_byte><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>122</LINE></shift_out_byte>
-  <shift_loop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>127</LINE></shift_loop>
-  <zero_bit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>132</LINE></zero_bit>
-  <clock_pulse><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>134</LINE></clock_pulse>
-  <ClearLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>152</LINE></ClearLoop>
-  <DisplayLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>170</LINE></DisplayLoop>
-  <ColLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>177</LINE></ColLoop>
-  <RowShift><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>185</LINE></RowShift>
-  <RowDone><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>191</LINE></RowDone>
-  <GetByteAndMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>222</LINE></GetByteAndMask>
-  <ColLoop_GBM><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>233</LINE></ColLoop_GBM>
-  <FoundByte><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>239</LINE></FoundByte>
-  <ShiftMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>241</LINE></ShiftMask>
-  <DoneMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>247</LINE></DoneMask>
+  <shift_out_byte><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>120</LINE></shift_out_byte>
+  <shift_loop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>125</LINE></shift_loop>
+  <zero_bit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>130</LINE></zero_bit>
+  <clock_pulse><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>132</LINE></clock_pulse>
+  <ClearLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>150</LINE></ClearLoop>
+  <DisplayLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>171</LINE></DisplayLoop>
+  <ColLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>178</LINE></ColLoop>
+  <RowShift><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>187</LINE></RowShift>
+  <RowDone><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>193</LINE></RowDone>
+  <GetByteAndMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>231</LINE></GetByteAndMask>
+  <ColLoop_GBM><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>242</LINE></ColLoop_GBM>
+  <FoundByte><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>248</LINE></FoundByte>
+  <ShiftMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>250</LINE></ShiftMask>
+  <DoneMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm</FILE><LINE>256</LINE></DoneMask>
  </LABELS>
 </ASSEMBLER_INFO>
