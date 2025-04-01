@@ -1,20 +1,22 @@
 .INCLUDE "M328PDEF.INC"
 
 .CSEG
-.ORG 0X0000
-RJMP init
-.ORG 0x001A
-RJMP TIMER1_OVF
+.ORG 0x0000
+RJMP init              ; Jump to initialization on reset
 
-; ------------------------------------------------
-; Initialisation
-; ------------------------------------------------
+.ORG 0x001A
+RJMP TIMER1_OVF        ; Timer1 overflow interrupt vector
+
+; ------------------------------------------------------------
+; Initialization Routine
+; ------------------------------------------------------------
 init:
 	LDI R16, HIGH(RAMEND)
 	OUT SPH, R16
 	LDI R16, LOW(RAMEND)
 	OUT SPL, R16
 
+	; Set PB3 (SDI), PB4 (LE), PB5 (CLK) as output
 	SBI DDRB, 3
 	SBI DDRB, 4
 	SBI DDRB, 5
@@ -22,12 +24,22 @@ init:
 	CBI PORTB, 4
 	CBI PORTB, 5
 
+	; Clear video buffer
 	LDI ZL, low(0x0100)
 	LDI ZH, high(0x0100)
 	LDI R16, 0
 	LDI R17, 70
-	RCALL InitScreenBuffer
+ClearScreen:
+	ST Z+, R16
+	DEC R17
+	BRNE ClearScreen
 
+	; Set pixel at (row 0, column 0)
+	LDI R20, 0      ; Row index
+	LDI R21, 0      ; Column index
+	RCALL SetScreenBit
+
+	; Timer1 setup (overflow every short interval)
 	LDI R16, 0
 	STS TCCR1A, R16
 	LDI R16, (1<<CS11)|(1<<CS10)
@@ -36,11 +48,12 @@ init:
 	STS TIMSK1, R16
 	SEI
 
+	LDI R18, 0      ; Current row to display
 	RJMP MAINLOOP
 
-; ------------------------------------------------
-; Interruption Timer1
-; ------------------------------------------------
+; ------------------------------------------------------------
+; Timer1 Overflow ISR: Refresh screen line-by-line
+; ------------------------------------------------------------
 TIMER1_OVF:
 	PUSH R0
 	PUSH R1
@@ -51,9 +64,9 @@ TIMER1_OVF:
 	PUSH ZL
 	PUSH ZH
 
+	CPI R18, 7
 	RCALL DisplayLine
 	INC R18
-	CPI R18, 7
 	BRLO TimerDone
 	LDI R18, 0
 TimerDone:
@@ -67,36 +80,9 @@ TimerDone:
 	POP R0
 	RETI
 
-; ------------------------------------------------
-; Initialiser le buffer
-; ------------------------------------------------
-InitScreenBuffer:
-	ST Z+, R16
-	DEC R17
-	BRNE InitScreenBuffer
-	RCALL SnakeInit
-	LDI R18, 0
-	RET
-
-; ------------------------------------------------
-; SnakeInit : Allume une ligne entière
-; ------------------------------------------------
-SnakeInit:
-	LDI R16, 0       ; ligne 0
-	LDI R17, 0       ; colonne de départ
-	MOV R2, R16
-	LDI R20, 40      ; 40 colonnes = 5 octets
-SetLineLoop:
-	MOV R3, R17
-	RCALL SetScreenBit
-	INC R17
-	DEC R20
-	BRNE SetLineLoop
-	RET
-
-; ------------------------------------------------
-; Allumer un pixel à (R2, R3)
-; ------------------------------------------------
+; ------------------------------------------------------------
+; Set pixel ON at (R20=row, R21=col)
+; ------------------------------------------------------------
 SetScreenBit:
 	PUSH YL
 	PUSH YH
@@ -107,35 +93,17 @@ SetScreenBit:
 	POP YL
 	RET
 
-; ------------------------------------------------
-; Éteindre un pixel à (R2, R3)
-; ------------------------------------------------
-ClearScreenBit:
-	PUSH R16
-	PUSH YL
-	PUSH YH
-	RCALL GetByteAndMask
-	LDI R16, 0xFF
-	EOR R1, R16
-	AND R0, R1
-	ST Y, R0
-	POP YH
-	POP YL
-	POP R16
-	RET
-
-; ------------------------------------------------
-; Calcule l'adresse et le mask pour un pixel
-; Entrée : R2 = ligne, R3 = colonne
-; Sortie : R0 = contenu actuel du byte, R1 = mask, Y = adresse du byte
-; ------------------------------------------------
+; ------------------------------------------------------------
+; Compute address + bit mask for pixel (R20, R21)
+; Result: Y points to byte, R1 = bit mask
+; ------------------------------------------------------------
 GetByteAndMask:
 	PUSH R16
-	PUSH R2
-	PUSH R3
+	PUSH R20
+	PUSH R21
 
 	LDI R16, 10
-	MUL R2, R16        ; R0:R1 = row * 10
+	MUL R20, R16        ; R1:R0 = row Ã— 10
 	LDI YL, low(0x0100)
 	LDI YH, high(0x0100)
 	ADD YL, R0
@@ -143,96 +111,112 @@ GetByteAndMask:
 
 	LDI R16, 8
 ColByteLoop:
-	CP R3, R16
+	CP R21, R16
 	BRLO GotColByte
-	SUB R3, R16
+	SUB R21, R16
 	ADIW YL, 1
 	RJMP ColByteLoop
 
 GotColByte:
-	LDI R16, 0b10000000
+	LDI R16, 0b10000000    ; Start from MSB (bit 7 = left)
 BitMaskLoop:
-	TST R3
+	TST R21
 	BREQ MaskReady
 	LSR R16
-	DEC R3
+	DEC R21
 	RJMP BitMaskLoop
 
 MaskReady:
 	LD R0, Y
 	MOV R1, R16
-	POP R3
-	POP R2
+	POP R21
+	POP R20
 	POP R16
 	RET
 
-; ------------------------------------------------
-; Boucle principale
-; ------------------------------------------------
+; ------------------------------------------------------------
+; Main loop
+; ------------------------------------------------------------
 MAINLOOP:
 	RJMP MAINLOOP
 
-; ------------------------------------------------
-; Affiche UNE ligne du buffer
-; Entrée : R18 = ligne
-; ------------------------------------------------
+; ------------------------------------------------------------
+; Display current line (R18)
+; ------------------------------------------------------------
 DisplayLine:
-	; Base du buffer à 0x0100
-	LDI R20, 10
-	MUL R18, R20        ; R0:R1 = R18 * 10
 	LDI ZL, low(0x0100)
 	LDI ZH, high(0x0100)
+	LDI R20, 10
+	MUL R18, R20
 	ADD ZL, R0
 	ADC ZH, R1
 
-	; Récupère l'adresse de début de ligne
-	MOV R30, ZL
-	MOV R31, ZH
-
-	; 1. Afficher d'abord les 5 derniers octets (colonnes 40–79)
-	ADIW ZL, 5           ; Z = Z + 5 ? fin de ligne (droite)
+	; Display upper (bytes 5 to 9)
 	LDI R19, 5
-SendColsLoop:
+	ADIW ZL, 5
+DisplayUpper:
 	LD R16, Z+
 	LDI R17, 8
-SendBitsLoop:
+SendUpperBits:
 	ROL R16
-	BRCC SendZero
+	BRCC SendZeroU
 	SBI PORTB, 3
-	RJMP ClockBit
-SendZero:
+	RJMP ClockU
+SendZeroU:
 	CBI PORTB, 3
-ClockBit:
+ClockU:
 	SBI PORTB, 5
 	CBI PORTB, 5
 	DEC R17
-	BRNE SendBitsLoop
+	BRNE SendUpperBits
 	DEC R19
-	BRNE SendColsLoop
+	BRNE DisplayUpper
 
-	LDI R16, 0x01
-	LSL R16
+	; Display lower (bytes 0 to 4)
+	LDI R19, 5
+	SBIW ZL, 10
+DisplayLower:
+	LD R16, Z+
+	LDI R17, 8
+SendLowerBits:
+	ROL R16
+	BRCC SendZeroL
+	SBI PORTB, 3
+	RJMP ClockL
+SendZeroL:
+	CBI PORTB, 3
+ClockL:
+	SBI PORTB, 5
+	CBI PORTB, 5
+	DEC R17
+	BRNE SendLowerBits
+	DEC R19
+	BRNE DisplayLower
+
+	; Select correct row
+	LDI R16, 0b10000000
+	CPI R18, 0
+	BREQ SkipRowShift
+RowShift:
+	LSR R16
 	DEC R18
-	BRMI SkipLineShift
-LineShift:
-	LSL R16
-	DEC R18
-	BRPL LineShift
-SkipLineShift:
+	BRNE RowShift
+SkipRowShift:
 	LDI R17, 8
 SendRowBits:
-	ROL R16
+	LSR R16
 	BRCC SendZeroRow
 	SBI PORTB, 3
-	RJMP ClockRowBit
+	RJMP ClockRow
 SendZeroRow:
 	CBI PORTB, 3
-ClockRowBit:
+ClockRow:
 	SBI PORTB, 5
 	CBI PORTB, 5
 	DEC R17
 	BRNE SendRowBits
 
+	; Latch to LED driver
 	SBI PORTB, 4
 	NOP
 	CBI PORTB, 4
