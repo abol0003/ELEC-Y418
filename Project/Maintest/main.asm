@@ -79,7 +79,7 @@ done:
 ; ------------------------------------------------------------
 SnakeInit:
 	LDI R20, 0     ; row
-	LDI R21, 0     ; col
+	LDI R21, 39     ; col going from right to left and up to down then col 0 is top right 
 	RCALL SetScreenBit
 	RET
 
