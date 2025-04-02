@@ -1,279 +1,257 @@
-;---------------------------------------------------------
-; Projet_corrige_mod_inverted.asm - Gestion de l'écran (80x7) avec buffer SRAM
-; Version avec inversion verticale pour obtenir un pixel en haut à gauche
-; et un délai prolongé.
-;---------------------------------------------------------
-.include "m328pdef.inc"
+.INCLUDE "M328PDEF.INC"
 
-; CONSTANTES
-.equ SCREEN_DDR      = DDRB
-.equ SCREEN_PORT     = PORTB
-.equ ScreenL         = 0x00
-.equ ScreenH         = 0x01
-.equ ScreenLength    = 70      ; 7 lignes x 10 octets
-.equ ColsPerLine     = 10
-
-.def CurrentRow = r22
-.def Direction   = r23
-
-;---------------------------------------------------------
 .CSEG
-.ORG 0x0000
-rjmp init
+.ORG 0X0000
+RJMP init
+.ORG 0x001A
+RJMP TIMER1_OVF
 
+; ------------------------------------------------
+; Initialisation
+; ------------------------------------------------
 init:
-    ; Configurer PB3, PB4, PB5 comme sorties et les mettre à 0
-    LDI r16, (1<<3)|(1<<4)|(1<<5)
-    OUT SCREEN_DDR, r16
-    CLR r16
-    OUT SCREEN_PORT, r16
+	LDI R16, HIGH(RAMEND)
+	OUT SPH, R16
+	LDI R16, LOW(RAMEND)
+	OUT SPL, R16
 
-    RCALL ScreenInit
+	SBI DDRB, 3
+	SBI DDRB, 4
+	SBI DDRB, 5
+	CBI PORTB, 3
+	CBI PORTB, 4
+	CBI PORTB, 5
 
-    ; Initialisation : on souhaite que le pixel « logique » (row 0, col 0)
-    ; s'affiche en haut à gauche. Pour cela, on calcule une "row effective" :
-    ; effective_row = 7 – CurrentRow. Ici, CurrentRow = 0, donc effective_row = 7.
-    LDI CurrentRow, 0        ; Indice logique = 0 (haut)
-    LDI r26, 7               ; r26 = 7
-    MOV r20, r26             ; r20 reçoit la row effective (7)
-    LDI r21, 0              ; colonne 0
-    RCALL SetScreenBit
+	LDI ZL, low(0x0100)
+	LDI ZH, high(0x0100)
+	LDI R16, 0
+	LDI R17, 70
+	RCALL InitScreenBuffer
 
-    RCALL Display
+	LDI R16, 0
+	STS TCCR1A, R16
+	LDI R16, (1<<CS11)|(1<<CS10)
+	STS TCCR1B, R16
+	LDI R16, (1<<TOIE1)
+	STS TIMSK1, R16
+	SEI
 
-    LDI Direction, 1         ; 1 = descente (logique)
+	RJMP MAINLOOP
 
-    RJMP main
+; ------------------------------------------------
+; Interruption Timer1
+; ------------------------------------------------
+TIMER1_OVF:
+	PUSH R0
+	PUSH R1
+	PUSH R16
+	PUSH R17
+	PUSH R18
+	PUSH R19
+	PUSH ZL
+	PUSH ZH
 
-main:
-    ; Effacer le pixel courant
-    ; Calculer effective_row = 7 – CurrentRow
-    MOV r26, CurrentRow
-    LDI r27, 7
-    SUB r27, r26           ; r27 = 7 – CurrentRow
-    MOV r20, r27           ; utiliser cette valeur comme indice de ligne pour le buffer
-    LDI r21, 0
-    RCALL ClearScreenBit
+	RCALL DisplayLine
+	INC R18
+	CPI R18, 7
+	BRLO TimerDone
+	LDI R18, 0
+TimerDone:
+	POP ZH
+	POP ZL
+	POP R19
+	POP R18
+	POP R17
+	POP R16
+	POP R1
+	POP R0
+	RETI
 
-    ; Mise à jour de CurrentRow (logique)
-    CPI Direction, 1
-    BREQ Down
-    RJMP Up
+; ------------------------------------------------
+; Initialiser le buffer
+; ------------------------------------------------
+InitScreenBuffer:
+	ST Z+, R16
+	DEC R17
+	BRNE InitScreenBuffer
+	RCALL SnakeInit
+	LDI R18, 0
+	RET
 
-Down:
-    INC CurrentRow
-    CPI CurrentRow, 7
-    BRLO Continue
-    LDI Direction, 0    ; inverser la direction (remonter)
-    DEC CurrentRow
-    RJMP Continue
+; ------------------------------------------------
+; SnakeInit : Allume une ligne entiÃ¨re
+; ------------------------------------------------
+SnakeInit:
+	LDI R16, 0       ; ligne 0
+	LDI R17, 0       ; colonne de dÃ©part
+	MOV R2, R16
+	LDI R20, 40      ; 40 colonnes = 5 octets
+SetLineLoop:
+	MOV R3, R17
+	RCALL SetScreenBit
+	INC R17
+	DEC R20
+	BRNE SetLineLoop
+	RET
 
-Up:
-    DEC CurrentRow
-    BRMI ChangeDown
-    RJMP Continue
-
-ChangeDown:
-    LDI Direction, 1    ; inverser la direction (redescendre)
-    INC CurrentRow
-
-Continue:
-    ; Calculer la nouvelle row effective pour le pixel
-    MOV r26, CurrentRow
-    LDI r27, 7
-    SUB r27, r26         ; effective_row = 7 – CurrentRow
-    MOV r20, r27
-    LDI r21, 0
-    RCALL SetScreenBit
-
-    RCALL Display
-
-    RCALL LongDelay
-
-    RJMP main
-
-;---------------------------------------------------------
-; Sous-programme LongDelay (délai prolongé)
-LongDelay:
-    PUSH r16
-    PUSH r17
-    PUSH r18
-    LDI r16, 50       ; Ajustez ces valeurs pour obtenir le délai souhaité
-LongDelay_Outer:
-    LDI r17, 200
-LongDelay_Middle:
-    LDI r18, 250
-LongDelay_Inner:
-    DEC r18
-    BRNE LongDelay_Inner
-    DEC r17
-    BRNE LongDelay_Middle
-    DEC r16
-    BRNE LongDelay_Outer
-    POP r18
-    POP r17
-    POP r16
-    RET
-
-;---------------------------------------------------------
-; Envoi d'un octet au registre à décalage (MSB d'abord)
-shift_out_byte:
-    PUSH r16
-    PUSH r17
-    MOV r17, r16          ; sauvegarder r16 dans r17
-    LDI r16, 8
-shift_loop:
-    ROL r17
-    BRCC zero_bit
-    SBI SCREEN_PORT, 3
-    RJMP clock_pulse
-zero_bit:
-    CBI SCREEN_PORT, 3
-clock_pulse:
-    SBI SCREEN_PORT, 5
-    CBI SCREEN_PORT, 5
-    DEC r16
-    BRNE shift_loop
-    POP r17
-    POP r16
-    RET
-
-ScreenInit:
-    PUSH r16
-    PUSH r17
-    PUSH YL
-    PUSH YH
-    LDI r17, ScreenLength
-    LDI YL, ScreenL
-    LDI YH, ScreenH
-    CLR r16
-ClearLoop:
-    ST Y+, r16
-    DEC r17
-    BRNE ClearLoop
-    POP YH
-    POP YL
-    POP r17
-    POP r16
-    RET
-
-;---------------------------------------------------------
-; Routine d'affichage
-; Modification : calcul de la ligne active en partant de 0b10000000 et en décalant à droite.
-Display:
-    PUSH r16
-    PUSH r17
-    PUSH r18
-    PUSH r19
-    PUSH YL
-    PUSH YH
-    LDI r18, 0              ; index de ligne dans le buffer (0 = première ligne)
-DisplayLoop:
-    LDI r19, ColsPerLine    ; nombre d'octets par ligne
-    LDI YL, ScreenL
-    LDI YH, ScreenH
-    MUL r18, r19
-    ADD YL, r0
-    ADC YH, r1
-ColLoop:
-    LD r16, Y+
-    RCALL shift_out_byte
-    DEC r19
-    BRNE ColLoop
-    ; Calcul du bit de ligne actif avec inversion : 
-    ; Partir de 0b10000000 et décaler à droite pour correspondre à effective_row.
-    LDI r16, 0b10000000
-    MOV r19, r18
-RowShift:
-    CPI r19, 0
-    BREQ RowDone
-    LSR r16
-    DEC r19
-    RJMP RowShift
-RowDone:
-    RCALL shift_out_byte
-    SBI SCREEN_PORT, 4
-    CBI SCREEN_PORT, 4
-    INC r18
-    CPI r18, 7
-    BRLO DisplayLoop
-    POP YH
-    POP YL
-    POP r19
-    POP r18
-    POP r17
-    POP r16
-    RET
-
-;---------------------------------------------------------
-; Allumer un pixel dans le buffer
-; Entrées : r20 = effective_row, r21 = colonne
+; ------------------------------------------------
+; Allumer un pixel Ã  (R2, R3)
+; ------------------------------------------------
 SetScreenBit:
-    PUSH r16
-    PUSH r17
-    PUSH r18
-    PUSH YL
-    PUSH YH
-    RCALL GetByteAndMask
-    OR r16, r17
-    ST Y, r16
-    POP YH
-    POP YL
-    POP r18
-    POP r17
-    POP r16
-    RET
+	PUSH YL
+	PUSH YH
+	RCALL GetByteAndMask
+	OR R0, R1
+	ST Y, R0
+	POP YH
+	POP YL
+	RET
 
-;---------------------------------------------------------
-; Calculer l'adresse et le masque du bit dans le buffer
-; Entrées : r20 = effective_row, r21 = colonne
-; Sorties : r16 = octet actuel, r17 = masque
-GetByteAndMask:
-    PUSH r16
-    PUSH r17
-    PUSH r18
-    LDI YL, ScreenL
-    LDI YH, ScreenH
-    LDI r16, ColsPerLine
-    MUL r20, r16
-    ADD YL, r0
-    ADC YH, r1
-    LDI r17, 8
-ColLoop_GBM:
-    CP r21, r17
-    BRLO FoundByte
-    SUB r21, r17
-    ADIW YL, 1
-    RJMP ColLoop_GBM
-FoundByte:
-    LDI r18, 0b10000000
-ShiftMask:
-    TST r21
-    BREQ DoneMask
-    LSR r18
-    DEC r21
-    RJMP ShiftMask
-DoneMask:
-    LD r16, Y
-    MOV r17, r18
-    POP r18
-    POP r17
-    POP r16
-    RET
-
-;---------------------------------------------------------
-; Effacer un pixel dans le buffer
-; Entrées : r20 = effective_row, r21 = colonne
+; ------------------------------------------------
+; Ã‰teindre un pixel Ã  (R2, R3)
+; ------------------------------------------------
 ClearScreenBit:
-    PUSH r16
-    PUSH YL
-    PUSH YH
-    RCALL GetByteAndMask
-    LDI r18, 0xFF
-    EOR r17, r18         ; Inverser le masque
-    AND r16, r17         ; Effacer le bit ciblé
-    ST Y, r16
-    POP YH
-    POP YL
-    POP r16
-    RET
+	PUSH R16
+	PUSH YL
+	PUSH YH
+	RCALL GetByteAndMask
+	LDI R16, 0xFF
+	EOR R1, R16
+	AND R0, R1
+	ST Y, R0
+	POP YH
+	POP YL
+	POP R16
+	RET
+
+; ------------------------------------------------
+; Calcule l'adresse et le mask pour un pixel
+; EntrÃ©e : R2 = ligne, R3 = colonne
+; Sortie : R0 = contenu actuel du byte, R1 = mask, Y = adresse du byte
+; ------------------------------------------------
+GetByteAndMask:
+	PUSH R16
+	PUSH R2
+	PUSH R3
+
+	LDI R16, 10
+	MUL R2, R16
+	LDI YL, low(0x0100)
+	LDI YH, high(0x0100)
+	ADD YL, R0
+	ADC YH, R1
+
+	LDI R16, 8
+ColByteLoop:
+	CP R3, R16
+	BRLO GotColByte
+	SUB R3, R16
+	ADIW YL, 1
+	RJMP ColByteLoop
+
+GotColByte:
+	LDI R16, 0b10000000
+BitMaskLoop:
+	TST R3
+	BREQ MaskReady
+	LSR R16
+	DEC R3
+	RJMP BitMaskLoop
+
+MaskReady:
+	LD R0, Y
+	MOV R1, R16
+	POP R3
+	POP R2
+	POP R16
+	RET
+
+; ------------------------------------------------
+; Boucle principale
+; ------------------------------------------------
+MAINLOOP:
+	RJMP MAINLOOP
+
+; ------------------------------------------------
+; Affiche UNE ligne du buffer
+; EntrÃ©e : R18 = ligne
+; ------------------------------------------------
+DisplayLine:
+	LDI ZL, low(0x0100)
+	LDI ZH, high(0x0100)
+	LDI R20, 10
+	MUL R18, R20
+	ADD ZL, R0
+	ADC ZH, R1
+
+	; --- Afficher les 40 colonnes du haut (octets 5 Ã  9) ---
+	LDI R19, 5
+	ADIW ZL, 5
+DisplayUpper:
+	LD R16, Z+
+	LDI R17, 8
+SendUpperBits:
+	ROL R16
+	BRCC SendZeroUpper
+	SBI PORTB, 3
+	RJMP ClockUpperBit
+SendZeroUpper:
+	CBI PORTB, 3
+ClockUpperBit:
+	SBI PORTB, 5
+	CBI PORTB, 5
+	DEC R17
+	BRNE SendUpperBits
+	DEC R19
+	BRNE DisplayUpper
+
+	; --- Afficher les 40 colonnes du bas (octets 0 Ã  4) ---
+	LDI R19, 5
+	SBIW ZL, 10
+DisplayLower:
+	LD R16, Z+
+	LDI R17, 8
+SendLowerBits:
+	ROL R16
+	BRCC SendZeroLower
+	SBI PORTB, 3
+	RJMP ClockLowerBit
+SendZeroLower:
+	CBI PORTB, 3
+ClockLowerBit:
+	SBI PORTB, 5
+	CBI PORTB, 5
+	DEC R17
+	BRNE SendLowerBits
+	DEC R19
+	BRNE DisplayLower
+
+	; --- Activer la ligne ---
+	LDI R16, 0b10000000  ; bit de poids fort pour ligne 0
+DisplayLineShift:
+	CPI R18, 0
+	BREQ SkipLineShift
+LSRLine:
+	LSR R16
+	DEC R18
+	BRNE LSRLine
+SkipLineShift:
+	LDI R17, 8
+SendRowBits:
+	LSR R16
+	BRCC SendZeroRow
+	SBI PORTB, 3
+	RJMP ClockRowBit
+SendZeroRow:
+	CBI PORTB, 3
+ClockRowBit:
+	SBI PORTB, 5
+	CBI PORTB, 5
+	DEC R17
+	BRNE SendRowBits
+
+	SBI PORTB, 4
+	NOP
+	CBI PORTB, 4
+	RET
+
