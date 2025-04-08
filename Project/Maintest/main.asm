@@ -1,169 +1,55 @@
-.INCLUDE "m328pdef.inc"
+.equ KEYB_PIN   = PIND
+.equ KEYB_DDR   = DDRD
+.equ KEYB_PORT  = PORTD
+.equ ROW1       = 7
+.equ ROW2       = 6
+.equ ROW3       = 5
+.equ ROW4       = 4
+.equ COL1       = 3
+.equ COL2       = 2
+.equ COL3       = 1
+.equ COL4       = 0
 
-.CSEG
-.ORG 0x0000
-RJMP init
 
-;------------------------------------------------------------
-; INIT
-;------------------------------------------------------------
-init:
-    ; Initialisation pile
-    LDI R16, HIGH(RAMEND)
-    OUT SPH, R16
-    LDI R16, LOW(RAMEND)
-    OUT SPL, R16
+; Initialisation du clavier
+InitKeyboard:
+    ; Configure les lignes du clavier comme sorties et les colonnes comme entrées
+		LDI r16,(1<<COL1)|(1<<COL2)|(1<<COL3)|(1<<COL4)
+		LDI r17,(1<<ROW1)|(1<<ROW2)|(1<<ROW3)|(1<<ROW4)
+		OUT KEYB_PORT,r16  ; Drive columns with HIGH values (or pull-ups if configured)
+		OUT KEYB_DDR,r17   ; Set rows as outputs
 
-    ; Config des sorties écran : PB3 (SDI), PB4 (LE), PB5 (CLK)
-    LDI R16, (1<<3)|(1<<4)|(1<<5)
-    OUT DDRB, R16
-    CBI PORTB, 3
-    CBI PORTB, 4
-    CBI PORTB, 5
-	Rcall ClearScreen
-
-    ; Remplissage du buffer à 0x0100 avec motif 0xAA
-    LDI R16, 0xAA         
-    LDI ZL, low(0x0100)
-    LDI ZH, high(0x0100)
-    LDI R17, 70
-fill_buffer:
-    ST Z+, R16
-    DEC R17
-    BRNE fill_buffer
-
-    LDI R24, 0 ; compteur de ligne
-
-main_loop:
-    RCALL DisplayLine
-    RCALL Delay
-    INC R18
-    CPI R18, 8
-    BRLO main_loop
-    LDI R18, 0
-    RJMP main_loop
-
-;------------------------------------------------------------
-; DisplayLine : Affiche une ligne du buffer sur l’écran
-;------------------------------------------------------------
-
-ClearScreen:
-    PUSH ZL
-    PUSH ZH
-    PUSH R16
-    PUSH R17
-    LDI ZL, low(0x0100)
-    LDI ZH, high(0x0100)
-    LDI R16, 0       ; Valeur zéro pour effacer
-    LDI R17, 70      ; Nombre d’octets à effacer
-clear_loop:
-    ST Z+, R16      ; Écrire 0 dans le buffer et incrémenter le pointeur
-    DEC R17
-    BRNE clear_loop
-
-	POP R16
-    POP R17
-    POP ZH
-    POP ZL
     RET
-DisplayLine:
-	PUSH	R0
-	PUSH	R1
-	PUSH	R16
-	PUSH	R17
-	PUSH	R20
-	PUSH	ZL
-	PUSH	ZH
-	IN		R16,	SREG
-	PUSH	R16
 
-	LDI		ZH,		high(0x0100)
-	LDI		ZL,		low(0x0100)
+; Fonction pour lire les entrées du clavier
+ReadKeyboard:
+    ; Vérifier chaque touche et affecter la direction correspondante
+    SBIS PIND, COL1           ; Si le bouton 1 (haut) est appuyé
+    RJMP SetDirectionUp
 
-	LDI		R16,	5
-	MUL		R16,	R24
-	ADD		ZL,		R0
-nbByte_line:
-	LDI R16, 10 ;number of byte to send at same time
-DisplayLineLoop:
-	LD		R20,	Z+
-	CALL	pushByte
+    SBIS PIND, COL2           ; Si le bouton 2 (bas) est appuyé
+    RJMP SetDirectionDown
 
-	CPI		R16,	6
-	BRNE	HighScreen
+    SBIS PIND, COL3           ; Si le bouton 3 (gauche) est appuyé
+    RJMP SetDirectionLeft
 
-	ADIW	Z,		6*5
+    SBIS PIND, COL4           ; Si le bouton 4 (droite) est appuyé
+    RJMP SetDirectionRight
 
-	SBI		PINB,	4
+    RET         ; Revenir à la vérification du clavier
 
-HighScreen:
- DEC		R16
-	BRNE	DisplayLineLoop
+SetDirectionUp:
+    LDI SnakeDirection, UP    ; Changer la direction en haut
+    RET
 
-	LDI		R20,	0x80
-	; the goal is to transform the column number into binaire
-	SBRC	R24,	2 ; if bit 2 is 0 then Swap is skipped
-	SWAP	R20
+SetDirectionDown:
+    LDI SnakeDirection, DOWN  ; Changer la direction en bas
+    RET
 
-	SBRC	R24,	0
-	LSR		R20
+SetDirectionLeft:
+    LDI SnakeDirection, LEFT  ; Changer la direction à gauche
+    RET
 
-	SBRS	R24,	1
-	RJMP	EnableLine
-	
-	LSR		R20
-	LSR		R20
-
-EnableLine:
-	CALL	pushByte
-	
-	SBI		PINB,	4
-	
-	DEC		R24
-	BRGE	endScreen
-	LDI		R24,	6
-endScreen:
-	POP		R16
-	OUT		SREG,	R16
-
-	POP 	ZH
-	POP 	ZL
-	POP 	R20
-	POP		R17
-	POP 	R16
-	POP		R1
-	POP		R0
-
-	RETI
-
-
-
-pushByte:
-
-	LDI		R17,	8
-pushByteLoop:
-	CBI		PORTB,	3
-	BST		R20,	0 ; prend le bit numero b de R20 et le met dans le bit T
-
-	BRTC	send			;Branch if T Flag Cleared
-	SBI		PORTB,	3
-send:
-	SBI		PINB,	5
-	SBI		PINB,	5
-
-	LSR		R20 ; decal vers la droite le bit 0 est mis dans le carry
-	DEC		R17
-	BRNE	pushByteLoop
-	
-	RET
-
-;------------------------------------------------------------
-; Delay (court pour LED visible)
-;------------------------------------------------------------
-Delay:
-    LDI R16, 255
-delay_loop:
-    NOP
-    DEC R16
-    BRNE delay_loop
+SetDirectionRight:
+    LDI SnakeDirection, RIGHT ; Changer la direction à droite
     RET
