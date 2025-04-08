@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 08 10:45:38 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 08 14:15:44 2025
 
 
 EQU  SIGNATURE_000 0000001e
@@ -695,9 +695,9 @@ EQU  ACIaddr      0000002e
 EQU  TWIaddr      00000030
 EQU  SPMRaddr     00000032
 EQU  INT_VECTORS_SIZE 00000034
-CSEG init         000000d2
-CSEG Timer1OverflowInterrupt 000000fe
-CSEG Timer0OverflowInterrupt 000000f9
+CSEG init         0000011f
+CSEG Timer1OverflowInterrupt 0000014c
+CSEG Timer0OverflowInterrupt 00000147
 CSEG InitScreen   00000021
 CSEG ClearScreen  00000026
 CSEG clear_loop   0000002e
@@ -736,4 +736,25 @@ CSEG GetByteAndMaskCol 000000c1
 CSEG GetByteAndMaskP3 000000c6
 CSEG GetByteAndMaskColMask 000000c7
 CSEG GetByteAndMaskEnd 000000cc
-CSEG main_loop    000000f8
+EQU  KEYB_PIN     00000009
+EQU  KEYB_DDR     0000000a
+EQU  KEYB_PORT    0000000b
+EQU  ROW1         00000007
+EQU  ROW2         00000006
+EQU  ROW3         00000005
+EQU  ROW4         00000004
+EQU  COL1         00000003
+EQU  COL2         00000002
+EQU  COL3         00000001
+EQU  COL4         00000000
+CSEG InitKeyboard 000000d2
+CSEG ReadKeyboard 000000d9
+CSEG Col2P        000000f1
+CSEG Col1P        000000e1
+CSEG Col3P        00000101
+CSEG DOnothing    0000011d
+CSEG SetDirectionLeft 00000117
+CSEG SetDirectionUp 00000111
+CSEG SetDirectionDown 00000114
+CSEG SetDirectionRight 0000011a
+CSEG main_loop    00000146

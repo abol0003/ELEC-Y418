@@ -59,22 +59,22 @@
   <GetByteAndMaskP3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>126</LINE></GetByteAndMaskP3>
   <GetByteAndMaskColMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>128</LINE></GetByteAndMaskColMask>
   <GetByteAndMaskEnd><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>134</LINE></GetByteAndMaskEnd>
-  <InitKeyboard><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>15</LINE></InitKeyboard>
+  <InitKeyboard><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>14</LINE></InitKeyboard>
   <ReadKeyboard><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>50</LINE></ReadKeyboard>
-  <Col2P><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>65</LINE></Col2P>
-  <Col1P><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>62</LINE></Col1P>
-  <Col3P><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>67</LINE></Col3P>
-  <DOnothing><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>87</LINE></DOnothing>
-  <SetDirectionLeft><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>79</LINE></SetDirectionLeft>
-  <SetDirectionUp><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>71</LINE></SetDirectionUp>
-  <SetDirectionDown><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>75</LINE></SetDirectionDown>
-  <SetDirectionRIght><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>83</LINE></SetDirectionRIght>
+  <Col2P><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>62</LINE></Col2P>
+  <Col1P><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>60</LINE></Col1P>
+  <Col3P><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>64</LINE></Col3P>
+  <DOnothing><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>88</LINE></DOnothing>
+  <SetDirectionLeft><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>78</LINE></SetDirectionLeft>
+  <SetDirectionUp><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>68</LINE></SetDirectionUp>
+  <SetDirectionDown><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>73</LINE></SetDirectionDown>
+  <SetDirectionRight><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>83</LINE></SetDirectionRight>
   <fill_buffer><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>81</LINE></fill_buffer>
   <main_loop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>75</LINE></main_loop>
-  <DELAY><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>115</LINE></DELAY>
-  <Timer1OverflowInterrupt><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>106</LINE></Timer1OverflowInterrupt>
-  <L1><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>118</LINE></L1>
-  <L2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>120</LINE></L2>
-  <L3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>122</LINE></L3>
+  <DELAY><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>113</LINE></DELAY>
+  <Timer1OverflowInterrupt><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>104</LINE></Timer1OverflowInterrupt>
+  <L1><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>116</LINE></L1>
+  <L2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>118</LINE></L2>
+  <L3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>120</LINE></L3>
  </LABELS>
 </ASSEMBLER_INFO>

@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{18226A42-8477-4023-8AD2-40C49DA407C9}") = "Project", "Project\Project.asmproj", "{59B1D629-9DCC-43ED-A0FD-8AB0E4D622AB}"
 EndProject
+Project("{18226A42-8477-4023-8AD2-40C49DA407C9}") = "Maintest", "Maintest\Maintest.asmproj", "{04496E99-6D00-4B25-87DD-E94270C5B44F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -15,6 +17,10 @@ Global
 		{59B1D629-9DCC-43ED-A0FD-8AB0E4D622AB}.Debug|AVR.Build.0 = Debug|AVR
 		{59B1D629-9DCC-43ED-A0FD-8AB0E4D622AB}.Release|AVR.ActiveCfg = Release|AVR
 		{59B1D629-9DCC-43ED-A0FD-8AB0E4D622AB}.Release|AVR.Build.0 = Release|AVR
+		{04496E99-6D00-4B25-87DD-E94270C5B44F}.Debug|AVR.ActiveCfg = Debug|AVR
+		{04496E99-6D00-4B25-87DD-E94270C5B44F}.Debug|AVR.Build.0 = Debug|AVR
+		{04496E99-6D00-4B25-87DD-E94270C5B44F}.Release|AVR.ActiveCfg = Release|AVR
+		{04496E99-6D00-4B25-87DD-E94270C5B44F}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

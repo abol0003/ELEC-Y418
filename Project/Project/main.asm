@@ -10,6 +10,7 @@
 
 .INCLUDE "ScreenShow.asm"
 .INCLUDE "Snake.asm"
+.INCLUDE "Board.asm"
 ;------------------------------------------------------------
 ; INIT
 ;------------------------------------------------------------
@@ -25,7 +26,7 @@ init:
     CBI PORTC,2
 
 	RCALL InitScreen
-	;RCALL InitKeyboard
+	RCALL InitKeyboard
     ; Effacer le buffer d'affichage
     RCALL ClearScreen
 
@@ -88,6 +89,7 @@ Timer1OverflowInterrupt:
     STS TCNT1H, R16
     LDI R16, 0xFF           ; Recharge de la partie basse
     STS TCNT1L, R16
+	RCALL ReadKeyboard
     ; Appeler la routine qui met à jour le mouvement du snake
     RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
     RETI

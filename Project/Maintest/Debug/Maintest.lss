@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm Tue Apr 08 10:45:38 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm Tue Apr 08 14:15:44 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
@@ -1039,12 +1039,12 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  .CSEG
                                  .ORG 0x0000
-000000 c112                          RJMP init
+000000 c11e                          RJMP init
                                  .ORG 0x001A
                                  	;RJMP Timer1OverflowInterrupt
                                  ; Vecteur d'interruption pour le débordement du Timer0 (adresse 0x0020)
                                  .ORG 0x0020
-000020 c128                          RJMP Timer0OverflowInterrupt
+000020 c134                          RJMP Timer0OverflowInterrupt
                                  
                                  .INCLUDE "ScreenShow.asm"
                                  
@@ -1312,25 +1312,25 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  .equ COL4       = 0
                                  
                                  
-                                 ; Initialisation du clavier
                                  InitKeyboard:
-                                     ; Configure les lignes du clavier comme sorties et les colonnes comme entrées
 0000d2 e00f                      		LDI r16,(1<<COL1)|(1<<COL2)|(1<<COL3)|(1<<COL4)
 0000d3 ef10                      		LDI r17,(1<<ROW1)|(1<<ROW2)|(1<<ROW3)|(1<<ROW4)
-0000d4 b90b                      		OUT KEYB_PORT,r16  ; Drive columns with HIGH values (or pull-ups if configured)
-0000d5 b91a                      		OUT KEYB_DDR,r17   ; Set rows as outputs
+0000d4 0000                      		NOP
+0000d5 b90b                      		OUT KEYB_PORT,r16  ; Drive columns with HIGH values 
+0000d6 0000                      		NOP
+0000d7 b91a                      		OUT KEYB_DDR,r17   ; Set rows as outputs
                                  
-0000d6 9508                      		RET	
+0000d8 9508                      		RET	
                                  
                                  .MACRO Rowdetection
                                  ;STEP2 method
                                   ;the output configuration for rows generates the signal, while the input configuration for columns detects the signal when a button is pressed.
                                      ; Set the rows as input because use of KEYB_PORT
-                                 	LDI r16,(1<<ROW1)|(1<<ROW2)|(1<<ROW3)|(1<<ROW4)
-                                 	OUT KEYB_PORT,r16    ; Output the bit mask to the keyboard port to drive the rows
-                                 	
-                                     ; Set the columns as output because use of KEYB_DDR
+                                 	LDI r17,(1<<ROW1)|(1<<ROW2)|(1<<ROW3)|(1<<ROW4)
                                  	LDI r16,(1<<COL1)|(1<<COL2)|(1<<COL3)|(1<<COL4)
+                                 	NOP
+                                 	OUT KEYB_PORT,r17
+                                 	NOP
                                  	OUT KEYB_DDR,r16     ; Configure keyboard port data direction for columns
                                  	NOP                 
                                  	
@@ -1349,116 +1349,124 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  ; Fonction pour lire les entrées du clavier
                                  ReadKeyboard:
-                                     ; Vérifier chaque touche et affecter la direction correspondante
-0000d7 9b4a                          SBIS PIND, COL2           ; Si le bouton 1 (haut) est appuyé
-0000d8 c015                      	RJMP Col2P
-0000d9 9b4a                          SBIS PIND, COL2           ; Si le bouton 2 (bas) est appuyé
-0000da c013                      	RJMP Col2P
-0000db 9b4b                          SBIS PIND, COL1           ; Si le bouton 3 (gauche) est appuyé
-0000dc c003                      	RJMP Col1P
-0000dd 9b49                          SBIS PIND, COL3           ; Si le bouton 4 (droite) est appuyé
-0000de c01d                      	RJMP Col3P
-0000df 9508                      	RET  
+0000d9 0000                      	NOP
+0000da 9b4a                          SBIS PIND, COL2           ; UP and DOWN
+0000db c015                      	RJMP Col2P
+0000dc 9b4b                          SBIS PIND, COL1           ; LEFT
+0000dd c003                      	RJMP Col1P
+0000de 9b49                          SBIS PIND, COL3           ; RIGHT
+0000df c021                      	RJMP Col3P
+0000e0 9508                      	RET 
                                  
                                  Col1P:
-0000e0 ef00
-0000e1 b90b
+0000e1 ef10
 0000e2 e00f
-0000e3 b90a
-0000e4 0000
-0000e5 9b4f
-0000e6 c02b
-0000e7 9b4e
-0000e8 c025
-0000e9 9b4d
-0000ea c027
-0000eb 9b4c
-0000ec c025
-0000ed 9508                      		Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
-                                 
+0000e3 0000
+0000e4 b91b
+0000e5 0000
+0000e6 b90a
+0000e7 0000
+0000e8 9b4f
+0000e9 c033
+0000ea 9b4e
+0000eb c02b
+0000ec 9b4d
+0000ed c02f
+0000ee 9b4c
+0000ef c02d
+0000f0 9508                      	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
                                  Col2P:   
-0000ee ef00
-0000ef b90b
-0000f0 e00f
-0000f1 b90a
-0000f2 0000
-0000f3 9b4f
-0000f4 c015
-0000f5 9b4e
-0000f6 c01b
-0000f7 9b4d
-0000f8 c013
-0000f9 9b4c
-0000fa c017
-0000fb 9508                      	    Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
+0000f1 ef10
+0000f2 e00f
+0000f3 0000
+0000f4 b91b
+0000f5 0000
+0000f6 b90a
+0000f7 0000
+0000f8 9b4f
+0000f9 c017
+0000fa 9b4e
+0000fb c021
+0000fc 9b4d
+0000fd c016
+0000fe 9b4c
+0000ff c01d
+000100 9508                      	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
                                  Col3P:
-0000fc ef00
-0000fd b90b
-0000fe e00f
-0000ff b90a
-000100 0000
-000101 9b4f
-000102 c00f
-000103 9b4e
-000104 c00b
-000105 9b4d
-000106 c00b
-000107 9b4c
-000108 c009
-000109 9508                      	    Rowdetection DOnothing, SetDirectionRIght, DOnothing, DOnothing
+000101 ef10
+000102 e00f
+000103 0000
+000104 b91b
+000105 0000
+000106 b90a
+000107 0000
+000108 9b4f
+000109 c013
+00010a 9b4e
+00010b c00e
+00010c 9b4d
+00010d c00f
+00010e 9b4c
+00010f c00d
+000110 9508                      	Rowdetection DOnothing, SetDirectionRight, DOnothing, DOnothing
                                  
                                  
                                  SetDirectionUp:
-00010a e061                          LDI SnakeDirection, UP    ; Changer la direction en haut
-00010b 9508                          RET
+000111 e061                          LDI SnakeDirection, UP  
+000112 dfbf                      	RCALL InitKeyBoard  ;As we use 2 step method we need to reswitch row as output
+000113 9508                          RET
                                  
                                  SetDirectionDown:
-00010c e062                          LDI SnakeDirection, DOWN  ; Changer la direction en bas
-00010d 9508                          RET
+000114 e062                          LDI SnakeDirection, DOWN 
+000115 dfbc                      	RCALL InitKeyBoard  
+000116 9508                          RET
                                  
                                  SetDirectionLeft:
-00010e e063                          LDI SnakeDirection, LEFT  ; Changer la direction à gauche
-00010f 9508                          RET
+000117 e063                          LDI SnakeDirection, LEFT 
+000118 dfb9                      	RCALL InitKeyBoard  
+000119 9508                          RET
                                  
                                  SetDirectionRight:
-000110 e064                          LDI SnakeDirection, RIGHT ; Changer la direction à droite
-000111 9508                          RET
+00011a e064                          LDI SnakeDirection, RIGHT
+00011b dfb6                      	RCALL InitKeyBoard  
+00011c 9508                          RET
                                  
                                  DOnothing:
-000112 9508                      ;------------------------------------------------------------
+00011d dfb4                      	RCALL InitKeyBoard  
+00011e 9508                      ;------------------------------------------------------------
                                  ; INIT
                                  ;------------------------------------------------------------
                                  init:
                                      ; Initialisation de la pile
-000113 e008                          LDI R16, HIGH(RAMEND)
-000114 bf0e                          OUT SPH, R16
-000115 ef0f                          LDI R16, LOW(RAMEND)
-000116 bf0d                          OUT SPL, R16
-000117 9a3b                      	SBI DDRC,3
-000118 9843                          CBI PORTC,3
-000119 9a3a                      	SBI DDRC,2
-00011a 9842                          CBI PORTC,2
+00011f e008                          LDI R16, HIGH(RAMEND)
+000120 bf0e                          OUT SPH, R16
+000121 ef0f                          LDI R16, LOW(RAMEND)
+000122 bf0d                          OUT SPL, R16
+000123 9a3b                      	SBI DDRC,3
+000124 9843                          CBI PORTC,3
+000125 9a3a                      	SBI DDRC,2
+000126 9842                          CBI PORTC,2
                                  
-00011b df05                      	RCALL InitScreen
-00011c dfb5                      	RCALL InitKeyboard
+000127 def9                      	RCALL InitScreen
+000128 dfa9                      	RCALL InitKeyboard
                                  
                                      ; Effacer le buffer d'affichage
-00011d df08                          RCALL ClearScreen
+000129 defc                          RCALL ClearScreen
                                  
                                      ;-------------------------------------
                                      ; Configuration du Timer0 en mode normal
-00011e e070                      	LDI r23, 0         ; Load 0 into r16
-00011f 9370 0080                 	STS TCCR1A, r23     ; Store 0 in TCCR1A to set Timer1 to Normal mode
+00012a e070                      	LDI r23, 0         ; Load 0 into r16
+00012b 9370 0080                 	STS TCCR1A, r23     ; Store 0 in TCCR1A to set Timer1 to Normal mode
                                      ; Choix d'un prescaler de 64 : CS01 et CS00 à 1
-000121 e073                          LDI R23, (1<<CS01)|(1<<CS00)
-000122 bd75                          OUT TCCR0B, R23
+00012d e073                          LDI R23, (1<<CS01)|(1<<CS00)
+00012e bd75                          OUT TCCR0B, R23
                                      ; Charger TCNT0 avec la valeur de départ (ici 0x06)
                                      ; La valeur détermine la période d'interruption (Période = (256 – TCNT0)*(prescaler/clok))
-000123 e076                          LDI R23, 0x06
-000124 bd76                          OUT TCNT0, R23
+00012f e076                          LDI R23, 0x06
+000130 bd76                          OUT TCNT0, R23
                                      ; Activer l'interruption de débordement du Timer0 (bit TOIE0 dans TIMSK0)
-000125 e071                          LDI R23, (1<<TOIE0)
-000126 9370 006e                     STS TIMSK0, R23
+000131 e071                          LDI R23, (1<<TOIE0)
+000132 9370 006e                     STS TIMSK0, R23
                                  
                                  		 ;-------------------------------------
                                      ; Configuration du Timer1 pour le mouvement du snake
@@ -1467,78 +1475,76 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  ; we are on 16 bit timer then we want to precharge 2^16-18182= 47354 cycles to reach the overflow after 18182 cycles
                                  ; the interrupt toggle 
                                      ; On utilise ici un prescaler de 64 
-000128 e000                      	LDI r16, 0          ; Load 0 into r16
-000129 9300 0080                 	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
-00012b e004                          LDI R16, 4       ; Prescaler 64
-00012c 9300 0081                     STS TCCR1B, R16
+000134 e000                      	LDI r16, 0          ; Load 0 into r16
+000135 9300 0080                 	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
+000137 e004                          LDI R16, 4       ; Prescaler 64
+000138 9300 0081                     STS TCCR1B, R16
                                      ; Charger Timer1 pour obtenir environ 8 Hz (valeurs obtenues par calcul)
-00012e e00f                      	LDI R16, 0x0F             ; Valeur haute initiale
-00012f 9300 0085                     STS TCNT1H, R16
-000131 ef0f                          LDI R16, 0xFF            ; Valeur basse initiale
-000132 9300 0084                     STS TCNT1L, R16
+00013a e00f                      	LDI R16, 0x0F             ; Valeur haute initiale
+00013b 9300 0085                     STS TCNT1H, R16
+00013d ef0f                          LDI R16, 0xFF            ; Valeur basse initiale
+00013e 9300 0084                     STS TCNT1L, R16
                                      ; Activer l'interruption de débordement du Timer1 (TOIE1)
-000134 e001                          LDI R16, (1<<TOIE1)
-000135 9300 006f                     STS TIMSK1, R16
+000140 e001                          LDI R16, (1<<TOIE1)
+000141 9300 006f                     STS TIMSK1, R16
                                  
                                      ; Activer les interruptions globales
-000137 9478                          SEI
-000138 940e 0140                 	CALL fill_buffer
-00013a 940e 0072                     CALL SnakeInit
+000143 9478                          SEI
+000144 940e 014c                 	CALL fill_buffer
+000146 940e 0072                     CALL SnakeInit
                                  
                                  main_loop:
-00013c df9a                      	RCALL ReadKeyboard
-00013d d018                      	RCALL DELAY
-00013e df38                      	RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
-00013f cffc                          RJMP main_loop
+000148 df90                      	RCALL ReadKeyboard
+000149 d018                      	RCALL DELAY
+00014a df2c                      	RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
+00014b cffc                          RJMP main_loop
                                  
                                  fill_buffer:
                                      ; Remplissage du buffer à 0x0100 avec motif 0xAA
-000140 ea0a                          LDI R16, 0xAA         
-000141 e2e2                          LDI ZL, low(0x0100+34)  
-000142 e0f1                          LDI ZH, high(0x0100)    
-000143 e011                          LDI R17, 1
-000144 9301                          ST Z+, R16
-000145 951a                          DEC R17
-000146 f7c9                          BRNE fill_buffer
-000147 e000                      	LDI R16,0
-000148 9508                      	RET
+00014c ea0a                          LDI R16, 0xAA         
+00014d e2e2                          LDI ZL, low(0x0100+34)  
+00014e e0f1                          LDI ZH, high(0x0100)    
+00014f e011                          LDI R17, 1
+000150 9301                          ST Z+, R16
+000151 951a                          DEC R17
+000152 f7c9                          BRNE fill_buffer
+000153 e000                      	LDI R16,0
+000154 9508                      	RET
                                  
                                  
                                  Timer0OverflowInterrupt:
-000149 9842                      	CBI PORTC,2
-00014a e076                          LDI R23, 0x06
-00014b bd76                          OUT TCNT0, R23
-                                     ; Appeler la fonction d'affichage de la ligne
-                                 	;RCALL ReadKeyboard
-00014c dee9                          RCALL DisplayLine
-00014d 9518                          RETI
+000155 9842                      	CBI PORTC,2
+000156 e076                          LDI R23, 0x06
+000157 bd76                          OUT TCNT0, R23
+000158 dedd                          RCALL DisplayLine
+000159 9518                          RETI
                                  
                                  ;------------------------------------------------------------
                                  ; Timer1Interrupt : Mise à jour du mouvement du snake
                                  ;------------------------------------------------------------
                                  Timer1OverflowInterrupt:
                                      ;CBI PORTC,3
-00014e e00f                          LDI R16, 0x0F             ; Recharge de la partie haute
-00014f 9300 0085                     STS TCNT1H, R16
-000151 ef0f                          LDI R16, 0xFF           ; Recharge de la partie basse
-000152 9300 0084                     STS TCNT1L, R16
+00015a e00f                          LDI R16, 0x0F             ; Recharge de la partie haute
+00015b 9300 0085                     STS TCNT1H, R16
+00015d ef0f                          LDI R16, 0xFF           ; Recharge de la partie basse
+00015e 9300 0084                     STS TCNT1L, R16
                                      ; Appeler la routine qui met à jour le mouvement du snake
-000154 df22                          RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
-000155 9518                          RETI
+000160 df16                          RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
+000161 9518                          RETI
                                  DELAY:
                                  
-000156 e906                          LDI R16,150
+000162 e906                          LDI R16,150
                                  L1:
-000157 ef1f                          LDI R17,255
+000163 ef1f                          LDI R17,255
                                  L2:
-000158 e322                      	LDI R18,50
+000164 e322                      	LDI R18,50
                                  L3:
-000159 952a                          DEC R18
-00015a f7f1                          BRNE L3
-00015b 951a                          DEC R17
-00015c f7d9                      	BRNE L2
-00015d 950a                      	DEC R16
-00015e f7c1                      	BRNE L1
+000165 952a                          DEC R18
+000166 f7f1                          BRNE L3
+000167 951a                          DEC R17
+000168 f7d9                      	BRNE L2
+000169 950a                      	DEC R16
+00016a f7c1                      	BRNE L1
 
 
 RESOURCE USE INFORMATION
@@ -1558,7 +1564,7 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   0 y  :   5 z  :   4 r0 :   6 r1 :   4 r2 :   5 r3 :   7 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  71 r17:  23 r18:   2 r19:   4 r20:  14 
+r13:   0 r14:   0 r15:   0 r16:  65 r17:  29 r18:   2 r19:   4 r20:  14 
 r21:   4 r22:   9 r23:  10 r24:   6 r25:   0 r26:   0 r27:   0 r28:   5 
 r29:   5 r30:   8 r31:   7 
 Registers used: 19 out of 35 (54.3%)
@@ -1576,9 +1582,9 @@ cpi   :   7 cpse  :   0 dec   :  12 eor   :   0 fmul  :   0 fmuls :   0
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   2 jmp   :   0 
 ld    :   2 ldd   :   0 ldi   :  58 lds   :   0 lpm   :   0 lsl   :   1 
 lsr   :   4 mov   :   7 movw  :   0 mul   :   1 muls  :   0 mulsu :   0 
-neg   :   0 nop   :   3 or    :   1 ori   :   0 out   :  15 pop   :  22 
-push  :  22 rcall :  12 ret   :  19 reti  :   3 rjmp  :  31 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   7 sbic  :   0 sbis  :  16 
+neg   :   0 nop   :  12 or    :   1 ori   :   0 out   :  15 pop   :  22 
+push  :  22 rcall :  17 ret   :  19 reti  :   3 rjmp  :  30 rol   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :   7 sbic  :   0 sbis  :  15 
 sbiw  :   0 sbr   :   0 sbrc  :   2 sbrs  :   1 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :   4 std   :   0 sts   :   9 
@@ -1588,7 +1594,7 @@ Instructions used: 41 out of 113 (36.3%)
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0002c0    642      0    642   32768   2.0%
+[.cseg] 0x000000 0x0002d8    666      0    666   32768   2.0%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
