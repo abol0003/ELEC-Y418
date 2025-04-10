@@ -89,6 +89,9 @@
     <Compile Include="main.asm">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Obstacles.asm">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Screenshow.asm">
       <SubType>Code</SubType>
     </Compile>

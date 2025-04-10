@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 08 14:15:44 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Thu Apr 10 18:37:15 2025
 
 
 EQU  SIGNATURE_000 0000001e
@@ -695,9 +695,9 @@ EQU  ACIaddr      0000002e
 EQU  TWIaddr      00000030
 EQU  SPMRaddr     00000032
 EQU  INT_VECTORS_SIZE 00000034
-CSEG init         0000011f
-CSEG Timer1OverflowInterrupt 0000014c
-CSEG Timer0OverflowInterrupt 00000147
+CSEG init         00000152
+CSEG Timer1OverflowInterrupt 00000181
+CSEG Timer0OverflowInterrupt 0000017c
 CSEG InitScreen   00000021
 CSEG ClearScreen  00000026
 CSEG clear_loop   0000002e
@@ -718,7 +718,7 @@ EQU  LEFT         00000003
 EQU  RIGHT        00000004
 DEF  SnakeDirection r22
 CSEG SnakeInit    00000072
-CSEG SetPosBuffer 000000ac
+CSEG SetPosBuffer 000000ab
 CSEG SnakeMain    00000077
 CSEG check_left   00000082
 CSEG backleft     00000080
@@ -730,6 +730,7 @@ CSEG gohighscreen 0000008f
 CSEG godownscreen 00000097
 CSEG ClearOldPos  000000a1
 CSEG GetByteAndMask 000000b4
+CSEG CheckObstacles 00000147
 CSEG GetByteAndMaskRow 000000bb
 CSEG GetByteAndMaskP2 000000c0
 CSEG GetByteAndMaskCol 000000c1
@@ -749,12 +750,19 @@ EQU  COL3         00000001
 EQU  COL4         00000000
 CSEG InitKeyboard 000000d2
 CSEG ReadKeyboard 000000d9
-CSEG Col2P        000000f1
-CSEG Col1P        000000e1
-CSEG Col3P        00000101
-CSEG DOnothing    0000011d
-CSEG SetDirectionLeft 00000117
-CSEG SetDirectionUp 00000111
-CSEG SetDirectionDown 00000114
-CSEG SetDirectionRight 0000011a
-CSEG main_loop    00000146
+CSEG Col2P        000000f3
+CSEG Col1P        000000e3
+CSEG Col3P        00000103
+CSEG Col4P        00000113
+CSEG DOnothing    00000133
+CSEG SetDirectionLeft 00000129
+CSEG SetDirectionUp 00000123
+CSEG SetDirectionDown 00000126
+CSEG SetDirectionRight 0000012c
+CSEG Pause        0000012f
+CSEG restart      00000132
+EQU  OBSTACLE     000000ff
+CSEG InitObstacles 00000135
+CSEG WriteObstaclesHorizontal 0000013d
+CSEG Collision    00000151
+CSEG main_loop    0000017b

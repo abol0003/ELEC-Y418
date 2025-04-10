@@ -55,6 +55,8 @@ ReadKeyboard:
 	RJMP Col1P
     SBIS PIND, COL3           ; RIGHT
 	RJMP Col3P
+	SBIS PIND, COL4
+	RJMP Col4P
 	RET 
 
 Col1P:
@@ -63,6 +65,8 @@ Col2P:
 	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
 Col3P:
 	Rowdetection DOnothing, SetDirectionRight, DOnothing, DOnothing
+Col4P:
+	Rowdetection Pause,DOnothing, DOnothing, restart
 
 
 SetDirectionUp:
@@ -84,6 +88,12 @@ SetDirectionRight:
     LDI SnakeDirection, RIGHT
 	RCALL InitKeyBoard  
     RET
+Pause:
+	LDI SnakeDirection, 5
+	RCALL InitKeyBoard
+	RET
+restart:
+	RJMP init
 
 DOnothing:
 	RCALL InitKeyBoard  

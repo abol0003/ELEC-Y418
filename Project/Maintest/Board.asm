@@ -1,3 +1,5 @@
+; Board.asm
+
 .equ KEYB_PIN   = PIND
 .equ KEYB_DDR   = DDRD
 .equ KEYB_PORT  = PORTD
@@ -12,13 +14,16 @@
 
 
 InitKeyboard:
+		PUSH R16
+		PUSH R17
 		LDI r16,(1<<COL1)|(1<<COL2)|(1<<COL3)|(1<<COL4)
 		LDI r17,(1<<ROW1)|(1<<ROW2)|(1<<ROW3)|(1<<ROW4)
 		NOP
 		OUT KEYB_PORT,r16  ; Drive columns with HIGH values 
 		NOP
 		OUT KEYB_DDR,r17   ; Set rows as outputs
-
+		POP R16 
+		POP R17
 		RET	
 
 .MACRO Rowdetection
@@ -55,6 +60,8 @@ ReadKeyboard:
 	RJMP Col1P
     SBIS PIND, COL3           ; RIGHT
 	RJMP Col3P
+	SBIS PIND, COL4
+	RJMP Col4P
 	RET 
 
 Col1P:
@@ -63,6 +70,8 @@ Col2P:
 	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
 Col3P:
 	Rowdetection DOnothing, SetDirectionRight, DOnothing, DOnothing
+Col4P:
+	Rowdetection Pause,DOnothing, DOnothing, restart
 
 
 SetDirectionUp:
@@ -84,6 +93,13 @@ SetDirectionRight:
     LDI SnakeDirection, RIGHT
 	RCALL InitKeyBoard  
     RET
+Pause:
+	LDI SnakeDirection, 5
+	RCALL InitKeyBoard
+	RET
+restart:
+	CALL ClearScreen
+	RJMP init
 
 DOnothing:
 	RCALL InitKeyBoard  

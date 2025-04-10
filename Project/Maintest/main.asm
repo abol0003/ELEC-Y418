@@ -1,3 +1,5 @@
+; main.asm
+
 .INCLUDE "m328pdef.inc"
 
 .CSEG
@@ -12,6 +14,8 @@
 .INCLUDE "ScreenShow.asm"
 .INCLUDE "Snake.asm"
 .INCLUDE "Board.asm"
+.INCLUDE "Obstacles.asm"
+.INCLUDE "food.asm"
 ;------------------------------------------------------------
 ; INIT
 ;------------------------------------------------------------
@@ -34,18 +38,18 @@ init:
 
     ;-------------------------------------
     ; Configuration du Timer0 en mode normal
-	LDI r23, 0         ; Load 0 into r16
-	STS TCCR1A, r23     ; Store 0 in TCCR1A to set Timer1 to Normal mode
+	LDI r16, 0         ; Load 0 into r16
+	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
     ; Choix d'un prescaler de 64 : CS01 et CS00 à 1
-    LDI R23, (1<<CS01)|(1<<CS00)
-    OUT TCCR0B, R23
+    LDI R16, (1<<CS01)|(1<<CS00)
+    OUT TCCR0B, R16
     ; Charger TCNT0 avec la valeur de départ (ici 0x06)
     ; La valeur détermine la période d'interruption (Période = (256 – TCNT0)*(prescaler/clok))
-    LDI R23, 0x06
-    OUT TCNT0, R23
+    LDI R16, 0x06
+    OUT TCNT0, R16
     ; Activer l'interruption de débordement du Timer0 (bit TOIE0 dans TIMSK0)
-    LDI R23, (1<<TOIE0)
-    STS TIMSK0, R23
+    LDI R16, (1<<TOIE0)
+    STS TIMSK0, R16
 
 		 ;-------------------------------------
     ; Configuration du Timer1 pour le mouvement du snake
@@ -69,8 +73,11 @@ init:
 
     ; Activer les interruptions globales
     SEI
-	CALL fill_buffer
+	CALL InitObstacles
+	;CALL fill_buffer
     CALL SnakeInit
+	CALL FoodInit
+
 
 main_loop:
 	RCALL ReadKeyboard
@@ -107,8 +114,9 @@ Timer1OverflowInterrupt:
     STS TCNT1H, R16
     LDI R16, 0xFF           ; Recharge de la partie basse
     STS TCNT1L, R16
+
     ; Appeler la routine qui met à jour le mouvement du snake
-    RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
+    ;RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
     RETI
 DELAY:
 
@@ -125,3 +133,4 @@ L3:
 	DEC R16
 	BRNE L1
 	RET
+

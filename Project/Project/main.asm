@@ -11,6 +11,7 @@
 .INCLUDE "ScreenShow.asm"
 .INCLUDE "Snake.asm"
 .INCLUDE "Board.asm"
+.INCLUDE "Obstacles.asm"
 ;------------------------------------------------------------
 ; INIT
 ;------------------------------------------------------------
@@ -67,6 +68,7 @@ init:
 
     ; Activer les interruptions globales
     SEI
+	CALL InitObstacles
     CALL SnakeInit
 
 main_loop:

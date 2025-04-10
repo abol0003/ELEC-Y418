@@ -1,16 +1,18 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 08 14:15:44 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Thu Apr 10 18:37:15 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(11): Including file 'C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\ScreenShow.asm'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(12): Including file 'C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\Snake.asm'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(13): Including file 'C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\Board.asm'
+C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(14): Including file 'C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\Obstacles.asm'
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(11): Including file 'C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\ScreenShow.asm'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(12): Including file 'C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\Snake.asm'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(13): Including file 'C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\Board.asm'
+C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(14): Including file 'C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\Obstacles.asm'
                                  
                                  .INCLUDE "m328pdef.inc"
                                  
@@ -1039,11 +1041,11 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  .CSEG
                                  .ORG 0x0000
-000000 c11e                          RJMP init
+000000 c151                          RJMP init
                                  .ORG 0x001A
-00001a c131                      	RJMP Timer1OverflowInterrupt
+00001a c166                      	RJMP Timer1OverflowInterrupt
                                  .ORG 0x0020
-000020 c126                          RJMP Timer0OverflowInterrupt
+000020 c15b                          RJMP Timer0OverflowInterrupt
                                  
                                  .INCLUDE "ScreenShow.asm"
                                  
@@ -1156,6 +1158,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000070 f7b9                      	BRNE	pushByteLoop
                                  .INCLUDE "Snake.asm"
 000071 9508                      
+                                 
                                  .DEF snake_row = R20     ; Coordonnée de la ligne du serpent
                                  .DEF snake_col = R21     ; Coordonnée de la colonne du serpent
                                  .equ UP    = 1
@@ -1167,8 +1170,8 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  SnakeInit:
 000072 e04b                          LDI snake_row, 11    ; Ligne 1
 000073 e154                          LDI snake_col, 20    ; Colonne 39
-000074 e062                      	LDI SnakeDirection, 2
-000075 d036                          RCALL SetPosBuffer   ; Allume le pixel correspondant dans le buffer
+000074 e063                      	LDI SnakeDirection, 3
+000075 d035                          RCALL SetPosBuffer   ; Allume le pixel correspondant dans le buffer
 000076 9508                          RET
                                  
                                  SnakeMain:
@@ -1218,7 +1221,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 00009b 2f40                          MOV snake_row, R16
 00009c 2f51                          MOV snake_col, R17
                                      ; Appeler la routine qui allume le pixel dans le buffer à la nouvelle position
-00009d d00e                          RCALL SetPosBuffer
+00009d d00d                          RCALL SetPosBuffer
 00009e 911f                          POP R17
 00009f 910f                          POP R16
 0000a0 9508                          RET
@@ -1227,14 +1230,13 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0000a1 9843                      	CBI PORTC,3
 0000a2 93cf                      	PUSH YL
 0000a3 93df                      	PUSH YH
-0000a4 933f                      	PUSH R19             ; Écrit l’octet mis à jour dans le buffer
-0000a5 d00e                          RCALL GetByteAndMask   ; R0 contient l’octet actuel, R1 le masque du pixel
-0000a6 e030                      	LDI R19,0
-0000a7 8338                      	ST Y, R19
-0000a8 913f                      	POP R19
-0000a9 91cf                      	POP YL
-0000aa 91df                      	POP YH
-0000ab 9508                      	RET
+0000a4 d00f                          RCALL GetByteAndMask ; R0 contient l’octet actuel du buffer, R1 le masque du pixel
+0000a5 9410                      	COM R1  ; allow to keep the obstacles on when snake goes in same byte of an pixel of obstacle
+0000a6 2001                      	AND R0,R1
+0000a7 8208                      	ST Y, R0
+0000a8 91cf                      	POP YL
+0000a9 91df                      	POP YH
+0000aa 9508                      	RET
                                  
                                  
                                  
@@ -1242,9 +1244,10 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  ; Find column ( trame of bits ) and position in buffer (line)
                                  ;------------------------------------------------------------
                                  SetPosBuffer:
-0000ac 93cf                          PUSH YL
-0000ad 93df                          PUSH YH
-0000ae d005                          RCALL GetByteAndMask   ; R0 contient l’octet actuel, R1 le masque du pixel
+0000ab 93cf                          PUSH YL
+0000ac 93df                          PUSH YH
+0000ad d006                          RCALL GetByteAndMask 
+0000ae d098                      	RCALL CheckObstacles  ; R0 contient l’octet actuel, R1 le masque du pixel
 0000af 2801                          OR R0, R1            ; do or to keep previous led on on ( for example obstacle etc)
 0000b0 8208                          ST Y, R0             ; Écrit l’octet mis à jour dans le buffer
 0000b1 91df                          POP YH
@@ -1350,121 +1353,192 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  ReadKeyboard:
 0000d9 0000                      	NOP
 0000da 9b4a                          SBIS PIND, COL2           ; UP and DOWN
-0000db c015                      	RJMP Col2P
+0000db c017                      	RJMP Col2P
 0000dc 9b4b                          SBIS PIND, COL1           ; LEFT
-0000dd c003                      	RJMP Col1P
+0000dd c005                      	RJMP Col1P
 0000de 9b49                          SBIS PIND, COL3           ; RIGHT
-0000df c021                      	RJMP Col3P
-0000e0 9508                      	RET 
+0000df c023                      	RJMP Col3P
+0000e0 9b48                      	SBIS PIND, COL4
+0000e1 c031                      	RJMP Col4P
+0000e2 9508                      	RET 
                                  
                                  Col1P:
-0000e1 ef10
-0000e2 e00f
-0000e3 0000
-0000e4 b91b
+0000e3 ef10
+0000e4 e00f
 0000e5 0000
-0000e6 b90a
+0000e6 b91b
 0000e7 0000
-0000e8 9b4f
-0000e9 c033
-0000ea 9b4e
-0000eb c02b
-0000ec 9b4d
-0000ed c02f
-0000ee 9b4c
-0000ef c02d
-0000f0 9508                      	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
+0000e8 b90a
+0000e9 0000
+0000ea 9b4f
+0000eb c047
+0000ec 9b4e
+0000ed c03b
+0000ee 9b4d
+0000ef c043
+0000f0 9b4c
+0000f1 c041
+0000f2 9508                      	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
                                  Col2P:   
-0000f1 ef10
-0000f2 e00f
-0000f3 0000
-0000f4 b91b
+0000f3 ef10
+0000f4 e00f
 0000f5 0000
-0000f6 b90a
+0000f6 b91b
 0000f7 0000
-0000f8 9b4f
-0000f9 c017
-0000fa 9b4e
-0000fb c021
-0000fc 9b4d
-0000fd c016
-0000fe 9b4c
-0000ff c01d
-000100 9508                      	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
+0000f8 b90a
+0000f9 0000
+0000fa 9b4f
+0000fb c027
+0000fc 9b4e
+0000fd c035
+0000fe 9b4d
+0000ff c026
+000100 9b4c
+000101 c031
+000102 9508                      	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
                                  Col3P:
-000101 ef10
-000102 e00f
-000103 0000
-000104 b91b
+000103 ef10
+000104 e00f
 000105 0000
-000106 b90a
+000106 b91b
 000107 0000
-000108 9b4f
-000109 c013
-00010a 9b4e
-00010b c00e
-00010c 9b4d
-00010d c00f
-00010e 9b4c
-00010f c00d
-000110 9508                      	Rowdetection DOnothing, SetDirectionRight, DOnothing, DOnothing
+000108 b90a
+000109 0000
+00010a 9b4f
+00010b c027
+00010c 9b4e
+00010d c01e
+00010e 9b4d
+00010f c023
+000110 9b4c
+000111 c021
+000112 9508                      	Rowdetection DOnothing, SetDirectionRight, DOnothing, DOnothing
+                                 Col4P:
+000113 ef10
+000114 e00f
+000115 0000
+000116 b91b
+000117 0000
+000118 b90a
+000119 0000
+00011a 9b4f
+00011b c013
+00011c 9b4e
+00011d c015
+00011e 9b4d
+00011f c013
+000120 9b4c
+000121 c010
+000122 9508                      	Rowdetection Pause,DOnothing, DOnothing, restart
                                  
                                  
                                  SetDirectionUp:
-000111 e061                          LDI SnakeDirection, UP  
-000112 dfbf                      	RCALL InitKeyBoard  ;As we use 2 step method we need to reswitch row as output
-000113 9508                          RET
+000123 e061                          LDI SnakeDirection, UP  
+000124 dfad                      	RCALL InitKeyBoard  ;As we use 2 step method we need to reswitch row as output
+000125 9508                          RET
                                  
                                  SetDirectionDown:
-000114 e062                          LDI SnakeDirection, DOWN 
-000115 dfbc                      	RCALL InitKeyBoard  
-000116 9508                          RET
+000126 e062                          LDI SnakeDirection, DOWN 
+000127 dfaa                      	RCALL InitKeyBoard  
+000128 9508                          RET
                                  
                                  SetDirectionLeft:
-000117 e063                          LDI SnakeDirection, LEFT 
-000118 dfb9                      	RCALL InitKeyBoard  
-000119 9508                          RET
+000129 e063                          LDI SnakeDirection, LEFT 
+00012a dfa7                      	RCALL InitKeyBoard  
+00012b 9508                          RET
                                  
                                  SetDirectionRight:
-00011a e064                          LDI SnakeDirection, RIGHT
-00011b dfb6                      	RCALL InitKeyBoard  
-00011c 9508                          RET
+00012c e064                          LDI SnakeDirection, RIGHT
+00012d dfa4                      	RCALL InitKeyBoard  
+00012e 9508                          RET
+                                 Pause:
+00012f e065                      	LDI SnakeDirection, 5
+000130 dfa1                      	RCALL InitKeyBoard
+000131 9508                      	RET
+                                 restart:
+000132 c01f                      	RJMP init
                                  
                                  DOnothing:
-00011d dfb4                      	RCALL InitKeyBoard  
-00011e 9508                      ;------------------------------------------------------------
+000133 df9e                      	RCALL InitKeyBoard  
+                                 .INCLUDE "Obstacles.asm"
+000134 9508                      
+                                 
+                                 ; Définition des obstacles
+                                 .equ OBSTACLE = 0xFF   ; Chaque octet rempli (0xFF) représente un obstacle (un bloc complet)
+                                 
+                                 InitObstacles:
+000135 93ef                          PUSH ZL
+000136 93ff                          PUSH ZH
+000137 930f                          PUSH R16
+000138 931f                          PUSH R17
+000139 e0e0                          LDI ZL, low(0x0100)    ; Commence à partir de l'adresse 0x0200 (par exemple pour une zone réservée aux obstacles)
+00013a e0f1                          LDI ZH, high(0x0100)
+                                     
+                                     ; Placer des obstacles horizontaux
+00013b e015                          LDI R17, 5             ; Nombre d'obstacles horizontaux à placer
+00013c ef0f                          LDI R16, OBSTACLE      ; R16 contient la valeur de l'obstacle (0xFF)
+                                 
+                                 WriteObstaclesHorizontal:
+00013d 9301                          ST Z+, R16             ; Écrire l'obstacle dans le buffer à la position Z, puis incrémenter Z
+00013e 951a                          DEC R17
+00013f f7e9                          BRNE WriteObstaclesHorizontal   ; Répéter jusqu'à placer tous les obstacles horizontaux
+                                     
+                                     ; Placer des obstacles verticaux
+000140 e016                          LDI R17, 6             ; Nombre d'obstacles verticaux (en lignes)
+000141 e025                          LDI R18, 5             ; Colonne de départ (colonne 5 dans cet exemple)
+000142 911f                          POP R17
+000143 910f                          POP R16
+000144 91ff                          POP ZH
+000145 91ef                          POP ZL
+000146 9508                          RET
+                                 
+                                 CheckObstacles:
+000147 930f                      	PUSH R16
+000148 931f                      	PUSH R17
+                                 
+000149 2d00                      	MOV R16, R0 ; contient la ligne de buffer
+00014a 2d11                      	MOV R17, R1 ; contient la position du serpent
+00014b 2301                      	AND R16, R17
+00014c 2300                      	TST R16
+00014d f419                      	BRNE Collision
+00014e 910f                      	POP R16
+00014f 911f                      	POP R17
+000150 9508                      	RET
+                                 Collision:
+000151 cfe0                      	RJMP restart
+                                 ;------------------------------------------------------------
                                  ; INIT
                                  ;------------------------------------------------------------
                                  init:
                                      ; Initialisation de la pile
-00011f e008                          LDI R16, HIGH(RAMEND)
-000120 bf0e                          OUT SPH, R16
-000121 ef0f                          LDI R16, LOW(RAMEND)
-000122 bf0d                          OUT SPL, R16
-000123 9a3b                      	SBI DDRC,3
-000124 9843                          CBI PORTC,3
-000125 9a3a                      	SBI DDRC,2
-000126 9842                          CBI PORTC,2
+000152 e008                          LDI R16, HIGH(RAMEND)
+000153 bf0e                          OUT SPH, R16
+000154 ef0f                          LDI R16, LOW(RAMEND)
+000155 bf0d                          OUT SPL, R16
+000156 9a3b                      	SBI DDRC,3
+000157 9843                          CBI PORTC,3
+000158 9a3a                      	SBI DDRC,2
+000159 9842                          CBI PORTC,2
                                  
-000127 def9                      	RCALL InitScreen
-000128 dfa9                      	RCALL InitKeyboard
+00015a dec6                      	RCALL InitScreen
+00015b df76                      	RCALL InitKeyboard
                                      ; Effacer le buffer d'affichage
-000129 defc                          RCALL ClearScreen
+00015c dec9                          RCALL ClearScreen
                                  
                                      ;-------------------------------------
                                      ; Configuration du Timer0 en mode normal
-00012a e070                      	LDI r23, 0         ; Load 0 into r16
-00012b 9370 0080                 	STS TCCR1A, r23     ; Store 0 in TCCR1A to set Timer1 to Normal mode
+00015d e070                      	LDI r23, 0         ; Load 0 into r16
+00015e 9370 0080                 	STS TCCR1A, r23     ; Store 0 in TCCR1A to set Timer1 to Normal mode
                                      ; Choix d'un prescaler de 64 : CS01 et CS00 à 1
-00012d e073                          LDI R23, (1<<CS01)|(1<<CS00)
-00012e bd75                          OUT TCCR0B, R23
+000160 e073                          LDI R23, (1<<CS01)|(1<<CS00)
+000161 bd75                          OUT TCCR0B, R23
                                      ; Charger TCNT0 avec la valeur de départ (ici 0x06)
                                      ; La valeur détermine la période d'interruption (Période = (256 – TCNT0)*(prescaler/clok))
-00012f e076                          LDI R23, 0x06
-000130 bd76                          OUT TCNT0, R23
+000162 e076                          LDI R23, 0x06
+000163 bd76                          OUT TCNT0, R23
                                      ; Activer l'interruption de débordement du Timer0 (bit TOIE0 dans TIMSK0)
-000131 e071                          LDI R23, (1<<TOIE0)
-000132 9370 006e                     STS TIMSK0, R23
+000164 e071                          LDI R23, (1<<TOIE0)
+000165 9370 006e                     STS TIMSK0, R23
                                  
                                  		 ;-------------------------------------
                                      ; Configuration du Timer1 pour le mouvement du snake
@@ -1473,47 +1547,48 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  ; we are on 16 bit timer then we want to precharge 2^16-18182= 47354 cycles to reach the overflow after 18182 cycles
                                  ; the interrupt toggle 
                                      ; On utilise ici un prescaler de 64 
-000134 e000                      	LDI r16, 0          ; Load 0 into r16
-000135 9300 0080                 	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
-000137 e004                          LDI R16, 4       ; Prescaler 64
-000138 9300 0081                     STS TCCR1B, R16
+000167 e000                      	LDI r16, 0          ; Load 0 into r16
+000168 9300 0080                 	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
+00016a e004                          LDI R16, 4       ; Prescaler 64
+00016b 9300 0081                     STS TCCR1B, R16
                                      ; Charger Timer1 pour obtenir environ 8 Hz (valeurs obtenues par calcul)
-00013a e00f                      	LDI R16, 0x0F             ; Valeur haute initiale
-00013b 9300 0085                     STS TCNT1H, R16
-00013d ef0f                          LDI R16, 0xFF            ; Valeur basse initiale
-00013e 9300 0084                     STS TCNT1L, R16
+00016d e00f                      	LDI R16, 0x0F             ; Valeur haute initiale
+00016e 9300 0085                     STS TCNT1H, R16
+000170 ef0f                          LDI R16, 0xFF            ; Valeur basse initiale
+000171 9300 0084                     STS TCNT1L, R16
                                      ; Activer l'interruption de débordement du Timer1 (TOIE1)
-000140 e001                          LDI R16, (1<<TOIE1)
-000141 9300 006f                     STS TIMSK1, R16
+000173 e001                          LDI R16, (1<<TOIE1)
+000174 9300 006f                     STS TIMSK1, R16
                                  
                                      ; Activer les interruptions globales
-000143 9478                          SEI
-000144 940e 0072                     CALL SnakeInit
+000176 9478                          SEI
+000177 940e 0135                 	CALL InitObstacles
+000179 940e 0072                     CALL SnakeInit
                                  
                                  main_loop:
-000146 cfff                          RJMP main_loop
+00017b cfff                          RJMP main_loop
                                  
                                  Timer0OverflowInterrupt:
-000147 9842                      	CBI PORTC,2
-000148 e076                          LDI R23, 0x06
-000149 bd76                          OUT TCNT0, R23
+00017c 9842                      	CBI PORTC,2
+00017d e076                          LDI R23, 0x06
+00017e bd76                          OUT TCNT0, R23
                                      ; Appeler la fonction d'affichage de la ligne
-00014a deeb                          RCALL DisplayLine
-00014b 9518                          RETI
+00017f deb6                          RCALL DisplayLine
+000180 9518                          RETI
                                  
                                  ;------------------------------------------------------------
                                  ; Timer1Interrupt : Mise à jour du mouvement du snake
                                  ;------------------------------------------------------------
                                  Timer1OverflowInterrupt:
                                      ; Recharger Timer1 pour obtenir la période de mouvement désirée
-00014c e00f                          LDI R16, 0x0F             ; Recharge de la partie haute
-00014d 9300 0085                     STS TCNT1H, R16
-00014f ef0f                          LDI R16, 0xFF           ; Recharge de la partie basse
-000150 9300 0084                     STS TCNT1L, R16
-000152 df86                      	RCALL ReadKeyboard
+000181 e00f                          LDI R16, 0x0F             ; Recharge de la partie haute
+000182 9300 0085                     STS TCNT1H, R16
+000184 ef0f                          LDI R16, 0xFF           ; Recharge de la partie basse
+000185 9300 0084                     STS TCNT1L, R16
+000187 df51                      	RCALL ReadKeyboard
                                      ; Appeler la routine qui met à jour le mouvement du snake
-000153 df23                          RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
-000154 9518                          RETI
+000188 deee                          RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
+000189 9518                          RETI
 
 
 RESOURCE USE INFORMATION
@@ -1531,39 +1606,39 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 "ATmega328P" register use summary:
-x  :   0 y  :   5 z  :   3 r0 :   6 r1 :   4 r2 :   5 r3 :   7 r4 :   0 
+x  :   0 y  :   5 z  :   4 r0 :   9 r1 :   7 r2 :   5 r3 :   7 r4 :   0 
 r5 :   0 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16:  60 r17:  25 r18:   0 r19:   4 r20:  14 
-r21:   4 r22:   9 r23:  10 r24:   6 r25:   0 r26:   0 r27:   0 r28:   5 
-r29:   5 r30:   7 r31:   6 
+r13:   0 r14:   0 r15:   0 r16:  71 r17:  36 r18:   1 r19:   0 r20:  14 
+r21:   4 r22:  10 r23:  10 r24:   6 r25:   0 r26:   0 r27:   0 r28:   5 
+r29:   5 r30:  10 r31:   9 
 Registers used: 18 out of 35 (51.4%)
 
 "ATmega328P" instruction use summary:
-.lds  :   0 .sts  :   0 adc   :   0 add   :   1 adiw  :   3 and   :   0 
+.lds  :   0 .sts  :   0 adc   :   0 add   :   1 adiw  :   3 and   :   2 
 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 brbc  :   0 brbs  :   0 
 brcc  :   0 brcs  :   0 break :   0 breq  :   4 brge  :   1 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   1 brlt  :   0 brmi  :   2 
-brne  :   8 brpl  :   0 brsh  :   0 brtc  :   1 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   1 call  :   4 cbi   :   8 cbr   :   0 
+brne  :  10 brpl  :   0 brsh  :   0 brtc  :   1 brts  :   0 brvc  :   0 
+brvs  :   0 bset  :   0 bst   :   1 call  :   5 cbi   :   8 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
-clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   1 cpc   :   0 
-cpi   :   7 cpse  :   0 dec   :   8 eor   :   0 fmul  :   0 fmuls :   0 
+clt   :   0 clv   :   0 clz   :   0 com   :   1 cp    :   1 cpc   :   0 
+cpi   :   7 cpse  :   0 dec   :   9 eor   :   0 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   2 jmp   :   0 
-ld    :   2 ldd   :   0 ldi   :  50 lds   :   0 lpm   :   0 lsl   :   1 
-lsr   :   4 mov   :   7 movw  :   0 mul   :   1 muls  :   0 mulsu :   0 
-neg   :   0 nop   :  12 or    :   1 ori   :   0 out   :  15 pop   :  22 
-push  :  22 rcall :  15 ret   :  17 reti  :   3 rjmp  :  31 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   7 sbic  :   0 sbis  :  15 
+ld    :   2 ldd   :   0 ldi   :  58 lds   :   0 lpm   :   0 lsl   :   1 
+lsr   :   4 mov   :   9 movw  :   0 mul   :   1 muls  :   0 mulsu :   0 
+neg   :   0 nop   :  15 or    :   1 ori   :   0 out   :  17 pop   :  27 
+push  :  27 rcall :  17 ret   :  21 reti  :   3 rjmp  :  38 rol   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :   7 sbic  :   0 sbis  :  20 
 sbiw  :   0 sbr   :   0 sbrc  :   2 sbrs  :   1 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :   3 std   :   0 sts   :   9 
-sub   :   1 subi  :   0 swap  :   1 tst   :   2 wdr   :   0 
-Instructions used: 41 out of 113 (36.3%)
+sez   :   0 sleep :   0 spm   :   0 st    :   4 std   :   0 sts   :   9 
+sub   :   1 subi  :   0 swap  :   1 tst   :   3 wdr   :   0 
+Instructions used: 43 out of 113 (38.1%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0002aa    622      0    622   32768   1.9%
+[.cseg] 0x000000 0x000314    728      0    728   32768   2.2%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

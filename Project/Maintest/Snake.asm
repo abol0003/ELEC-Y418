@@ -1,3 +1,4 @@
+; Snake.asm
 
 .DEF snake_row = R20     ; Coordonnée de la ligne du serpent
 .DEF snake_col = R21     ; Coordonnée de la colonne du serpent
@@ -8,9 +9,9 @@
 .DEF SnakeDirection = R22
 
 SnakeInit:
-    LDI snake_row, 11    ; Ligne 1
-    LDI snake_col, 20    ; Colonne 39
-	LDI SnakeDirection, 3
+    LDI snake_row, 1   ; Ligne 1
+    LDI snake_col, 6   ; Colonne 39
+	LDI SnakeDirection, 0
     RCALL SetPosBuffer   ; Allume le pixel correspondant dans le buffer
     RET
 
@@ -60,7 +61,6 @@ update_head:
 	CALL ClearOldPos
     MOV snake_row, R16
     MOV snake_col, R17
-    ; Appeler la routine qui allume le pixel dans le buffer à la nouvelle position
     RCALL SetPosBuffer
     POP R17
     POP R16
@@ -70,11 +70,10 @@ ClearOldPos:
 	CBI PORTC,3
 	PUSH YL
 	PUSH YH
-	PUSH R19             ; Écrit l’octet mis à jour dans le buffer
-    RCALL GetByteAndMask   ; R0 contient l’octet actuel, R1 le masque du pixel
-	LDI R19,0
-	ST Y, R19
-	POP R19
+    RCALL GetByteAndMask ; R0 contient l’octet actuel du buffer, R1 le masque du pixel
+	COM R1  ; allow to keep the obstacles on when snake goes in same byte of an pixel of obstacle
+	AND R0,R1
+	ST Y, R0
 	POP YL
 	POP YH
 	RET
@@ -87,7 +86,8 @@ ClearOldPos:
 SetPosBuffer:
     PUSH YL
     PUSH YH
-    RCALL GetByteAndMask   ; R0 contient l’octet actuel, R1 le masque du pixel
+    RCALL GetByteAndMask 
+	RCALL CheckObstacles  ; R0 contient l’octet actuel, R1 le masque du pixel
     OR R0, R1            ; do or to keep previous led on on ( for example obstacle etc)
     ST Y, R0             ; Écrit l’octet mis à jour dans le buffer
     POP YH
