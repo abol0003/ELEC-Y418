@@ -98,7 +98,6 @@ Pause:
 	RCALL InitKeyBoard
 	RET
 restart:
-	CALL ClearScreen
 	RJMP init
 
 DOnothing:

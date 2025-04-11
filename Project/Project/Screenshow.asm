@@ -1,12 +1,14 @@
-;------------------------------------------------------------
-; DisplayLine : Affiche une ligne du buffer sur l’écran
-;------------------------------------------------------------
+; ScreenShow.asm
+
 InitScreen:
+	PUSH R16
     LDI R16, (1<<3)|(1<<4)|(1<<5)
     OUT DDRB, R16
     CBI PORTB, 3
     CBI PORTB, 4
     CBI PORTB, 5
+	POP R16
+	RET
 
 ClearScreen:
     PUSH ZL

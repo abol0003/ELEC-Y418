@@ -86,6 +86,9 @@
     <Compile Include="Board.asm">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="food.asm">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.asm">
       <SubType>Code</SubType>
     </Compile>

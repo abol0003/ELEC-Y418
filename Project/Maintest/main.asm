@@ -75,6 +75,7 @@ init:
     SEI
 	CALL InitObstacles
 	;CALL fill_buffer
+
     CALL SnakeInit
 	CALL FoodInit
 

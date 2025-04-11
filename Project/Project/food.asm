@@ -3,13 +3,12 @@
 ; Définition de la nourriture
 .DEF food_row = R19     ; Coordonnée de la ligne de la nourriture
 .DEF food_col = R25     ; Coordonnée de la colonne de la nourriture
-.DEF random =R18
+
 ; Routine d'initialisation de la nourriture
 FoodInit:
 	PUSH R22
 	LDI food_row, 0x0A 
 	LDI food_col, 0x3F       ; Valeur maximale de la colonne (39)
-	LDI random, 0x85
     CALL GenerateFoodPos
 	POP R22
     RET
@@ -33,7 +32,6 @@ EatFood:
 GenerateFoodPos:
 	PUSH R16
 	PUSH R17
-	CALL Mixing
 	MOV R17, food_row
     CALL RandomGenROW 
 	MOV food_row, R17
@@ -47,8 +45,10 @@ GenerateFoodPos:
 
 ; Routine pour générer un nombre aléatoire dans un registre donné
 RandomGenROW:
-	LSR R16
+	;MOV R16, snake_row
+	LDI R16, 0x0B
     EOR R17, R16
+	;ANDI R17, 12
 	CPI R17, 13
 	BRSH LetGoInROW
     RET
@@ -58,34 +58,18 @@ LetGoInROW:
 	BRSH LetGoInROW
 	RET
 RandomGenCOL:
-	MOV R16, random
+	MOV R16, snake_col
 	LSR R16
 	COM R16
     EOR R17, R16
-	;CPI random, 20
-	;BRSH Mixing
+	;ANDI R17, 39
 	CPI R17, 40
 	BRSH LetGoInCOL
     RET
 LetGoInCOL:
-	AND R17,snake_col
+	AND R17,snake_row
 	CPI R17, 40
 	BRSH LetGoInCOL
-    RET
-Mixing:
-	PUSH R17
-	PUSH R16
-    MOV R16, random                 ; Clone random to R16
-    MOV R17, random                 ; Clone random to R19
-    LSR random                      ; Décale random à droite
-    BST R16, 0                       ; Prend le premier bit (LSB) de R16
-    BLD random, 6                    ; Place ce bit en 6ème position de random
-    BLD R17, 6                       ; Même pour R19
-    EOR R17, R16                     ; R19 = R16 XOR R19
-    BST R17, 6                       ; Prend le 7ème bit de R19
-    BLD random, 5                    ; Place ce bit en 5ème position de random
-	POP R16
-	POP R17
     RET
 
 ; Routine pour mettre à jour la position de la nourriture dans le buffer d'affichage
