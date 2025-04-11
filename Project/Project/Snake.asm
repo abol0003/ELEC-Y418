@@ -9,8 +9,8 @@
 .DEF SnakeDirection = R22
 
 SnakeInit:
-    LDI snake_row, 6  ; Ligne 1
-    LDI snake_col, 0  ; Colonne 39
+    LDI snake_row, 8  ; Ligne 1
+    LDI snake_col, 17 ; Colonne 39
 	LDI SnakeDirection, 0
     RCALL SetPosBuffer   ; Allume le pixel correspondant dans le buffer
     RET
@@ -91,6 +91,7 @@ SetPosBuffer:
 	;RCALL CheckFoodCollision
     RCALL GetByteAndMask 
 	RCALL CheckObstacles  ; R0 contient l’octet actuel, R1 le masque du pixel
+	RCALL GetByteAndMask
     OR R0, R1            ; do or to keep previous led on on ( for example obstacle etc)
     ST Y, R0 
 	POP R0
