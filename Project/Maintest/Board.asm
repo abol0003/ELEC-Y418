@@ -65,13 +65,13 @@ ReadKeyboard:
 	RET 
 
 Col1P:
-	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
+	Rowdetection DOnothing, DOnothing, DOnothing, replay
 Col2P:   
-	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
+	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
 Col3P:
-	Rowdetection DOnothing, SetDirectionRight, DOnothing, DOnothing
+	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, restart
 Col4P:
-	Rowdetection Pause,DOnothing, DOnothing, restart
+	Rowdetection DOnothing,SetDirectionRight, DOnothing, Pause
 
 
 SetDirectionUp:
@@ -94,12 +94,14 @@ SetDirectionRight:
 	RCALL InitKeyBoard  
     RET
 Pause:
-	LDI SnakeDirection, 5
+	LDI SnakeDirection, 0
 	RCALL InitKeyBoard
 	RET
-restart:
+replay:
 	RJMP init
 
 DOnothing:
 	RCALL InitKeyBoard  
 	RET
+restart:
+	RJMP start

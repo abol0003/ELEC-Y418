@@ -4,12 +4,14 @@
 .DEF food_row = R19     ; Coordonnée de la ligne de la nourriture
 .DEF food_col = R25     ; Coordonnée de la colonne de la nourriture
 .DEF random =R18
+.DEF score= R23
 ; Routine d'initialisation de la nourriture
 FoodInit:
 	PUSH R22
+	LDI score, 0
 	LDI food_row, 0x0C 
 	LDI food_col, 0x27       ; Valeur maximale de la colonne (39)
-	LDI random, 0x80
+	LDI random, 0x58
     CALL GenerateFoodPos
 	POP R22
     RET
@@ -28,6 +30,7 @@ CheckPlace:
 	POP R17
 	RET
 EatFood:
+	INC score
     CALL GenerateFoodPos    
     RET
 GenerateFoodPos:
@@ -47,10 +50,14 @@ GenFoodRow:
     ; Génération de la colonne de la nourriture
     MOV R17, food_col      ; Prépare R17 pour RandomGenCOL
     CALL RandomGenCOL 
-	LSL random     ; R17 contient une colonne aléatoire (valeur entre 0 et 39)
+	;LSL random     ; R17 contient une colonne aléatoire (valeur entre 0 et 39)
     CPI R17, 0             ; Vérification pour éviter la colonne zéro
     BRNE StoreFoodCol
-    LDI R17, 1             ; Si 0, on force la colonne à 1
+Notzero:
+	INC R17
+	CALL RandomGenCOL 
+	CPI R17,0
+	BREQ Notzero
 StoreFoodCol:
     MOV food_col, R17      ; On sauvegarde la colonne dans food_col
 
@@ -58,6 +65,7 @@ StoreFoodCol:
     POP R16
     POP R17
     RET
+
 
 
 ; Routine pour générer un nombre aléatoire dans un registre donné

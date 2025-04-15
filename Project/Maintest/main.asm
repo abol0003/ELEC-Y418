@@ -4,7 +4,7 @@
 
 .CSEG
 .ORG 0x0000
-    RJMP init
+    RJMP start
 .ORG 0x001A
 	;RJMP Timer1OverflowInterrupt
 ; Vecteur d'interruption pour le débordement du Timer0 (adresse 0x0020)
@@ -16,10 +16,10 @@
 .INCLUDE "Board.asm"
 .INCLUDE "Obstacles.asm"
 .INCLUDE "food.asm"
-;------------------------------------------------------------
-; INIT
-;------------------------------------------------------------
-init:
+.INCLUDE "TableDisplay.asm"
+
+
+start:
     ; Initialisation de la pile
     LDI R16, HIGH(RAMEND)
     OUT SPH, R16
@@ -35,7 +35,6 @@ init:
 
     ; Effacer le buffer d'affichage
     RCALL ClearScreen
-
     ;-------------------------------------
     ; Configuration du Timer0 en mode normal
 	LDI r16, 0         ; Load 0 into r16
@@ -73,17 +72,24 @@ init:
 
     ; Activer les interruptions globales
     SEI
-	CALL InitObstacles
-	;CALL fill_buffer
+	CALL LetsGo
+;------------------------------------------------------------
+; INIT
+;------------------------------------------------------------
+init:
 
+    RCALL ClearScreen
+	CALL InitObstacles
     CALL SnakeInit
+	RCALL Delay
 	CALL FoodInit
 
 
 main_loop:
 	RCALL ReadKeyboard
 	RCALL DELAY
-	RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
+	RCALL SnakeMain 
+	RCALL ReadKeyboard
     RJMP main_loop
 
 fill_buffer:
@@ -101,7 +107,7 @@ fill_buffer:
 
 Timer0OverflowInterrupt:
 	CBI PORTC,2
-    LDI R23, 0x06
+    LDI R18, 0x06
     OUT TCNT0, R23
     RCALL DisplayLine
     RETI
@@ -111,21 +117,33 @@ Timer0OverflowInterrupt:
 ;------------------------------------------------------------
 Timer1OverflowInterrupt:
     ;CBI PORTC,3
-    LDI R16, 0x0F             ; Recharge de la partie haute
+    LDI R16, 0x00             ; Recharge de la partie haute
     STS TCNT1H, R16
-    LDI R16, 0xFF           ; Recharge de la partie basse
+    LDI R16, 0xAA           ; Recharge de la partie basse
     STS TCNT1L, R16
+	;RCALL ReadKeyboard
 
     ; Appeler la routine qui met à jour le mouvement du snake
     ;RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
     RETI
 DELAY:
+	;PUSH R16
+	;PUSH R17
+	;PUSH R18
 
     LDI R16,150
+	SUB R16, score
+	SUB R16, score
 L1:
     LDI R17,255
+	SUB R17, score
+	SUB R17, score
+	SUB R17, score
+	SUB R17, score
+
 L2:
 	LDI R18,50
+	SUB R18, score
 L3:
     DEC R18
     BRNE L3
@@ -133,5 +151,8 @@ L3:
 	BRNE L2
 	DEC R16
 	BRNE L1
+	;POP R16
+	;POP R17
+	;POP R18
 	RET
 

@@ -4,12 +4,14 @@
 .DEF food_row = R19     ; Coordonnée de la ligne de la nourriture
 .DEF food_col = R25     ; Coordonnée de la colonne de la nourriture
 .DEF random =R18
+.DEF score= R23
 ; Routine d'initialisation de la nourriture
 FoodInit:
 	PUSH R22
+	LDI score, 0
 	LDI food_row, 0x0C 
 	LDI food_col, 0x27       ; Valeur maximale de la colonne (39)
-	LDI random, 0x80
+	LDI random, 0x73
     CALL GenerateFoodPos
 	POP R22
     RET
@@ -28,6 +30,7 @@ CheckPlace:
 	POP R17
 	RET
 EatFood:
+	INC score
     CALL GenerateFoodPos    
     RET
 GenerateFoodPos:

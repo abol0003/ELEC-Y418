@@ -101,6 +101,9 @@
     <Compile Include="Snake.asm">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TableDisplay.asm">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Assembler.targets" />
 </Project>

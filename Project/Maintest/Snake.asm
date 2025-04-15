@@ -9,9 +9,9 @@
 .DEF SnakeDirection = R22
 
 SnakeInit:
-    LDI snake_row, 8  ; Ligne 1
+    LDI snake_row, 3  ; Ligne 1
     LDI snake_col, 17 ; Colonne 39
-	LDI SnakeDirection, 0
+	LDI SnakeDirection, 2
     RCALL SetPosBuffer   ; Allume le pixel correspondant dans le buffer
     RET
 

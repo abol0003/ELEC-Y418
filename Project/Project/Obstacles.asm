@@ -63,4 +63,5 @@ Collision:
     RET
 
 IsWall:
-    RJMP restart
+    RJMP GameOver
+	;RJMP restart

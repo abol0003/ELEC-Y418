@@ -2,7 +2,7 @@
 
 .CSEG
 .ORG 0x0000
-    RJMP init
+    RJMP start
 .ORG 0x001A
 	RJMP Timer1OverflowInterrupt
 .ORG 0x0020
@@ -13,10 +13,10 @@
 .INCLUDE "Board.asm"
 .INCLUDE "Obstacles.asm"
 .INCLUDE "food.asm"
-;------------------------------------------------------------
-; INIT
-;------------------------------------------------------------
-init:
+.INCLUDE "TableDisplay.asm"
+
+
+start:
     ; Initialisation de la pile
     LDI R16, HIGH(RAMEND)
     OUT SPH, R16
@@ -32,7 +32,6 @@ init:
 
     ; Effacer le buffer d'affichage
     RCALL ClearScreen
-
     ;-------------------------------------
     ; Configuration du Timer0 en mode normal
 	LDI r16, 0         ; Load 0 into r16
@@ -70,12 +69,20 @@ init:
 
     ; Activer les interruptions globales
     SEI
+	CALL LetsGo
+;------------------------------------------------------------
+; INIT
+;------------------------------------------------------------
+init:
+	CALL ClearScreen
 	CALL InitObstacles
-	;CALL fill_buffer
     CALL SnakeInit
 	CALL FoodInit
+	SEI
 
 main_loop:
+	RCALL Delay
+    RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
     RJMP main_loop
 
 Timer0OverflowInterrupt:
@@ -97,5 +104,26 @@ Timer1OverflowInterrupt:
     STS TCNT1L, R16
 	RCALL ReadKeyboard
     ; Appeler la routine qui met à jour le mouvement du snake
-    RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
     RETI
+
+DELAY:
+	;PUSH R16
+	;PUSH R17
+	;PUSH R18
+
+    LDI R16,150
+L1:
+    LDI R17,255
+L2:
+	LDI R18,50
+L3:
+    DEC R18
+    BRNE L3
+    DEC R17
+	BRNE L2
+	DEC R16
+	BRNE L1
+	;POP R16
+	;POP R17
+	;POP R18
+	RET
