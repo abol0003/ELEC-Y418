@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm Tue Apr 22 15:48:47 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm Tue Apr 22 18:14:53 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm(3): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
@@ -1603,7 +1603,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0001a1 3010                          CPI R17, 0             ; Checking to avoid the zero column because kill all the random generation by mutliplying by 0 stay 0
 0001a2 f429                          BRNE StoreFoodCol
                                  Notzero:
-0001a3 9513                      	INC R17
+0001a3 9523                      	INC random
 0001a4 940e 01bb                 	CALL RandomGenCOL 
 0001a6 3010                      	CPI R17,0
 0001a7 f3d9                      	BREQ Notzero
@@ -2072,7 +2072,7 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   7 y  :  26 z  :  11 r0 :  12 r1 :   9 r2 :  10 r3 :  14 r4 :   4 
 r5 :   3 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16: 165 r17:  95 r18:  40 r19:   8 r20:  18 
+r13:   0 r14:   0 r15:   0 r16: 165 r17:  94 r18:  41 r19:   8 r20:  18 
 r21:  16 r22:  18 r23:  12 r24:   7 r25:   6 r26:   5 r27:   4 r28:   8 
 r29:   8 r30:  14 r31:  13 
 Registers used: 25 out of 35 (71.4%)

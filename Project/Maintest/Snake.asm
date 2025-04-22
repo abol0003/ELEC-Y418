@@ -11,8 +11,8 @@
 SnakeInit:
     ; Initializes the snake's starting position and calls SetPosBuffer to set the pixel in the buffer.
     LDI snake_row, 6
-    LDI snake_col, 39 
-	LDI SnakeDirection, 4
+    LDI snake_col, 10 
+	LDI SnakeDirection, 3
     RCALL SetPosBuffer   
     RET
 

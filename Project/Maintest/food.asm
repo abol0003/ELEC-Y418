@@ -53,7 +53,7 @@ GenFoodRow:
     CPI R17, 0             ; Checking to avoid the zero column because kill all the random generation by mutliplying by 0 stay 0
     BRNE StoreFoodCol
 Notzero:
-	INC R17
+	INC random
 	CALL RandomGenCOL 
 	CPI R17,0
 	BREQ Notzero

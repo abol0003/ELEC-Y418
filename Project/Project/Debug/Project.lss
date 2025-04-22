@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 22 15:48:47 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 22 18:14:53 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(3): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
@@ -1051,7 +1051,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  .ORG 0x001A
                                  	;RJMP Timer1OverflowInterrupt
                                  .ORG 0x0020
-000020 c2de                          RJMP Timer0OverflowInterrupt
+000020 c2e9                          RJMP Timer0OverflowInterrupt
                                  
                                  .INCLUDE "ScreenShow.asm"
                                  
@@ -1177,8 +1177,8 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  SnakeInit:
                                      ; Initializes the snake's starting position and calls SetPosBuffer to set the pixel in the buffer.
-000075 e046                          LDI snake_row, 6  
-000076 e257                          LDI snake_col, 39
+000075 e046                          LDI snake_row, 6
+000076 e257                          LDI snake_col, 39 
 000077 e064                      	LDI SnakeDirection, 4
 000078 d034                          RCALL SetPosBuffer   
 000079 9508                          RET
@@ -1549,8 +1549,9 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000179 c09f                          RJMP GameOver
                                  .INCLUDE "food.asm"
                                  
-                                 .DEF food_row = R19    
-                                 .DEF food_col = R25    
+                                 
+                                 .DEF food_row = R19     
+                                 .DEF food_col = R25     
                                  .DEF random =R18
                                  .DEF score= R23
                                  FoodInit:
@@ -1559,7 +1560,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 00017b e070                      	LDI score, 0
 00017c e03c                      	LDI food_row, 0x0C 
 00017d e297                      	LDI food_col, 0x27       
-00017e e528                      	LDI random, 0x58
+00017e e628                      	LDI random, 0x68
 00017f 940e 0193                     CALL GenerateFoodPos
 000181 916f                      	POP R22
 000182 9508                          RET
@@ -1568,13 +1569,13 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                      ; Checks if the food's position collides with any other element (like obstacles or snake); if not, updates the buffer with the food position.
 000183 930f                      	PUSH R16
 000184 931f                      	PUSH R17
-000185 2d04                      	MOV R16, R4 ; 
-000186 2d15                      	MOV R17, R5 ;
+000185 2d04                      	MOV R16, R4  
+000186 2d15                      	MOV R17, R5 
 000187 2301                      	AND R16, R17
 000188 2300                      	TST R16
 000189 f449                      	BRNE GenerateFoodPos
 00018a 2845                      	OR R4, R5            ; Performs an OR to add food to the buffer
-00018b 924c                          ST X, R4          
+00018b 924c                          ST X, R4           
 00018c 910f                      	POP R16
 00018d 911f                      	POP R17
 00018e 9508                      	RET
@@ -1589,11 +1590,11 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000194 931f                          PUSH R17
 000195 940e 01c9                     CALL Mixing
                                  
-000197 2f13                          MOV R17, food_row     
+000197 2f13                          MOV R17, food_row      
                                  GenFoodRow:
 000198 9526                      	LSR random
 000199 940e 01ae                     CALL RandomGenROW      
-00019b 1714                          CP R17, snake_row      
+00019b 1714                          CP R17, snake_row     
 00019c f3d9                          BREQ GenFoodRow        
 00019d 2f31                          MOV food_row, R17      
                                  
@@ -1608,12 +1609,11 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0001a7 f3d9                      	BREQ Notzero
                                  StoreFoodCol:
 0001a8 2f91                          MOV food_col, R17      
+                                 
 0001a9 940e 01e7                     CALL SetFoodBuffer    
 0001ab 910f                          POP R16
 0001ac 911f                          POP R17
 0001ad 9508                          RET
-                                 
-                                 
                                  
                                  RandomGenROW:
                                      ; Generates a random row for the food using bit shifting and XOR operations on the random value, ensuring it's within the valid row range (0 to 13).
@@ -1640,6 +1640,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0001c0 3218                      	CPI R17, 40
 0001c1 f408                      	BRSH LetGoInCOL
 0001c2 9508                          RET
+                                 
                                  LetGoInCOL:
 0001c3 9526                      	LSR random
 0001c4 9516                      	LSR R17
@@ -1649,10 +1650,10 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0001c8 9508                          RET
                                  Mixing:
                                      ; Performs a randomization operation on the 'random' value by shifting bits and XOR-ing it with the snake's column value to introduce variability.
-0001c9 931f                          PUSH R17
-0001ca 930f                          PUSH R16
+0001c9 931f                      	PUSH R17
+0001ca 930f                      	PUSH R16
 0001cb 2f02                          MOV R16, random                
-0001cc 2f12                          MOV R17, random                
+0001cc 2f12                          MOV R17, random               
 0001cd 9526                          LSR random                      
 0001ce fb00                          BST R16, 0                       ; Take the LSB from R16
 0001cf f926                          BLD random, 6                    ; Place this bit in the 6th position of 'random'
@@ -1660,19 +1661,18 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0001d1 2710                          EOR R17, R16                     ; XOR R16 with R17 and store result in R17
 0001d2 fb16                          BST R17, 6                       ; Take the 7th bit from R17
 0001d3 f925                          BLD random, 5                    ; Place this bit back into random
-0001d4 2725                          EOR random, snake_col            ; XOR random with the snake's column value 
-0001d5 910f                          POP R16
-0001d6 911f                          POP R17
+0001d4 2725                          EOR random, snake_col            ; XOR random with the snake's column value                  
+0001d5 910f                      	POP R16
+0001d6 911f                      	POP R17
 0001d7 9508                          RET
-                                 
                                  Mixing2:
                                      ; Similar to Mixing, but modifies the random value using the snake's row value instead of the column value.
-0001d8 931f                          PUSH R17
-0001d9 930f                          PUSH R16
-0001da 2f02                          MOV R16, random                
-0001db 2f12                          MOV R17, random              
-0001dc 9526                          LSR random                    
-0001dd fb00                          BST R16, 0                       ; Take the LSB from R16
+0001d8 931f                      	PUSH R17
+0001d9 930f                      	PUSH R16
+0001da 2f02                          MOV R16, random                 ; Clone random to R16
+0001db 2f12                          MOV R17, random                 ; Clone random to R19
+0001dc 9526                          LSR random                      ; Décale random à droite
+0001dd fb00                         BST R16, 0                       ; Take the LSB from R16
 0001de f924                          BLD random, 4                    ; Place this bit in the 4th position of 'random'
 0001df f916                          BLD R17, 6                       ; Do the same for R17
 0001e0 2710                          EOR R17, R16                     ; XOR R16 with R17 and store result in R17
@@ -1680,7 +1680,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0001e2 f925                          BLD random, 5                    ; Place this bit back into 'random'
 0001e3 2724                          EOR random, snake_row            ; XOR random with the snake's row value to introduce further variability
 0001e4 910f                          POP R16
-0001e5 911f                          POP R17
+0001e5 911f                      	POP R17
 0001e6 9508                          RET
                                  
                                  SetFoodBuffer: ; SImilar to GetByteAndMask
@@ -1695,29 +1695,29 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0001ee e0b1                          LDI XH, high(0x0100)
                                  SetFoodBufferRow:
 0001ef 2022                          TST R2
-0001f0 f019                          BREQ SetFoodBufferP2 
-0001f1 9615                          ADIW X, 5            
+0001f0 f019                          BREQ SetFoodBufferP2
+0001f1 9615                          ADIW X, 5          
 0001f2 942a                          DEC R2
 0001f3 cffb                          RJMP SetFoodBufferRow
                                  SetFoodBufferP2:
-0001f4 e008                          LDI R16, 8        
+0001f4 e008                          LDI R16, 8          
                                  SetFoodBufferCol:
-0001f5 1630                          CP R3, R16         
+0001f5 1630                          CP R3, R16          
 0001f6 f018                          BRLO SetFoodBufferP3  
 0001f7 1a30                          SUB R3, R16
-0001f8 9611                          ADIW X, 1           
+0001f8 9611                          ADIW X, 1            
 0001f9 cffb                          RJMP SetFoodBufferCol
                                  SetFoodBufferP3:
-0001fa e001                          LDI R16, 0b00000001 
+0001fa e001                          LDI R16, 0b00000001  
                                  SetFoodBufferColMask:
 0001fb 2033                          TST R3
 0001fc f019                          BREQ SetFoodBufferEnd
-0001fd 0f00                          LSL R16             
+0001fd 0f00                          LSL R16            
 0001fe 943a                          DEC R3
 0001ff cffb                          RJMP SetFoodBufferColMask
                                  SetFoodBufferEnd:
-000200 904c                          LD R4, X             
-000201 2e50                          MOV R5, R16       
+000200 904c                          LD R4, X            
+000201 2e50                          MOV R5, R16         
 000202 940e 0183                 	CALL CheckPlace
 000204 91bf                      	POP XH
 000205 91af                          POP XL
@@ -1727,13 +1727,12 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  CheckFoodCollision:
                                      ; Checks if the snake's current position overlaps with the food's position
-                                 
 000209 930f                          PUSH R16
 00020a 931f                      	PUSH R17
 00020b 2f03                          MOV R16, food_row    ;  Recovers food position
-00020c 2f19                          MOV R17, food_col    
-                                     ; Check whether the snake's position is the same as the food's position
-00020d 1740                      	CP snake_row, R16
+00020c 2f19                          MOV R17, food_col  
+                                 	; Check whether the snake's position is the same as the food's position
+00020d 1740                          CP snake_row, R16
 00020e f431                          BRNE NoCollision
 00020f 1751                          CP snake_col, R17
 000210 f421                          BRNE NoCollision
@@ -1984,65 +1983,75 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  init:
                                      ; Initialize the game by clearing the screen, setting up obstacles, 
-                                     ; initializing the snake, and initializing the food.
-0002f2 dd36                          RCALL ClearScreen
-0002f3 940e 0141                 	CALL InitObstacles
-0002f5 940e 0075                     CALL SnakeInit
-0002f7 d015                      	RCALL Delay
-0002f8 940e 017a                 	CALL FoodInit
+                                     ; initializing the snake, and initializing the food
+0002f2 e000                      	LDI R16, 0
+0002f3 e010                      	LDI R17, 0
+0002f4 2f01                      	MOV R16,R17
+0002f5 e020                      	LDI R18, 0
+0002f6 e030                      	LDI R19, 0
+0002f7 e040                      	LDI R20, 0
+0002f8 e050                      	LDI R21, 0
+0002f9 e060                      	LDI R22, 0
+0002fa e070                      	LDI R23, 0
+0002fb e080                      	LDI R24, 0
+0002fc e090                      	LDI R25, 0
+0002fd dd2b                          RCALL ClearScreen
+0002fe 940e 0141                 	CALL InitObstacles
+000300 940e 0075                     CALL SnakeInit
+000302 d015                      	RCALL Delay ; delay is added just to have the food show after snake to differentiate
+000303 940e 017a                 	CALL FoodInit
                                  
                                  
                                  main_loop:
                                      ; Main game loop that handles input, snake movement
-0002fa dde9                      	RCALL ReadKeyboard
-0002fb d011                      	RCALL DELAY
-0002fc dd7d                      	RCALL SnakeMain 
-0002fd dde6                      	RCALL ReadKeyboard
-0002fe cffb                          RJMP main_loop
+000305 ddde                      	RCALL ReadKeyboard
+000306 d011                      	RCALL DELAY
+000307 dd72                      	RCALL SnakeMain 
+000308 dddb                      	RCALL ReadKeyboard
+000309 cffb                          RJMP main_loop
                                  
                                  
                                  Timer0OverflowInterrupt:
                                      ; Timer0 overflow interrupt handler
                                      ; Reload Timer0 and call the function to display 
-0002ff 9842                      	CBI PORTC,2
-000300 e026                          LDI R18, 0x06
-000301 bd76                          OUT TCNT0, R23
-000302 dd36                          RCALL DisplayLine
-000303 9518                          RETI
+00030a e026                          LDI R18, 0x06
+00030b bd76                          OUT TCNT0, R23
+00030c 940e 0039                     CALL DisplayLine
+00030e 9518                          RETI
                                  
                                  Timer1OverflowInterrupt:
-000304 e000                          LDI R16, 0x00            
-000305 9300 0085                     STS TCNT1H, R16
-000307 ea0a                          LDI R16, 0xAA          
-000308 9300 0084                     STS TCNT1L, R16
-00030a ddd9                      	RCALL ReadKeyboard
-00030b dd6e                          RCALL SnakeMain        
-00030c 9518                          RETI
+00030f e000                          LDI R16, 0x00            
+000310 9300 0085                     STS TCNT1H, R16
+000312 ea0a                          LDI R16, 0xAA          
+000313 9300 0084                     STS TCNT1L, R16
+000315 ddce                      	RCALL ReadKeyboard
+000316 dd63                          RCALL SnakeMain        
+000317 9518                          RETI
                                  
                                  DELAY:
                                      ; Introduces a delay that adjusts based on the score
                                      ; The higher the score, the shorter the delay, thus making the game faster
-00030d e906                          LDI R16,150
-00030e 1b07                      	SUB R16, score
-00030f 1b07                      	SUB R16, score
+000318 e906                          LDI R16,150
+000319 1b07                      	SUB R16, score
+00031a 1b07                      	SUB R16, score
                                  L1:
-000310 ef1f                          LDI R17,255
-000311 1b17                      	SUB R17, score
-000312 1b17                      	SUB R17, score
-000313 1b17                      	SUB R17, score
-000314 1b17                      	SUB R17, score
+00031b ef1f                          LDI R17,255
+00031c 1b17                      	SUB R17, score
+00031d 1b17                      	SUB R17, score
+00031e 1b17                      	SUB R17, score
+00031f 1b17                      	SUB R17, score
                                  
                                  L2:
-000315 e322                      	LDI R18,50
-000316 1b27                      	SUB R18, score
+000320 e322                      	LDI R18,50
+000321 1b27                      	SUB R18, score
                                  L3:
-000317 952a                          DEC R18
-000318 f7f1                          BRNE L3
-000319 951a                          DEC R17
-00031a f7d1                      	BRNE L2
-00031b 950a                      	DEC R16
-00031c f799                      	BRNE L1
-00031d 9508                      	RET
+000322 952a                          DEC R18
+000323 f7f1                          BRNE L3
+000324 951a                          DEC R17
+000325 f7d1                      	BRNE L2
+000326 950a                      	DEC R16
+000327 f799                      	BRNE L1
+000328 9508                      	RET
                                  
 
 
@@ -2063,8 +2072,8 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   7 y  :  26 z  :  11 r0 :  12 r1 :   9 r2 :  10 r3 :  14 r4 :   4 
 r5 :   3 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16: 163 r17:  93 r18:  39 r19:   7 r20:  17 
-r21:  15 r22:  17 r23:  11 r24:   6 r25:   5 r26:   5 r27:   4 r28:   8 
+r13:   0 r14:   0 r15:   0 r16: 165 r17:  95 r18:  40 r19:   8 r20:  18 
+r21:  16 r22:  18 r23:  12 r24:   7 r25:   6 r26:   5 r27:   4 r28:   8 
 r29:   8 r30:  14 r31:  13 
 Registers used: 25 out of 35 (71.4%)
 
@@ -2074,15 +2083,15 @@ andi  :   0 asr   :   0 bclr  :   0 bld   :   6 brbc  :   0 brbs  :   0
 brcc  :   1 brcs  :   0 break :   0 breq  :   9 brge  :   1 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   2 brlt  :   0 brmi  :   2 
 brne  :  23 brpl  :   0 brsh  :   5 brtc  :   1 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   5 call  :  19 cbi   :   5 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   5 call  :  20 cbi   :   4 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   2 cp    :   5 cpc   :   0 
 cpi   :  17 cpse  :   0 dec   :  18 eor   :   9 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   6 jmp   :   0 
-ld    :   4 ldd   :   0 ldi   : 112 lds   :   0 lpm   :   2 lsl   :   4 
-lsr   :  12 mov   :  28 movw  :   0 mul   :   2 muls  :   0 mulsu :   0 
+ld    :   4 ldd   :   0 ldi   : 122 lds   :   0 lpm   :   2 lsl   :   4 
+lsr   :  12 mov   :  29 movw  :   0 mul   :   2 muls  :   0 mulsu :   0 
 neg   :   0 nop   :  15 or    :   2 ori   :   0 out   :  17 pop   :  51 
-push  :  47 rcall :  25 ret   :  37 reti  :   3 rjmp  :  45 rol   :   0 
+push  :  47 rcall :  24 ret   :  37 reti  :   3 rjmp  :  45 rol   :   0 
 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   5 sbic  :   0 sbis  :  20 
 sbiw  :   0 sbr   :   0 sbrc  :   2 sbrs  :   1 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
@@ -2093,7 +2102,7 @@ Instructions used: 49 out of 113 (43.4%)
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00063c   1342    192   1534   32768   4.7%
+[.cseg] 0x000000 0x000652   1364    192   1556   32768   4.7%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
