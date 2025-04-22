@@ -1,5 +1,5 @@
 .equ OBSTACLE = 0xFF
-
+; All is just for initialize Obstacles in buffer 
 InitObstacles:
     PUSH ZL
     PUSH ZH
@@ -31,9 +31,19 @@ WriteOblique:
     ST Z+,R18
     ADIW Z, 4
     LSL R18
-    CPI R18, 0x80
     DEC R17
-    BRNE WriteOblique    
+    BRNE WriteOblique 
+
+	LDI ZL, low(0x0109)
+    LDI ZH, high(0x0100)
+	LDI R18,0x01
+    LDI R17,4
+WriteLine: 
+    ST Z+,R18
+    ADIW Z, 4
+    DEC R17 
+	BRNE WriteLine
+
     POP R17
     POP R16
     POP ZH
@@ -64,4 +74,3 @@ Collision:
 
 IsWall:
     RJMP GameOver
-	;RJMP restart

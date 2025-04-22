@@ -1,6 +1,7 @@
 ;TableDisplay.asm
 
 GameOver :
+    ; Displays the "GAME OVER" message and the score on the screen, then jumps to WaitRestart for a restart.
 	CALL CLearScreen 
 	LDI YL, low(0x0200)                
 	LDI YH, high(0x0200)                
@@ -26,6 +27,7 @@ GameOver :
 	ST Y+, R16
 	RJMP WaitRestart
 LetsGO:
+    ; Displays the "LET'S GO BRO" message on the screen and waits for a key press to start the game.
 	CALL CLearScreen 
 	LDI YL, low(0x0200)                
 	LDI YH, high(0x0200)                
@@ -51,8 +53,11 @@ LetsGO:
 	ST Y+, R16
 	RJMP WaitRestart
 WaitRestart:
+    ; Waits for the user to press a key to start/restart the game, checking input
 	CALL ReadKeyboard
 	LDI R22,0
+
+	; The lines above take the good character in character Table and write it on the screen buffer 
 	LDI YL, low(0x020A)                
 	LDI YH, high(0x0200) 
 intermediate :
@@ -62,8 +67,8 @@ intermediate :
 	CPI R22,5
 	BRSH gohigh
 EnableHigh:
-	LDI R16,0								; Count from 6 to 0 to have all the flash line
-	LDI R18,7						; Send the row
+	LDI R16,0								
+	LDI R18,7						
 	LDI R17,8
 	LD R19,-Y ; load value in buffer
 blocksloopGame:
@@ -80,17 +85,17 @@ blocksloopGame:
 	NoCarry:
 		LPM R21,Z	; load the good byte in table
 blockGame :
-	ST X, R21			; mauvaise gestion icic
+	ST X, R21			
 	ADIW X, 5 ; go to next row ( a line is 5 byte)
 	INC R16				
-	DEC R18		; 7 to zero to make all raw 
+	DEC R18		; 7 to zero to make all r0w 
 	BRNE blocksloopGame
 	INC R22
 	CPI R22, 10
 	BREQ WaitRestart
 	RJMP intermediate					
 gohigh:
-	ADIW X, 30 ; high screen commence à 0x0123
+	ADIW X, 30 
 	RJMP EnableHigh
 	
 CharTable:
@@ -117,4 +122,4 @@ CharTable:
 .db 0b00011111,0b00000100,0b00000100,0b00000100,0b00000100,0b00000100,0b00000100,0b00000000 ;T => 20
 .db 0b00010001,0b00010001,0b00010001,0b00010001,0b00010001,0b00001010,0b00000100,0b00000000 ;V => 21
 .db 0b00100000,0b00100000,0b00100000,0b01000000,0b00000000,0b00000000,0b00000000,0b00000000 ; '=> 22
-.db 0b00011110,0b00010001,0b00010001,0b00011110,0b00010001,0b00010001,0b00011110,0b00000000 ; B=> 23 because added after
+.db 0b00011110,0b00010001,0b00010001,0b0011110,0b00010001,0b00010001,0b00011110,0b00000000 ; B=> 23 because added after

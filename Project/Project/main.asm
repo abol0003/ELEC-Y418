@@ -1,10 +1,12 @@
+; main.asm
+
 .INCLUDE "m328pdef.inc"
 
 .CSEG
 .ORG 0x0000
     RJMP start
 .ORG 0x001A
-	RJMP Timer1OverflowInterrupt
+	;RJMP Timer1OverflowInterrupt
 .ORG 0x0020
     RJMP Timer0OverflowInterrupt
 
@@ -17,105 +19,93 @@
 
 
 start:
-    ; Initialisation de la pile
     LDI R16, HIGH(RAMEND)
     OUT SPH, R16
     LDI R16, LOW(RAMEND)
     OUT SPL, R16
-	SBI DDRC,3
-    CBI PORTC,3
-	SBI DDRC,2
-    CBI PORTC,2
+
 
 	RCALL InitScreen
 	RCALL InitKeyboard
-
-    ; Effacer le buffer d'affichage
     RCALL ClearScreen
-    ;-------------------------------------
-    ; Configuration du Timer0 en mode normal
-	LDI r16, 0         ; Load 0 into r16
-	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
-    ; Choix d'un prescaler de 64 : CS01 et CS00 à 1
+
+    ; Configuration du Timer0 in normal mode
+	LDI r16, 0         
+	STS TCCR1A, r16     
     LDI R16, (1<<CS01)|(1<<CS00)
     OUT TCCR0B, R16
-    ; Charger TCNT0 avec la valeur de départ (ici 0x06)
-    ; La valeur détermine la période d'interruption (Période = (256 – TCNT0)*(prescaler/clok))
     LDI R16, 0x06
     OUT TCNT0, R16
-    ; Activer l'interruption de débordement du Timer0 (bit TOIE0 dans TIMSK0)
     LDI R16, (1<<TOIE0)
     STS TIMSK0, R16
 
-		 ;-------------------------------------
-    ; Configuration du Timer1 pour le mouvement du snake
-; Timer 1: Reload value for overflow at 440Hz
-; clock of 16MHz then number of cycles equal 16MHz x(1/880)= 18182 cycles 
-; we are on 16 bit timer then we want to precharge 2^16-18182= 47354 cycles to reach the overflow after 18182 cycles
-; the interrupt toggle 
-    ; On utilise ici un prescaler de 64 
-	LDI r16, 0          ; Load 0 into r16
-	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
-    LDI R16, 4       ; Prescaler 64
+	LDI r16, 0          
+	STS TCCR1A, r16     
+    LDI R16, 4       
     STS TCCR1B, R16
-    ; Charger Timer1 pour obtenir environ 8 Hz (valeurs obtenues par calcul)
-	LDI R16, 0x0F             ; Valeur haute initiale
+	LDI R16, 0x0F             
     STS TCNT1H, R16
-    LDI R16, 0xFF            ; Valeur basse initiale
+    LDI R16, 0xFF            
     STS TCNT1L, R16
-    ; Activer l'interruption de débordement du Timer1 (TOIE1)
     LDI R16, (1<<TOIE1)
     STS TIMSK1, R16
 
-    ; Activer les interruptions globales
     SEI
 	CALL LetsGo
-;------------------------------------------------------------
-; INIT
-;------------------------------------------------------------
+
 init:
-	CALL ClearScreen
+    ; Initialize the game by clearing the screen, setting up obstacles, 
+    ; initializing the snake, and initializing the food.
+    RCALL ClearScreen
 	CALL InitObstacles
     CALL SnakeInit
+	RCALL Delay
 	CALL FoodInit
-	SEI
+
 
 main_loop:
-	RCALL Delay
-    RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
+    ; Main game loop that handles input, snake movement
+	RCALL ReadKeyboard
+	RCALL DELAY
+	RCALL SnakeMain 
+	RCALL ReadKeyboard
     RJMP main_loop
 
+
 Timer0OverflowInterrupt:
+    ; Timer0 overflow interrupt handler
+    ; Reload Timer0 and call the function to display 
 	CBI PORTC,2
-    LDI R23, 0x06
+    LDI R18, 0x06
     OUT TCNT0, R23
-    ; Appeler la fonction d'affichage de la ligne
     RCALL DisplayLine
     RETI
 
-;------------------------------------------------------------
-; Timer1Interrupt : Mise à jour du mouvement du snake
-;------------------------------------------------------------
 Timer1OverflowInterrupt:
-    ; Recharger Timer1 pour obtenir la période de mouvement désirée
-    LDI R16, 0x96             ; Recharge de la partie haute
+    LDI R16, 0x00            
     STS TCNT1H, R16
-    LDI R16, 0xFF           ; Recharge de la partie basse
+    LDI R16, 0xAA          
     STS TCNT1L, R16
 	RCALL ReadKeyboard
-    ; Appeler la routine qui met à jour le mouvement du snake
+    RCALL SnakeMain        
     RETI
 
 DELAY:
-	;PUSH R16
-	;PUSH R17
-	;PUSH R18
-
+    ; Introduces a delay that adjusts based on the score
+    ; The higher the score, the shorter the delay, thus making the game faster
     LDI R16,150
+	SUB R16, score
+	SUB R16, score
 L1:
     LDI R17,255
+	SUB R17, score
+	SUB R17, score
+	SUB R17, score
+	SUB R17, score
+
 L2:
 	LDI R18,50
+	SUB R18, score
 L3:
     DEC R18
     BRNE L3
@@ -123,7 +113,5 @@ L3:
 	BRNE L2
 	DEC R16
 	BRNE L1
-	;POP R16
-	;POP R17
-	;POP R18
 	RET
+

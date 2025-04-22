@@ -1,7 +1,7 @@
 ; Snake.asm
 
-.DEF snake_row = R20     ; Coordonnée de la ligne du serpent
-.DEF snake_col = R21     ; Coordonnée de la colonne du serpent
+.DEF snake_row = R20    
+.DEF snake_col = R21     
 .equ UP    = 1
 .equ DOWN  = 2
 .equ LEFT  = 3
@@ -9,21 +9,23 @@
 .DEF SnakeDirection = R22
 
 SnakeInit:
-    LDI snake_row, 3  ; Ligne 1
-    LDI snake_col, 17 ; Colonne 39
-	LDI SnakeDirection, 2
-    RCALL SetPosBuffer   ; Allume le pixel correspondant dans le buffer
+    ; Initializes the snake's starting position and calls SetPosBuffer to set the pixel in the buffer.
+    LDI snake_row, 3  
+    LDI snake_col, 17 
+	LDI SnakeDirection, 0
+    RCALL SetPosBuffer   
     RET
 
 SnakeMain:
+    ; Main snake movement logic: checks the snake's direction (RIGHT, LEFT, UP, DOWN) and updates its position accordingly.
     PUSH R16
     PUSH R17
-    MOV R16, snake_row     ; R16 = ligne actuelle
-    MOV R17, snake_col     ; R17 = colonne actuelle
+    MOV R16, snake_row     
+    MOV R17, snake_col    
 	CPI SnakeDirection, RIGHT
     BRNE check_left
-    DEC R17
-	BRMI backleft                ; Déplacement vers la droite
+    DEC R17       ;move right
+	BRMI backleft               
     RJMP update_head
 backleft:
 	LDI R17, 39
@@ -31,7 +33,7 @@ backleft:
 check_left:
     CPI SnakeDirection, LEFT
     BRNE check_up
-    INC R17                ; Déplacement vers la gauche
+    INC R17                ;move left
 	CPI R17, 40
 	BREQ backright
     RJMP update_head
@@ -42,15 +44,15 @@ check_up:
     CPI SnakeDirection, UP
     BRNE check_down
     DEC R16  
-	BRMI gohighscreen              ; Déplacement vers le haut
+	BRMI gohighscreen              ; move up
     RJMP update_head
 gohighscreen:
 	LDI R16, 13
     RJMP update_head
 check_down:
     CPI SnakeDirection, DOWN
-    BRNE update_head       ; Si aucune des directions n'est détectée, on ne change pas la position
-    INC R16 
+    BRNE update_head       ; if nothing change we keep going in same direction
+    INC R16					; move down
 	CPI R16, 14
 	BREQ godownscreen
 	RJMP update_head
@@ -67,10 +69,10 @@ update_head:
     RET
 
 ClearOldPos:
-	CBI PORTC,3
+    ; Clears the previous position of the snake by resetting the corresponding pixel in the buffer while keeping obstacles intact.
 	PUSH YL
 	PUSH YH
-    RCALL GetByteAndMask ; R0 contient l’octet actuel du buffer, R1 le masque du pixel
+    RCALL GetByteAndMask R0 contains the current buffer byte, R1 the pixel mask
 	COM R1  ; allow to keep the obstacles on when snake goes in same byte of an pixel of obstacle
 	AND R0,R1
 	ST Y, R0
@@ -78,43 +80,31 @@ ClearOldPos:
 	POP YH
 	RET
 
-
-
-;------------------------------------------------------------
-; Find column ( trame of bits ) and position in buffer (line)
-;------------------------------------------------------------
 SetPosBuffer:
+    ; Sets the position of the snake by updating the corresponding pixel in the display buffer, accounting for obstacles.
     PUSH YL
     PUSH YH
 	PUSH R0
 	PUSH R1
-	;RCALL CheckFoodCollision
     RCALL GetByteAndMask 
-	RCALL CheckObstacles  ; R0 contient l’octet actuel, R1 le masque du pixel
-	RCALL GetByteAndMask
+	RCALL CheckObstacles  
+	RCALL GetByteAndMask ; we have to call it 2 times because if new food is in same byte, the food will not be showed as Checkobstacle also change buffer
     OR R0, R1            ; do or to keep previous led on on ( for example obstacle etc)
     ST Y, R0 
 	POP R0
-	POP R1            ; Écrit l’octet mis à jour dans le buffer
+	POP R1            
     POP YH
     POP YL
     RET
-;------------------------------------------------------------
-; 
-;	Is used to find the position of the snake
-;
-;------------------------------------------------------------
 GetByteAndMask:
+    ; Retrieves the current byte and calculates the mask for the snake's position based on its row and column, returning the value from the buffer.
     PUSH R16
     PUSH R2
     PUSH R3
-    ; Sauvegarder les coordonnées dans R2 (ligne) et R3 (colonne)
     MOV R2, R20
     MOV R3, R21
-    ; Initialiser le pointeur Y vers le début du buffer (0x0100)
     LDI YL, low(0x0100)
     LDI YH, high(0x0100)
-    ; Pour chaque ligne, avancer de 5 octets (chaque ligne = 40 colonnes = 5 octets)
 GetByteAndMaskRow:
     TST R2
     BREQ GetByteAndMaskP2 ; branch if R2=0
@@ -129,17 +119,17 @@ GetByteAndMaskCol:
     SUB R3, R16
     ADIW Y, 1 ; max 5 times as only 5 octet in a row
     RJMP GetByteAndMaskCol
-GetByteAndMaskP3:; ici on est dans la bonne adress de la ram
-    LDI R16, 0b00000001  ; Masque initial pour la colonne 0
+GetByteAndMaskP3:; here we are in the right address of the ram
+    LDI R16, 0b00000001  ; Initial mask for column 0
 GetByteAndMaskColMask:
-    TST R3 ; ici le reste <8 determinera dans quelle colonne on est 
+    TST R3 ; here the remainder <8 will determine which column you are in 
     BREQ GetByteAndMaskEnd
-    LSL R16             ; Décalage vers la gauche car le a colonne 0 est tout à droite
+    LSL R16             ; Shift to the left because a column 0 is on the far right
     DEC R3
     RJMP GetByteAndMaskColMask
 GetByteAndMaskEnd:
-    LD R0, Y            ;  lit le contenu de la mémoire pointée par Y
-    MOV R1, R16         ; Copier le masque dans R1 de la colonne
+    LD R0, Y            ;  reads the contents of the memory pointed to by Y
+    MOV R1, R16         
     POP R3
     POP R2
     POP R16

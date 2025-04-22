@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 15 14:01:35 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 22 09:51:24 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm(1): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
@@ -1045,11 +1045,11 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  .CSEG
                                  .ORG 0x0000
-000000 c2c4                          RJMP start
+000000 c2eb                          RJMP init
                                  .ORG 0x001A
-00001a c2e2                      	RJMP Timer1OverflowInterrupt
+00001a c307                      	RJMP Timer1OverflowInterrupt
                                  .ORG 0x0020
-000020 c2d7                          RJMP Timer0OverflowInterrupt
+000020 c2fc                          RJMP Timer0OverflowInterrupt
                                  
                                  .INCLUDE "ScreenShow.asm"
                                  
@@ -1995,55 +1995,107 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  ; INIT
                                  ;------------------------------------------------------------
                                  init:
-0002ec 940e 0029                 	CALL ClearScreen
-0002ee 940e 0141                 	CALL InitObstacles
-0002f0 940e 0075                     CALL SnakeInit
-0002f2 940e 0173                 	CALL FoodInit
-0002f4 9478                      	SEI
+                                     ; Initialisation de la pile
+0002ec e008                          LDI R16, HIGH(RAMEND)
+0002ed bf0e                          OUT SPH, R16
+0002ee ef0f                          LDI R16, LOW(RAMEND)
+0002ef bf0d                          OUT SPL, R16
+0002f0 9a3b                      	SBI DDRC,3
+0002f1 9843                          CBI PORTC,3
+0002f2 9a3a                      	SBI DDRC,2
+0002f3 9842                          CBI PORTC,2
+                                 
+0002f4 dd2c                      	RCALL InitScreen
+0002f5 dde4                      	RCALL InitKeyboard
+                                 
+                                     ; Effacer le buffer d'affichage
+0002f6 dd32                          RCALL ClearScreen
+                                     ;-------------------------------------
+                                     ; Configuration du Timer0 en mode normal
+0002f7 e000                      	LDI r16, 0         ; Load 0 into r16
+0002f8 9300 0080                 	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
+                                     ; Choix d'un prescaler de 64 : CS01 et CS00 à 1
+0002fa e003                          LDI R16, (1<<CS01)|(1<<CS00)
+0002fb bd05                          OUT TCCR0B, R16
+                                     ; Charger TCNT0 avec la valeur de départ (ici 0x06)
+                                     ; La valeur détermine la période d'interruption (Période = (256 – TCNT0)*(prescaler/clok))
+0002fc e006                          LDI R16, 0x06
+0002fd bd06                          OUT TCNT0, R16
+                                     ; Activer l'interruption de débordement du Timer0 (bit TOIE0 dans TIMSK0)
+0002fe e001                          LDI R16, (1<<TOIE0)
+0002ff 9300 006e                     STS TIMSK0, R16
+                                 
+                                 		 ;-------------------------------------
+                                     ; Configuration du Timer1 pour le mouvement du snake
+                                 ; Timer 1: Reload value for overflow at 440Hz
+                                 ; clock of 16MHz then number of cycles equal 16MHz x(1/880)= 18182 cycles 
+                                 ; we are on 16 bit timer then we want to precharge 2^16-18182= 47354 cycles to reach the overflow after 18182 cycles
+                                 ; the interrupt toggle 
+                                     ; On utilise ici un prescaler de 64 
+000301 e000                      	LDI r16, 0          ; Load 0 into r16
+000302 9300 0080                 	STS TCCR1A, r16     ; Store 0 in TCCR1A to set Timer1 to Normal mode
+000304 e004                          LDI R16, 4       ; Prescaler 64
+000305 9300 0081                     STS TCCR1B, R16
+                                     ; Charger Timer1 pour obtenir environ 8 Hz (valeurs obtenues par calcul)
+000307 e00f                      	LDI R16, 0x0F             ; Valeur haute initiale
+000308 9300 0085                     STS TCNT1H, R16
+00030a ef0f                          LDI R16, 0xFF            ; Valeur basse initiale
+00030b 9300 0084                     STS TCNT1L, R16
+                                     ; Activer l'interruption de débordement du Timer1 (TOIE1)
+00030d e001                          LDI R16, (1<<TOIE1)
+00030e 9300 006f                     STS TIMSK1, R16
+                                 
+                                     ; Activer les interruptions globales
+000310 9478                          SEI
+000311 940e 0029                 	CALL ClearScreen
+000313 940e 0141                 	CALL InitObstacles
+000315 940e 0075                     CALL SnakeInit
+000317 940e 0173                 	CALL FoodInit
+000319 9478                      	SEI
                                  
                                  main_loop:
-0002f5 d00f                      	RCALL Delay
-0002f6 dd83                          RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
-0002f7 cffd                          RJMP main_loop
+00031a d00f                      	RCALL Delay
+00031b dd5e                          RCALL SnakeMain          ; Cette routine est définie dans Snake.asm
+00031c cffd                          RJMP main_loop
                                  
                                  Timer0OverflowInterrupt:
-0002f8 9842                      	CBI PORTC,2
-0002f9 e076                          LDI R23, 0x06
-0002fa bd76                          OUT TCNT0, R23
+00031d 9842                      	CBI PORTC,2
+00031e e076                          LDI R23, 0x06
+00031f bd76                          OUT TCNT0, R23
                                      ; Appeler la fonction d'affichage de la ligne
-0002fb dd3d                          RCALL DisplayLine
-0002fc 9518                          RETI
+000320 dd18                          RCALL DisplayLine
+000321 9518                          RETI
                                  
                                  ;------------------------------------------------------------
                                  ; Timer1Interrupt : Mise à jour du mouvement du snake
                                  ;------------------------------------------------------------
                                  Timer1OverflowInterrupt:
                                      ; Recharger Timer1 pour obtenir la période de mouvement désirée
-0002fd e906                          LDI R16, 0x96             ; Recharge de la partie haute
-0002fe 9300 0085                     STS TCNT1H, R16
-000300 ef0f                          LDI R16, 0xFF           ; Recharge de la partie basse
-000301 9300 0084                     STS TCNT1L, R16
-000303 dde1                      	RCALL ReadKeyboard
+000322 e906                          LDI R16, 0x96             ; Recharge de la partie haute
+000323 9300 0085                     STS TCNT1H, R16
+000325 ef0f                          LDI R16, 0xFF           ; Recharge de la partie basse
+000326 9300 0084                     STS TCNT1L, R16
+000328 ddbc                      	RCALL ReadKeyboard
                                      ; Appeler la routine qui met à jour le mouvement du snake
-000304 9518                          RETI
+000329 9518                          RETI
                                  
                                  DELAY:
                                  	;PUSH R16
                                  	;PUSH R17
                                  	;PUSH R18
                                  
-000305 e906                          LDI R16,150
+00032a e906                          LDI R16,150
                                  L1:
-000306 ef1f                          LDI R17,255
+00032b ef1f                          LDI R17,255
                                  L2:
-000307 e322                      	LDI R18,50
+00032c e322                      	LDI R18,50
                                  L3:
-000308 952a                          DEC R18
-000309 f7f1                          BRNE L3
-00030a 951a                          DEC R17
-00030b f7d9                      	BRNE L2
-00030c 950a                      	DEC R16
-00030d f7c1                      	BRNE L1
+00032d 952a                          DEC R18
+00032e f7f1                          BRNE L3
+00032f 951a                          DEC R17
+000330 f7d9                      	BRNE L2
+000331 950a                      	DEC R16
+000332 f7c1                      	BRNE L1
                                  	;POP R16
                                  	;POP R17
                                  	;POP R18
@@ -2066,7 +2118,7 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   7 y  :  26 z  :   9 r0 :  12 r1 :   9 r2 :  10 r3 :  14 r4 :   4 
 r5 :   3 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16: 161 r17:  86 r18:  37 r19:   7 r20:  17 
+r13:   0 r14:   0 r15:   0 r16: 183 r17:  86 r18:  37 r19:   7 r20:  17 
 r21:  15 r22:  17 r23:   5 r24:   6 r25:   5 r26:   5 r27:   4 r28:   8 
 r29:   8 r30:  13 r31:  12 
 Registers used: 25 out of 35 (71.4%)
@@ -2077,26 +2129,26 @@ andi  :   0 asr   :   0 bclr  :   0 bld   :   6 brbc  :   0 brbs  :   0
 brcc  :   1 brcs  :   0 break :   0 breq  :   8 brge  :   1 brhc  :   0 
 brhs  :   0 brid  :   0 brie  :   0 brlo  :   2 brlt  :   0 brmi  :   2 
 brne  :  22 brpl  :   0 brsh  :   5 brtc  :   1 brts  :   0 brvc  :   0 
-brvs  :   0 bset  :   0 bst   :   5 call  :  19 cbi   :   8 cbr   :   0 
+brvs  :   0 bset  :   0 bst   :   5 call  :  19 cbi   :  10 cbr   :   0 
 clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0 
 clt   :   0 clv   :   0 clz   :   0 com   :   2 cp    :   5 cpc   :   0 
 cpi   :  17 cpse  :   0 dec   :  17 eor   :   9 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   5 jmp   :   0 
-ld    :   4 ldd   :   0 ldi   : 109 lds   :   0 lpm   :   2 lsl   :   5 
+ld    :   4 ldd   :   0 ldi   : 120 lds   :   0 lpm   :   2 lsl   :   5 
 lsr   :  12 mov   :  28 movw  :   0 mul   :   2 muls  :   0 mulsu :   0 
-neg   :   0 nop   :  15 or    :   2 ori   :   0 out   :  17 pop   :  51 
-push  :  47 rcall :  20 ret   :  37 reti  :   3 rjmp  :  45 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   7 sbic  :   0 sbis  :  20 
+neg   :   0 nop   :  15 or    :   2 ori   :   0 out   :  21 pop   :  51 
+push  :  47 rcall :  23 ret   :  37 reti  :   3 rjmp  :  45 rol   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :   9 sbic  :   0 sbis  :  20 
 sbiw  :   0 sbr   :   0 sbrc  :   2 sbrs  :   1 sec   :   0 seh   :   0 
-sei   :   2 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
-sez   :   0 sleep :   0 spm   :   0 st    :  28 std   :   0 sts   :   9 
+sei   :   3 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
+sez   :   0 sleep :   0 spm   :   0 st    :  28 std   :   0 sts   :  16 
 sub   :   2 subi  :   0 swap  :   1 tst   :   6 wdr   :   0 
 Instructions used: 49 out of 113 (43.4%)
 
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00061e   1314    192   1506   32768   4.6%
+[.cseg] 0x000000 0x000668   1388    192   1580   32768   4.8%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 

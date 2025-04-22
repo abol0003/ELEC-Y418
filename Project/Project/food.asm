@@ -1,22 +1,21 @@
 ; food.asm
-
-; Définition de la nourriture
-.DEF food_row = R19     ; Coordonnée de la ligne de la nourriture
-.DEF food_col = R25     ; Coordonnée de la colonne de la nourriture
+.DEF food_row = R19    
+.DEF food_col = R25    
 .DEF random =R18
 .DEF score= R23
-; Routine d'initialisation de la nourriture
 FoodInit:
+    ; Initializes food by setting the row and column values, setting the score to 0, and calling GenerateFoodPos to place the food.
 	PUSH R22
 	LDI score, 0
 	LDI food_row, 0x0C 
-	LDI food_col, 0x27       ; Valeur maximale de la colonne (39)
-	LDI random, 0x73
+	LDI food_col, 0x27       
+	LDI random, 0x58
     CALL GenerateFoodPos
 	POP R22
     RET
 
 CheckPlace:
+    ; Checks if the food's position collides with any other element (like obstacles or snake); if not, updates the buffer with the food position.
 	PUSH R16
 	PUSH R17
 	MOV R16, R4 ; 
@@ -24,47 +23,50 @@ CheckPlace:
 	AND R16, R17
 	TST R16
 	BRNE GenerateFoodPos
-	OR R4, R5            ; Effectue un OR pour ajouter la nourriture au buffer
-    ST X, R4           ; Écrit la valeur mise à jour dans le buffer
+	OR R4, R5            ; Performs an OR to add food to the buffer
+    ST X, R4          
 	POP R16
 	POP R17
 	RET
 EatFood:
+    ; Increments the score and calls GenerateFoodPos to place new food on the screen.
 	INC score
     CALL GenerateFoodPos    
     RET
 GenerateFoodPos:
+    ; Generates random food position by calling RandomGenROW and RandomGenCOL for row and column generation; ensures the food doesn't overlap with the snake's position.
     PUSH R16
     PUSH R17
     CALL Mixing
 
-    ; Génération de la ligne de la nourriture
-    MOV R17, food_row      ; Prépare R17 pour RandomGenROW
+    MOV R17, food_row     
 GenFoodRow:
 	LSR random
-    CALL RandomGenROW      ; R17 contient une ligne aléatoire (valeur entre 0 et 12)
-    CP R17, snake_row      ; Compare à la ligne du serpent (snake_row)
-    BREQ GenFoodRow        ; Si égal, on régénère une nouvelle ligne
-    MOV food_row, R17      ; Sinon, on sauvegarde la ligne dans food_row
+    CALL RandomGenROW      
+    CP R17, snake_row      
+    BREQ GenFoodRow        
+    MOV food_row, R17      
 
-    ; Génération de la colonne de la nourriture
-    MOV R17, food_col      ; Prépare R17 pour RandomGenCOL
+    MOV R17, food_col      
     CALL RandomGenCOL 
-	LSL random     ; R17 contient une colonne aléatoire (valeur entre 0 et 39)
-    CPI R17, 0             ; Vérification pour éviter la colonne zéro
+    CPI R17, 0             ; Checking to avoid the zero column because kill all the random generation by mutliplying by 0 stay 0
     BRNE StoreFoodCol
-    LDI R17, 1             ; Si 0, on force la colonne à 1
+Notzero:
+	INC R17
+	CALL RandomGenCOL 
+	CPI R17,0
+	BREQ Notzero
 StoreFoodCol:
-    MOV food_col, R17      ; On sauvegarde la colonne dans food_col
-
-    CALL SetFoodBuffer     ; Met à jour le buffer d'affichage
+    MOV food_col, R17      
+    CALL SetFoodBuffer    
     POP R16
     POP R17
     RET
 
 
-; Routine pour générer un nombre aléatoire dans un registre donné
+
 RandomGenROW:
+    ; Generates a random row for the food using bit shifting and XOR operations on the random value, ensuring it's within the valid row range (0 to 13).
 	LSR random
     EOR R17, random
 	CPI R17, 13
@@ -79,6 +81,7 @@ LetGoInROW:
 	BRSH LetGoInROW
 	RET
 RandomGenCOL:
+    ; Generates a random column for the food by performing bit shifts and XOR operations on the random value, ensuring the column is between 0 and 39.
 	MOV R16, random
 	LSL random
 	COM R16
@@ -87,7 +90,6 @@ RandomGenCOL:
 	CPI R17, 40
 	BRSH LetGoInCOL
     RET
-
 LetGoInCOL:
 	LSR random
 	LSR R17
@@ -96,75 +98,76 @@ LetGoInCOL:
 	BRSH LetGoInCOL
     RET
 Mixing:
-	PUSH R17
-	PUSH R16
-    MOV R16, random                 ; Clone random to R16
-    MOV R17, random                 ; Clone random to R19
-    LSR random                      ; Décale random à droite
-    BST R16, 0                       ; Prend le premier bit (LSB) de R16
-    BLD random, 6                    ; Place ce bit en 6ème position de random
-    BLD R17, 6                       ; Même pour R19
-    EOR R17, R16                     ; R19 = R16 XOR R19
-    BST R17, 6                       ; Prend le 7ème bit de R19
-    BLD random, 5 
-	EOR random, snake_col                   ; Place ce bit en 5ème position de random
-	POP R16
-	POP R17
+    ; Performs a randomization operation on the 'random' value by shifting bits and XOR-ing it with the snake's column value to introduce variability.
+    PUSH R17
+    PUSH R16
+    MOV R16, random                
+    MOV R17, random                
+    LSR random                      
+    BST R16, 0                       ; Take the LSB from R16
+    BLD random, 6                    ; Place this bit in the 6th position of 'random'
+    BLD R17, 6                       ; Do the same for R17
+    EOR R17, R16                     ; XOR R16 with R17 and store result in R17
+    BST R17, 6                       ; Take the 7th bit from R17
+    BLD random, 5                    ; Place this bit back into random
+    EOR random, snake_col            ; XOR random with the snake's column value 
+    POP R16
+    POP R17
     RET
-Mixing2:
-	PUSH R17
-	PUSH R16
-    MOV R16, random                 ; Clone random to R16
-    MOV R17, random                 ; Clone random to R19
-    LSR random                      ; Décale random à droite
-    BST R16, 0                       ; Prend le premier bit (LSB) de R16
-    BLD random, 4                    ; Place ce bit en 6ème position de random
-    BLD R17, 6                       ; Même pour R19
-    EOR R17, R16                     ; R19 = R16 XOR R19
-    BST R17, 4                       ; Prend le 7ème bit de R19
-    BLD random, 5 
-	EOR random, snake_row                   ; Place ce bit en 5ème position de random
-	POP R16
-	POP R17
-    RET
-; Routine pour mettre à jour la position de la nourriture dans le buffer d'affichage
-SetFoodBuffer:
 
+Mixing2:
+    ; Similar to Mixing, but modifies the random value using the snake's row value instead of the column value.
+    PUSH R17
+    PUSH R16
+    MOV R16, random                
+    MOV R17, random              
+    LSR random                    
+    BST R16, 0                       ; Take the LSB from R16
+    BLD random, 4                    ; Place this bit in the 4th position of 'random'
+    BLD R17, 6                       ; Do the same for R17
+    EOR R17, R16                     ; XOR R16 with R17 and store result in R17
+    BST R17, 4                       ; Take the 7th bit from R17
+    BLD random, 5                    ; Place this bit back into 'random'
+    EOR random, snake_row            ; XOR random with the snake's row value to introduce further variability
+    POP R16
+    POP R17
+    RET
+
+SetFoodBuffer: ; SImilar to GetByteAndMask
+    ; Updates the screen buffer with the food's position by using the food's row and column to calculate the correct memory address and set the corresponding pixel.
 	PUSH R2
 	PUSH R3
 	PUSH XL
 	PUSH XH
     MOV R2, food_row
     MOV R3, food_col
-    ; Initialiser le pointeur Y vers le début du buffer (0x0100)
     LDI XL, low(0x0100)
     LDI XH, high(0x0100)
-    ; Pour chaque ligne, avancer de 5 octets (chaque ligne = 40 colonnes = 5 octets)
 SetFoodBufferRow:
     TST R2
-    BREQ SetFoodBufferP2 ; Branch if R2 == 0
-    ADIW X, 5            ; Avance de 5 octets pour atteindre la ligne correcte
+    BREQ SetFoodBufferP2 
+    ADIW X, 5            
     DEC R2
     RJMP SetFoodBufferRow
 SetFoodBufferP2:
-    LDI R16, 8           ; Chaque octet représente 8 colonnes
+    LDI R16, 8        
 SetFoodBufferCol:
-    CP R3, R16           ; Vérifie où se trouve la colonne
-    BRLO SetFoodBufferP3  ; Si c'est inférieur, on reste dans l'octet actuel
+    CP R3, R16         
+    BRLO SetFoodBufferP3  
     SUB R3, R16
-    ADIW X, 1            ; Avance d'un octet dans la ligne
+    ADIW X, 1           
     RJMP SetFoodBufferCol
 SetFoodBufferP3:
-    LDI R16, 0b00000001  ; Masque initial pour la colonne 0
+    LDI R16, 0b00000001 
 SetFoodBufferColMask:
     TST R3
     BREQ SetFoodBufferEnd
-    LSL R16              ; Décale à gauche pour avancer dans les colonnes
+    LSL R16             
     DEC R3
     RJMP SetFoodBufferColMask
 SetFoodBufferEnd:
-    LD R4, X             ; Lit le contenu de la mémoire pointée par Y
-    MOV R5, R16          ; Place le masque dans R1
+    LD R4, X             
+    MOV R5, R16       
 	CALL CheckPlace
 	POP XH
     POP XL
@@ -172,19 +175,19 @@ SetFoodBufferEnd:
     POP R2
     RET
 
-; Routine de gestion de la collision entre le serpent et la nourriture
 CheckFoodCollision:
+    ; Checks if the snake's current position overlaps with the food's position
+
     PUSH R16
 	PUSH R17
-    MOV R16, food_row    ; Récupère la position de la nourriture
-    MOV R17, food_col    ; Récupère la position de la nourriture
-    ; Vérifie si la position du serpent est la même que celle de la nourriture
-    CP snake_row, R16
+    MOV R16, food_row    ;  Recovers food position
+    MOV R17, food_col    
+    ; Check whether the snake's position is the same as the food's position
+	CP snake_row, R16
     BRNE NoCollision
     CP snake_col, R17
     BRNE NoCollision
-    ; Si on est sur la même position, c'est une collision (manger la nourriture)
-    LDI R18, 1 
+    LDI R18, 1 ; if 1 is food collision and not wall colission it is used to differentiate
 	POP R16
 	POP R17
 	RET        

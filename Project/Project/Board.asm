@@ -19,9 +19,9 @@ InitKeyboard:
 		LDI r16,(1<<COL1)|(1<<COL2)|(1<<COL3)|(1<<COL4)
 		LDI r17,(1<<ROW1)|(1<<ROW2)|(1<<ROW3)|(1<<ROW4)
 		NOP
-		OUT KEYB_PORT,r16  ; Drive columns with HIGH values 
+		OUT KEYB_PORT,r16  
 		NOP
-		OUT KEYB_DDR,r17   ; Set rows as outputs
+		OUT KEYB_DDR,r17   
 		POP R16 
 		POP R17
 		RET	
@@ -65,13 +65,13 @@ ReadKeyboard:
 	RET 
 
 Col1P:
-	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
+	Rowdetection DOnothing, DOnothing, DOnothing, replay
 Col2P:   
-	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
+	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
 Col3P:
-	Rowdetection DOnothing, SetDirectionRight, DOnothing, DOnothing
+	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, restart
 Col4P:
-	Rowdetection Pause,DOnothing, DOnothing, restart
+	Rowdetection DOnothing,SetDirectionRight, DOnothing, Pause
 
 
 SetDirectionUp:
@@ -94,12 +94,14 @@ SetDirectionRight:
 	RCALL InitKeyBoard  
     RET
 Pause:
-	LDI SnakeDirection, 5
+	LDI SnakeDirection, 0
 	RCALL InitKeyBoard
 	RET
-restart:
+replay:
 	RJMP init
 
 DOnothing:
 	RCALL InitKeyBoard  
 	RET
+restart:
+	RJMP start

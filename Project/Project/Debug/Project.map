@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 15 14:01:35 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Project\main.asm Tue Apr 22 09:51:24 2025
 
 
 EQU  SIGNATURE_000 0000001e
@@ -695,9 +695,9 @@ EQU  ACIaddr      0000002e
 EQU  TWIaddr      00000030
 EQU  SPMRaddr     00000032
 EQU  INT_VECTORS_SIZE 00000034
-CSEG start        000002c5
-CSEG Timer1OverflowInterrupt 000002fd
-CSEG Timer0OverflowInterrupt 000002f8
+CSEG init         000002ec
+CSEG Timer1OverflowInterrupt 00000322
+CSEG Timer0OverflowInterrupt 0000031d
 CSEG InitScreen   00000021
 CSEG ClearScreen  00000029
 CSEG clear_loop   00000031
@@ -761,7 +761,6 @@ CSEG SetDirectionDown 00000132
 CSEG SetDirectionRight 00000138
 CSEG Pause        0000013b
 CSEG restart      0000013e
-CSEG init         000002ec
 EQU  OBSTACLE     000000ff
 CSEG InitObstacles 00000141
 CSEG WriteObstaclesLine0 00000149
@@ -804,8 +803,9 @@ CSEG blocksloopGame 0000024f
 CSEG CharTable    00000265
 CSEG NoCarry      00000259
 CSEG blockGame    0000025a
-CSEG main_loop    000002f5
-CSEG Delay        00000305
-CSEG L1           00000306
-CSEG L2           00000307
-CSEG L3           00000308
+CSEG start        000002c5
+CSEG main_loop    0000031a
+CSEG Delay        0000032a
+CSEG L1           0000032b
+CSEG L2           0000032c
+CSEG L3           0000032d

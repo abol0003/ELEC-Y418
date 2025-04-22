@@ -1,5 +1,5 @@
 .equ OBSTACLE = 0xFF
-
+; All is just for initialize Obstacles in buffer 
 InitObstacles:
     PUSH ZL
     PUSH ZH
@@ -74,4 +74,3 @@ Collision:
 
 IsWall:
     RJMP GameOver
-	;RJMP restart
