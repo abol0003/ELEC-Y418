@@ -55,11 +55,22 @@ start:
 
 init:
     ; Initialize the game by clearing the screen, setting up obstacles, 
-    ; initializing the snake, and initializing the food.
+    ; initializing the snake, and initializing the food
+	LDI R16, 0
+	LDI R17, 0
+	MOV R16,R17
+	LDI R18, 0
+	LDI R19, 0
+	LDI R20, 0
+	LDI R21, 0
+	LDI R22, 0
+	LDI R23, 0
+	LDI R24, 0
+	LDI R25, 0
     RCALL ClearScreen
 	CALL InitObstacles
     CALL SnakeInit
-	RCALL Delay
+	RCALL Delay ; delay is added just to have the food show after snake to differentiate
 	CALL FoodInit
 
 
@@ -75,10 +86,9 @@ main_loop:
 Timer0OverflowInterrupt:
     ; Timer0 overflow interrupt handler
     ; Reload Timer0 and call the function to display 
-	CBI PORTC,2
     LDI R18, 0x06
     OUT TCNT0, R23
-    RCALL DisplayLine
+    CALL DisplayLine
     RETI
 
 Timer1OverflowInterrupt:

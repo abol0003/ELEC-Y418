@@ -29,8 +29,8 @@
   <FILE>Maintest.lss</FILE>
  </OUTPUT_FILES>
  <LABELS>
-  <start><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>22</LINE></start>
-  <Timer0OverflowInterrupt><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>108</LINE></Timer0OverflowInterrupt>
+  <start><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>21</LINE></start>
+  <Timer0OverflowInterrupt><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>86</LINE></Timer0OverflowInterrupt>
   <InitScreen><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\ScreenShow.asm</FILE><LINE>3</LINE></InitScreen>
   <ClearScreen><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\ScreenShow.asm</FILE><LINE>13</LINE></ClearScreen>
   <clear_loop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\ScreenShow.asm</FILE><LINE>22</LINE></clear_loop>
@@ -44,25 +44,25 @@
   <pushByteLoop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\ScreenShow.asm</FILE><LINE>100</LINE></pushByteLoop>
   <send><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\ScreenShow.asm</FILE><LINE>105</LINE></send>
   <SnakeInit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>11</LINE></SnakeInit>
-  <SetPosBuffer><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>86</LINE></SetPosBuffer>
-  <SnakeMain><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>18</LINE></SnakeMain>
-  <check_left><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>31</LINE></check_left>
-  <backleft><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>28</LINE></backleft>
-  <update_head><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>60</LINE></update_head>
-  <check_up><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>41</LINE></check_up>
-  <backright><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>38</LINE></backright>
-  <check_down><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>50</LINE></check_down>
-  <gohighscreen><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>47</LINE></gohighscreen>
-  <godownscreen><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>57</LINE></godownscreen>
-  <ClearOldPos><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>69</LINE></ClearOldPos>
-  <GetByteAndMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>107</LINE></GetByteAndMask>
+  <SetPosBuffer><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>83</LINE></SetPosBuffer>
+  <SnakeMain><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>19</LINE></SnakeMain>
+  <check_left><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>33</LINE></check_left>
+  <backleft><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>30</LINE></backleft>
+  <update_head><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>62</LINE></update_head>
+  <check_up><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>43</LINE></check_up>
+  <backright><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>40</LINE></backright>
+  <check_down><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>52</LINE></check_down>
+  <gohighscreen><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>49</LINE></gohighscreen>
+  <godownscreen><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>59</LINE></godownscreen>
+  <ClearOldPos><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>71</LINE></ClearOldPos>
+  <GetByteAndMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>99</LINE></GetByteAndMask>
   <CheckObstacles><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Obstacles.asm</FILE><LINE>53</LINE></CheckObstacles>
-  <GetByteAndMaskRow><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>118</LINE></GetByteAndMaskRow>
-  <GetByteAndMaskP2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>124</LINE></GetByteAndMaskP2>
-  <GetByteAndMaskCol><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>126</LINE></GetByteAndMaskCol>
-  <GetByteAndMaskP3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>132</LINE></GetByteAndMaskP3>
-  <GetByteAndMaskColMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>134</LINE></GetByteAndMaskColMask>
-  <GetByteAndMaskEnd><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>140</LINE></GetByteAndMaskEnd>
+  <GetByteAndMaskRow><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>108</LINE></GetByteAndMaskRow>
+  <GetByteAndMaskP2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>114</LINE></GetByteAndMaskP2>
+  <GetByteAndMaskCol><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>116</LINE></GetByteAndMaskCol>
+  <GetByteAndMaskP3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>122</LINE></GetByteAndMaskP3>
+  <GetByteAndMaskColMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>124</LINE></GetByteAndMaskColMask>
+  <GetByteAndMaskEnd><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Snake.asm</FILE><LINE>130</LINE></GetByteAndMaskEnd>
   <InitKeyboard><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>16</LINE></InitKeyboard>
   <ReadKeyboard><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>55</LINE></ReadKeyboard>
   <Col2P><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>69</LINE></Col2P>
@@ -77,52 +77,51 @@
   <restart><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>106</LINE></restart>
   <SetDirectionRight><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>92</LINE></SetDirectionRight>
   <Pause><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Board.asm</FILE><LINE>96</LINE></Pause>
-  <init><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>79</LINE></init>
+  <init><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>56</LINE></init>
   <InitObstacles><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Obstacles.asm</FILE><LINE>3</LINE></InitObstacles>
   <WriteObstaclesLine0><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Obstacles.asm</FILE><LINE>13</LINE></WriteObstaclesLine0>
   <WriteObstaclesLine10><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Obstacles.asm</FILE><LINE>23</LINE></WriteObstaclesLine10>
   <WriteOblique><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Obstacles.asm</FILE><LINE>30</LINE></WriteOblique>
   <WriteLine><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Obstacles.asm</FILE><LINE>41</LINE></WriteLine>
   <Collision><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Obstacles.asm</FILE><LINE>65</LINE></Collision>
-  <CheckFoodCollision><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>181</LINE></CheckFoodCollision>
+  <CheckFoodCollision><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>178</LINE></CheckFoodCollision>
   <IsWall><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\Obstacles.asm</FILE><LINE>75</LINE></IsWall>
   <EatFood><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>32</LINE></EatFood>
   <GameOver><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>3</LINE></GameOver>
-  <FoodInit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>9</LINE></FoodInit>
-  <GenerateFoodPos><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>36</LINE></GenerateFoodPos>
-  <CheckPlace><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>19</LINE></CheckPlace>
-  <Mixing><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>103</LINE></Mixing>
-  <GenFoodRow><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>43</LINE></GenFoodRow>
-  <RandomGenROW><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>72</LINE></RandomGenROW>
-  <RandomGenCOL><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>86</LINE></RandomGenCOL>
-  <StoreFoodCol><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>61</LINE></StoreFoodCol>
-  <Notzero><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>56</LINE></Notzero>
+  <FoodInit><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>7</LINE></FoodInit>
+  <GenerateFoodPos><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>37</LINE></GenerateFoodPos>
+  <CheckPlace><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>18</LINE></CheckPlace>
+  <Mixing><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>101</LINE></Mixing>
+  <GenFoodRow><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>44</LINE></GenFoodRow>
+  <RandomGenROW><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>68</LINE></RandomGenROW>
+  <RandomGenCOL><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>83</LINE></RandomGenCOL>
+  <StoreFoodCol><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>60</LINE></StoreFoodCol>
+  <Notzero><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>55</LINE></Notzero>
   <SetFoodBuffer><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>136</LINE></SetFoodBuffer>
-  <LetGoInROW><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>78</LINE></LetGoInROW>
-  <Mixing2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>119</LINE></Mixing2>
-  <LetGoInCOL><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>96</LINE></LetGoInCOL>
-  <SetFoodBufferRow><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>148</LINE></SetFoodBufferRow>
-  <SetFoodBufferP2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>154</LINE></SetFoodBufferP2>
-  <SetFoodBufferCol><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>156</LINE></SetFoodBufferCol>
-  <SetFoodBufferP3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>162</LINE></SetFoodBufferP3>
-  <SetFoodBufferColMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>164</LINE></SetFoodBufferColMask>
-  <SetFoodBufferEnd><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>170</LINE></SetFoodBufferEnd>
-  <NoCollision><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>196</LINE></NoCollision>
-  <WaitRestart><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>53</LINE></WaitRestart>
-  <LetsGO><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>28</LINE></LetsGO>
-  <intermediate><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>58</LINE></intermediate>
-  <gohigh><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>92</LINE></gohigh>
-  <EnableHigh><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>64</LINE></EnableHigh>
-  <blocksloopGame><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>69</LINE></blocksloopGame>
-  <CharTable><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>96</LINE></CharTable>
-  <NoCarry><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>80</LINE></NoCarry>
-  <blockGame><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>82</LINE></blockGame>
-  <Delay><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>129</LINE></Delay>
-  <main_loop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>88</LINE></main_loop>
-  <fill_buffer><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>95</LINE></fill_buffer>
-  <Timer1OverflowInterrupt><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>118</LINE></Timer1OverflowInterrupt>
-  <L1><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>137</LINE></L1>
-  <L2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>144</LINE></L2>
-  <L3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>147</LINE></L3>
+  <LetGoInROW><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>75</LINE></LetGoInROW>
+  <Mixing2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>118</LINE></Mixing2>
+  <LetGoInCOL><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>94</LINE></LetGoInCOL>
+  <SetFoodBufferRow><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>146</LINE></SetFoodBufferRow>
+  <SetFoodBufferP2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>152</LINE></SetFoodBufferP2>
+  <SetFoodBufferCol><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>154</LINE></SetFoodBufferCol>
+  <SetFoodBufferP3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>160</LINE></SetFoodBufferP3>
+  <SetFoodBufferColMask><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>162</LINE></SetFoodBufferColMask>
+  <SetFoodBufferEnd><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>168</LINE></SetFoodBufferEnd>
+  <NoCollision><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\food.asm</FILE><LINE>193</LINE></NoCollision>
+  <WaitRestart><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>55</LINE></WaitRestart>
+  <LetsGO><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>29</LINE></LetsGO>
+  <intermediate><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>63</LINE></intermediate>
+  <gohigh><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>97</LINE></gohigh>
+  <EnableHigh><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>69</LINE></EnableHigh>
+  <blocksloopGame><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>74</LINE></blocksloopGame>
+  <CharTable><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>101</LINE></CharTable>
+  <NoCarry><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>85</LINE></NoCarry>
+  <blockGame><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\TableDisplay.asm</FILE><LINE>87</LINE></blockGame>
+  <Delay><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>103</LINE></Delay>
+  <main_loop><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>77</LINE></main_loop>
+  <Timer1OverflowInterrupt><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>94</LINE></Timer1OverflowInterrupt>
+  <L1><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>109</LINE></L1>
+  <L2><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>116</LINE></L2>
+  <L3><FILE>C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm</FILE><LINE>119</LINE></L3>
  </LABELS>
 </ASSEMBLER_INFO>

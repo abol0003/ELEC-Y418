@@ -10,7 +10,7 @@ FoodInit:
 	LDI score, 0
 	LDI food_row, 0x0C 
 	LDI food_col, 0x27       
-	LDI random, 0x58
+	LDI random, 0x68
     CALL GenerateFoodPos
 	POP R22
     RET
@@ -121,7 +121,7 @@ Mixing2:
 	PUSH R16
     MOV R16, random                 ; Clone random to R16
     MOV R17, random                 ; Clone random to R19
-    LSR random                      ; DÃ©cale random Ã  droite
+    LSR random                      ; Décale random à droite
    BST R16, 0                       ; Take the LSB from R16
     BLD random, 4                    ; Place this bit in the 4th position of 'random'
     BLD R17, 6                       ; Do the same for R17

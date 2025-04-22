@@ -10,9 +10,9 @@
 
 SnakeInit:
     ; Initializes the snake's starting position and calls SetPosBuffer to set the pixel in the buffer.
-    LDI snake_row, 3  
-    LDI snake_col, 17 
-	LDI SnakeDirection, 0
+    LDI snake_row, 6
+    LDI snake_col, 39 
+	LDI SnakeDirection, 4
     RCALL SetPosBuffer   
     RET
 
@@ -72,7 +72,7 @@ ClearOldPos:
     ; Clears the previous position of the snake by resetting the corresponding pixel in the buffer while keeping obstacles intact.
 	PUSH YL
 	PUSH YH
-    RCALL GetByteAndMask R0 contains the current buffer byte, R1 the pixel mask
+    RCALL GetByteAndMask ;R0 contains the current buffer byte, R1 the pixel mask
 	COM R1  ; allow to keep the obstacles on when snake goes in same byte of an pixel of obstacle
 	AND R0,R1
 	ST Y, R0
