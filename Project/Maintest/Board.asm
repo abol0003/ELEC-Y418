@@ -51,7 +51,26 @@ InitKeyboard:
 	RET           
 .ENDMACRO
 
-; Fonction pour lire les entrées du clavier
+ReadKeyboard_Initial:
+	NOP
+    SBIS PIND, COL2           ; UP and DOWN
+	RJMP Col2Pi
+    SBIS PIND, COL1           ; LEFT
+	RJMP Col1Pi
+    SBIS PIND, COL3           ; RIGHT
+	RJMP Col3Pi
+	SBIS PIND, COL4
+	RJMP Col4Pi
+	RET 
+
+Col1Pi:
+	Rowdetection DOnothing, DOnothing, DOnothing, replay
+Col2Pi:   
+	Rowdetection DOnothing, DOnothing, DOnothing, DOnothing
+Col3Pi:
+	Rowdetection DOnothing, DOnothing, DOnothing, restart
+Col4Pi:
+	Rowdetection DOnothing,DOnothing, DOnothing, DOnothing
 ReadKeyboard:
 	NOP
     SBIS PIND, COL2           ; UP and DOWN
@@ -65,14 +84,13 @@ ReadKeyboard:
 	RET 
 
 Col1P:
-	Rowdetection DOnothing, DOnothing, DOnothing, replay
+	Rowdetection DOnothing, DOnothing, DOnothing, DOnothing
 Col2P:   
 	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
 Col3P:
-	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, restart
+	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
 Col4P:
 	Rowdetection DOnothing,SetDirectionRight, DOnothing, Pause
-
 
 SetDirectionUp:
     LDI SnakeDirection, UP  

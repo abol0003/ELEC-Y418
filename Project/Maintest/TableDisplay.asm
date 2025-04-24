@@ -54,7 +54,7 @@ LetsGO:
 	RJMP WaitRestart
 WaitRestart:
     ; Waits for the user to press a key to start/restart the game, checking input
-	CALL ReadKeyboard
+	CALL ReadKeyboard_Initial
 	LDI R22,0
 
 	; The lines above take the good character in character Table and write it on the screen buffer 

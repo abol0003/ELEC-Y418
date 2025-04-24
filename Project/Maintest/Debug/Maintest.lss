@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm Tue Apr 22 18:14:53 2025
+AVRASM ver. 2.2.8  C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm Thu Apr 24 18:53:21 2025
 
 [builtin](2): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328Pdef.inc'
 C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\Project\Maintest\main.asm(3): Including file 'C:/Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\avrasm\inc\m328pdef.inc'
@@ -1047,11 +1047,11 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  .CSEG
                                  .ORG 0x0000
-000000 c2ce                          RJMP start
+000000 c318                          RJMP start
                                  .ORG 0x001A
                                  	;RJMP Timer1OverflowInterrupt
                                  .ORG 0x0020
-000020 c2e9                          RJMP Timer0OverflowInterrupt
+000020 c333                          RJMP Timer0OverflowInterrupt
                                  
                                  .INCLUDE "ScreenShow.asm"
                                  
@@ -1178,8 +1178,8 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  SnakeInit:
                                      ; Initializes the snake's starting position and calls SetPosBuffer to set the pixel in the buffer.
 000075 e046                          LDI snake_row, 6
-000076 e257                          LDI snake_col, 39 
-000077 e064                      	LDI SnakeDirection, 4
+000076 e05a                          LDI snake_col, 10 
+000077 e060                      	LDI SnakeDirection, 0
 000078 d034                          RCALL SetPosBuffer   
 000079 9508                          RET
                                  
@@ -1254,7 +1254,7 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0000af 920f                      	PUSH R0
 0000b0 921f                      	PUSH R1
 0000b1 d009                          RCALL GetByteAndMask 
-0000b2 d0b4                      	RCALL CheckObstacles  
+0000b2 d0fe                      	RCALL CheckObstacles  
 0000b3 d007                      	RCALL GetByteAndMask ; we have to call it 2 times because if new food is in same byte, the food will not be showed as Checkobstacle also change buffer
 0000b4 2801                          OR R0, R1            ; do or to keep previous led on on ( for example obstacle etc)
 0000b5 8208                          ST Y, R0 
@@ -1357,20 +1357,19 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  	RET           
                                  .ENDMACRO
                                  
-                                 ; Fonction pour lire les entrées du clavier
-                                 ReadKeyboard:
+                                 ReadKeyboard_Initial:
 0000e4 0000                      	NOP
 0000e5 9b4a                          SBIS PIND, COL2           ; UP and DOWN
-0000e6 c017                      	RJMP Col2P
+0000e6 c017                      	RJMP Col2Pi
 0000e7 9b4b                          SBIS PIND, COL1           ; LEFT
-0000e8 c005                      	RJMP Col1P
+0000e8 c005                      	RJMP Col1Pi
 0000e9 9b49                          SBIS PIND, COL3           ; RIGHT
-0000ea c023                      	RJMP Col3P
+0000ea c023                      	RJMP Col3Pi
 0000eb 9b48                      	SBIS PIND, COL4
-0000ec c031                      	RJMP Col4P
+0000ec c031                      	RJMP Col4Pi
 0000ed 9508                      	RET 
                                  
-                                 Col1P:
+                                 Col1Pi:
 0000ee ef10
 0000ef e00f
 0000f0 0000
@@ -1379,15 +1378,15 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 0000f3 b90a
 0000f4 0000
 0000f5 9b4f
-0000f6 c047
+0000f6 c091
 0000f7 9b4e
-0000f8 c045
+0000f8 c08f
 0000f9 9b4d
-0000fa c043
+0000fa c08d
 0000fb 9b4c
-0000fc c040
+0000fc c08a
 0000fd 9508                      	Rowdetection DOnothing, DOnothing, DOnothing, replay
-                                 Col2P:   
+                                 Col2Pi:   
 0000fe ef10
 0000ff e00f
 000100 0000
@@ -1396,15 +1395,15 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000103 b90a
 000104 0000
 000105 9b4f
-000106 c037
+000106 c081
 000107 9b4e
-000108 c02b
+000108 c07f
 000109 9b4d
-00010a c033
+00010a c07d
 00010b 9b4c
-00010c c031
-00010d 9508                      	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
-                                 Col3P:
+00010c c07b
+00010d 9508                      	Rowdetection DOnothing, DOnothing, DOnothing, DOnothing
+                                 Col3Pi:
 00010e ef10
 00010f e00f
 000110 0000
@@ -1413,15 +1412,15 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000113 b90a
 000114 0000
 000115 9b4f
-000116 c017
+000116 c071
 000117 9b4e
-000118 c025
+000118 c06f
 000119 9b4d
-00011a c016
+00011a c06d
 00011b 9b4c
-00011c c023
-00011d 9508                      	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, restart
-                                 Col4P:
+00011c c06d
+00011d 9508                      	Rowdetection DOnothing, DOnothing, DOnothing, restart
+                                 Col4Pi:
 00011e ef10
 00011f e00f
 000120 0000
@@ -1430,123 +1429,202 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
 000123 b90a
 000124 0000
 000125 9b4f
-000126 c017
+000126 c061
 000127 9b4e
-000128 c00e
+000128 c05f
 000129 9b4d
-00012a c013
+00012a c05d
 00012b 9b4c
-00012c c00d
-00012d 9508                      	Rowdetection DOnothing,SetDirectionRight, DOnothing, Pause
+00012c c05b
+00012d 9508                      	Rowdetection DOnothing,DOnothing, DOnothing, DOnothing
+                                 ReadKeyboard:
+00012e 0000                      	NOP
+00012f 9b4a                          SBIS PIND, COL2           ; UP and DOWN
+000130 c017                      	RJMP Col2P
+000131 9b4b                          SBIS PIND, COL1           ; LEFT
+000132 c005                      	RJMP Col1P
+000133 9b49                          SBIS PIND, COL3           ; RIGHT
+000134 c023                      	RJMP Col3P
+000135 9b48                      	SBIS PIND, COL4
+000136 c031                      	RJMP Col4P
+000137 9508                      	RET 
                                  
+                                 Col1P:
+000138 ef10
+000139 e00f
+00013a 0000
+00013b b91b
+00013c 0000
+00013d b90a
+00013e 0000
+00013f 9b4f
+000140 c047
+000141 9b4e
+000142 c045
+000143 9b4d
+000144 c043
+000145 9b4c
+000146 c041
+000147 9508                      	Rowdetection DOnothing, DOnothing, DOnothing, DOnothing
+                                 Col2P:   
+000148 ef10
+000149 e00f
+00014a 0000
+00014b b91b
+00014c 0000
+00014d b90a
+00014e 0000
+00014f 9b4f
+000150 c037
+000151 9b4e
+000152 c02b
+000153 9b4d
+000154 c033
+000155 9b4c
+000156 c031
+000157 9508                      	Rowdetection DOnothing, SetDirectionLeft, DOnothing, DOnothing
+                                 Col3P:
+000158 ef10
+000159 e00f
+00015a 0000
+00015b b91b
+00015c 0000
+00015d b90a
+00015e 0000
+00015f 9b4f
+000160 c017
+000161 9b4e
+000162 c025
+000163 9b4d
+000164 c016
+000165 9b4c
+000166 c021
+000167 9508                      	Rowdetection SetDirectionUp, DOnothing, SetDirectionDown, DOnothing
+                                 Col4P:
+000168 ef10
+000169 e00f
+00016a 0000
+00016b b91b
+00016c 0000
+00016d b90a
+00016e 0000
+00016f 9b4f
+000170 c017
+000171 9b4e
+000172 c00e
+000173 9b4d
+000174 c013
+000175 9b4c
+000176 c00d
+000177 9508                      	Rowdetection DOnothing,SetDirectionRight, DOnothing, Pause
                                  
                                  SetDirectionUp:
-00012e e061                          LDI SnakeDirection, UP  
-00012f dfa9                      	RCALL InitKeyBoard  ;As we use 2 step method we need to reswitch row as output
-000130 9508                          RET
+000178 e061                          LDI SnakeDirection, UP  
+000179 df5f                      	RCALL InitKeyBoard  ;As we use 2 step method we need to reswitch row as output
+00017a 9508                          RET
                                  
                                  SetDirectionDown:
-000131 e062                          LDI SnakeDirection, DOWN 
-000132 dfa6                      	RCALL InitKeyBoard  
-000133 9508                          RET
+00017b e062                          LDI SnakeDirection, DOWN 
+00017c df5c                      	RCALL InitKeyBoard  
+00017d 9508                          RET
                                  
                                  SetDirectionLeft:
-000134 e063                          LDI SnakeDirection, LEFT 
-000135 dfa3                      	RCALL InitKeyBoard  
-000136 9508                          RET
+00017e e063                          LDI SnakeDirection, LEFT 
+00017f df59                      	RCALL InitKeyBoard  
+000180 9508                          RET
                                  
                                  SetDirectionRight:
-000137 e064                          LDI SnakeDirection, RIGHT
-000138 dfa0                      	RCALL InitKeyBoard  
-000139 9508                          RET
+000181 e064                          LDI SnakeDirection, RIGHT
+000182 df56                      	RCALL InitKeyBoard  
+000183 9508                          RET
                                  Pause:
-00013a e060                      	LDI SnakeDirection, 0
-00013b df9d                      	RCALL InitKeyBoard
-00013c 9508                      	RET
+000184 e060                      	LDI SnakeDirection, 0
+000185 df53                      	RCALL InitKeyBoard
+000186 9508                      	RET
                                  replay:
-00013d c1b4                      	RJMP init
+000187 c1b4                      	RJMP init
                                  
                                  DOnothing:
-00013e df9a                      	RCALL InitKeyBoard  
-00013f 9508                      	RET
+000188 df50                      	RCALL InitKeyBoard  
+000189 9508                      	RET
                                  restart:
                                  .INCLUDE "Obstacles.asm"
-000140 c18e                      
+00018a c18e                      
                                  ; All is just for initialize Obstacles in buffer 
                                  InitObstacles:
-000141 93ef                          PUSH ZL
-000142 93ff                          PUSH ZH
-000143 930f                          PUSH R16
-000144 931f                          PUSH R17
-000145 e0e0                          LDI ZL, low(0x0100)
-000146 e0f1                          LDI ZH, high(0x0100)
-000147 e015                          LDI R17, 5
-000148 ef0f                          LDI R16, OBSTACLE
+00018b 93ef                          PUSH ZL
+00018c 93ff                          PUSH ZH
+00018d 930f                          PUSH R16
+00018e 931f                          PUSH R17
+00018f e0e0                          LDI ZL, low(0x0100)
+000190 e0f1                          LDI ZH, high(0x0100)
+000191 e015                          LDI R17, 5
+000192 ef0f                          LDI R16, OBSTACLE
                                  
                                  WriteObstaclesLine0:
-000149 9301                          ST Z+, R16
-00014a 951a                          DEC R17
-00014b f7e9                          BRNE WriteObstaclesLine0
+000193 9301                          ST Z+, R16
+000194 951a                          DEC R17
+000195 f7e9                          BRNE WriteObstaclesLine0
                                  
-00014c e0e0                          LDI ZL, low(0x0100)
-00014d e0f1                          LDI ZH, high(0x0100)
-00014e 96f2                          ADIW Z, 5*10
-00014f e012                          LDI R17, 2
+000196 e0e0                          LDI ZL, low(0x0100)
+000197 e0f1                          LDI ZH, high(0x0100)
+000198 96f2                          ADIW Z, 5*10
+000199 e012                          LDI R17, 2
                                  
                                  WriteObstaclesLine10:
-000150 9301                          ST Z+, R16
-000151 951a                          DEC R17
-000152 f7e9                          BRNE WriteObstaclesLine10
-000153 e021                          LDI R18,0x01
-000154 e01c                          LDI R17,12
+00019a 9301                          ST Z+, R16
+00019b 951a                          DEC R17
+00019c f7e9                          BRNE WriteObstaclesLine10
+00019d e021                          LDI R18,0x01
+00019e e01c                          LDI R17,12
                                  
                                  WriteOblique:
-000155 9321                          ST Z+,R18
-000156 9634                          ADIW Z, 4
-000157 0f22                          LSL R18
-000158 951a                          DEC R17
-000159 f7d9                          BRNE WriteOblique 
+00019f 9321                          ST Z+,R18
+0001a0 9634                          ADIW Z, 4
+0001a1 0f22                          LSL R18
+0001a2 951a                          DEC R17
+0001a3 f7d9                          BRNE WriteOblique 
                                  
-00015a e0e9                      	LDI ZL, low(0x0109)
-00015b e0f1                          LDI ZH, high(0x0100)
-00015c e021                      	LDI R18,0x01
-00015d e014                          LDI R17,4
+0001a4 e0e9                      	LDI ZL, low(0x0109)
+0001a5 e0f1                          LDI ZH, high(0x0100)
+0001a6 e021                      	LDI R18,0x01
+0001a7 e014                          LDI R17,4
                                  WriteLine: 
-00015e 9321                          ST Z+,R18
-00015f 9634                          ADIW Z, 4
-000160 951a                          DEC R17 
-000161 f7e1                      	BRNE WriteLine
+0001a8 9321                          ST Z+,R18
+0001a9 9634                          ADIW Z, 4
+0001aa 951a                          DEC R17 
+0001ab f7e1                      	BRNE WriteLine
                                  
-000162 911f                          POP R17
-000163 910f                          POP R16
-000164 91ff                          POP ZH
-000165 91ef                          POP ZL
-000166 9508                          RET
+0001ac 911f                          POP R17
+0001ad 910f                          POP R16
+0001ae 91ff                          POP ZH
+0001af 91ef                          POP ZL
+0001b0 9508                          RET
                                  
                                  CheckObstacles:
-000167 930f                          PUSH R16
-000168 931f                          PUSH R17
-000169 2d00                          MOV R16, R0
-00016a 2d11                          MOV R17, R1
-00016b 2301                          AND R16, R17
-00016c 2300                          TST R16
-00016d f419                          BRNE Collision
-00016e 910f                          POP R16
-00016f 911f                          POP R17
-000170 9508                          RET
+0001b1 930f                          PUSH R16
+0001b2 931f                          PUSH R17
+0001b3 2d00                          MOV R16, R0
+0001b4 2d11                          MOV R17, R1
+0001b5 2301                          AND R16, R17
+0001b6 2300                          TST R16
+0001b7 f419                          BRNE Collision
+0001b8 910f                          POP R16
+0001b9 911f                          POP R17
+0001ba 9508                          RET
                                  
                                  Collision:
-000171 910f                          POP R16
-000172 911f                          POP R17
-000173 d095                          RCALL CheckFoodCollision
-000174 3021                          CPI R18, 1
-000175 f419                          BRNE IsWall
-000176 3020                          CPI R18,0
-000177 f4b9                          BRNE EatFood
-000178 9508                          RET
+0001bb 910f                          POP R16
+0001bc 911f                          POP R17
+0001bd d095                          RCALL CheckFoodCollision
+0001be 3021                          CPI R18, 1
+0001bf f419                          BRNE IsWall
+0001c0 3020                          CPI R18,0
+0001c1 f4b9                          BRNE EatFood
+0001c2 9508                          RET
                                  
                                  IsWall:
-000179 c09f                          RJMP GameOver
+0001c3 c09f                          RJMP GameOver
                                  .INCLUDE "food.asm"
                                  
                                  
@@ -1556,195 +1634,195 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  .DEF score= R23
                                  FoodInit:
                                      ; Initializes food by setting the row and column values, setting the score to 0, and calling GenerateFoodPos to place the food.
-00017a 936f                      	PUSH R22
-00017b e070                      	LDI score, 0
-00017c e03c                      	LDI food_row, 0x0C 
-00017d e297                      	LDI food_col, 0x27       
-00017e e628                      	LDI random, 0x68
-00017f 940e 0193                     CALL GenerateFoodPos
-000181 916f                      	POP R22
-000182 9508                          RET
+0001c4 936f                      	PUSH R22
+0001c5 e070                      	LDI score, 0
+0001c6 e03c                      	LDI food_row, 0x0C 
+0001c7 e297                      	LDI food_col, 0x27       
+0001c8 e628                      	LDI random, 0x68
+0001c9 940e 01dd                     CALL GenerateFoodPos
+0001cb 916f                      	POP R22
+0001cc 9508                          RET
                                  
                                  CheckPlace:
                                      ; Checks if the food's position collides with any other element (like obstacles or snake); if not, updates the buffer with the food position.
-000183 930f                      	PUSH R16
-000184 931f                      	PUSH R17
-000185 2d04                      	MOV R16, R4  
-000186 2d15                      	MOV R17, R5 
-000187 2301                      	AND R16, R17
-000188 2300                      	TST R16
-000189 f449                      	BRNE GenerateFoodPos
-00018a 2845                      	OR R4, R5            ; Performs an OR to add food to the buffer
-00018b 924c                          ST X, R4           
-00018c 910f                      	POP R16
-00018d 911f                      	POP R17
-00018e 9508                      	RET
+0001cd 930f                      	PUSH R16
+0001ce 931f                      	PUSH R17
+0001cf 2d04                      	MOV R16, R4  
+0001d0 2d15                      	MOV R17, R5 
+0001d1 2301                      	AND R16, R17
+0001d2 2300                      	TST R16
+0001d3 f449                      	BRNE GenerateFoodPos
+0001d4 2845                      	OR R4, R5            ; Performs an OR to add food to the buffer
+0001d5 924c                          ST X, R4           
+0001d6 910f                      	POP R16
+0001d7 911f                      	POP R17
+0001d8 9508                      	RET
                                  EatFood:
                                      ; Increments the score and calls GenerateFoodPos to place new food on the screen.
-00018f 9573                      	INC score
-000190 940e 0193                     CALL GenerateFoodPos    
-000192 9508                          RET
+0001d9 9573                      	INC score
+0001da 940e 01dd                     CALL GenerateFoodPos    
+0001dc 9508                          RET
                                  GenerateFoodPos:
                                      ; Generates random food position by calling RandomGenROW and RandomGenCOL for row and column generation; ensures the food doesn't overlap with the snake's position.
-000193 930f                          PUSH R16
-000194 931f                          PUSH R17
-000195 940e 01c9                     CALL Mixing
+0001dd 930f                          PUSH R16
+0001de 931f                          PUSH R17
+0001df 940e 0213                     CALL Mixing
                                  
-000197 2f13                          MOV R17, food_row      
+0001e1 2f13                          MOV R17, food_row      
                                  GenFoodRow:
-000198 9526                      	LSR random
-000199 940e 01ae                     CALL RandomGenROW      
-00019b 1714                          CP R17, snake_row     
-00019c f3d9                          BREQ GenFoodRow        
-00019d 2f31                          MOV food_row, R17      
+0001e2 9526                      	LSR random
+0001e3 940e 01f8                     CALL RandomGenROW      
+0001e5 1714                          CP R17, snake_row     
+0001e6 f3d9                          BREQ GenFoodRow        
+0001e7 2f31                          MOV food_row, R17      
                                  
-00019e 2f19                          MOV R17, food_col      
-00019f 940e 01bb                     CALL RandomGenCOL 
-0001a1 3010                          CPI R17, 0             ; Checking to avoid the zero column because kill all the random generation by mutliplying by 0 stay 0
-0001a2 f429                          BRNE StoreFoodCol
+0001e8 2f19                          MOV R17, food_col      
+0001e9 940e 0205                     CALL RandomGenCOL 
+0001eb 3010                          CPI R17, 0             ; Checking to avoid the zero column because kill all the random generation by mutliplying by 0 stay 0
+0001ec f429                          BRNE StoreFoodCol
                                  Notzero:
-0001a3 9523                      	INC random
-0001a4 940e 01bb                 	CALL RandomGenCOL 
-0001a6 3010                      	CPI R17,0
-0001a7 f3d9                      	BREQ Notzero
+0001ed 9523                      	INC random
+0001ee 940e 0205                 	CALL RandomGenCOL 
+0001f0 3010                      	CPI R17,0
+0001f1 f3d9                      	BREQ Notzero
                                  StoreFoodCol:
-0001a8 2f91                          MOV food_col, R17      
+0001f2 2f91                          MOV food_col, R17      
                                  
-0001a9 940e 01e7                     CALL SetFoodBuffer    
-0001ab 910f                          POP R16
-0001ac 911f                          POP R17
-0001ad 9508                          RET
+0001f3 940e 0231                     CALL SetFoodBuffer    
+0001f5 910f                          POP R16
+0001f6 911f                          POP R17
+0001f7 9508                          RET
                                  
                                  RandomGenROW:
                                      ; Generates a random row for the food using bit shifting and XOR operations on the random value, ensuring it's within the valid row range (0 to 13).
-0001ae 9526                      	LSR random
-0001af 2712                          EOR R17, random
-0001b0 301d                      	CPI R17, 13
-0001b1 f408                      	BRSH LetGoInROW
-0001b2 9508                          RET
+0001f8 9526                      	LSR random
+0001f9 2712                          EOR R17, random
+0001fa 301d                      	CPI R17, 13
+0001fb f408                      	BRSH LetGoInROW
+0001fc 9508                          RET
                                  LetGoInROW:
-0001b3 9526                      	LSR random
-0001b4 9516                      	LSR R17
-0001b5 940e 01d8                 	CALL Mixing2
-0001b7 2712                      	EOR R17,random
-0001b8 301d                      	CPI R17, 13
-0001b9 f7c8                      	BRSH LetGoInROW
-0001ba 9508                      	RET
+0001fd 9526                      	LSR random
+0001fe 9516                      	LSR R17
+0001ff 940e 0222                 	CALL Mixing2
+000201 2712                      	EOR R17,random
+000202 301d                      	CPI R17, 13
+000203 f7c8                      	BRSH LetGoInROW
+000204 9508                      	RET
                                  RandomGenCOL:
                                      ; Generates a random column for the food by performing bit shifts and XOR operations on the random value, ensuring the column is between 0 and 39.
-0001bb 2f02                      	MOV R16, random
-0001bc 0f22                      	LSL random
-0001bd 9500                      	COM R16
-0001be 2720                      	EOR random, R16
-0001bf 2712                          EOR R17, random
-0001c0 3218                      	CPI R17, 40
-0001c1 f408                      	BRSH LetGoInCOL
-0001c2 9508                          RET
+000205 2f02                      	MOV R16, random
+000206 0f22                      	LSL random
+000207 9500                      	COM R16
+000208 2720                      	EOR random, R16
+000209 2712                          EOR R17, random
+00020a 3218                      	CPI R17, 40
+00020b f408                      	BRSH LetGoInCOL
+00020c 9508                          RET
                                  
                                  LetGoInCOL:
-0001c3 9526                      	LSR random
-0001c4 9516                      	LSR R17
-0001c5 2712                      	EOR R17,random
-0001c6 3218                      	CPI R17, 40
-0001c7 f7d8                      	BRSH LetGoInCOL
-0001c8 9508                          RET
+00020d 9526                      	LSR random
+00020e 9516                      	LSR R17
+00020f 2712                      	EOR R17,random
+000210 3218                      	CPI R17, 40
+000211 f7d8                      	BRSH LetGoInCOL
+000212 9508                          RET
                                  Mixing:
                                      ; Performs a randomization operation on the 'random' value by shifting bits and XOR-ing it with the snake's column value to introduce variability.
-0001c9 931f                      	PUSH R17
-0001ca 930f                      	PUSH R16
-0001cb 2f02                          MOV R16, random                
-0001cc 2f12                          MOV R17, random               
-0001cd 9526                          LSR random                      
-0001ce fb00                          BST R16, 0                       ; Take the LSB from R16
-0001cf f926                          BLD random, 6                    ; Place this bit in the 6th position of 'random'
-0001d0 f916                          BLD R17, 6                       ; Do the same for R17
-0001d1 2710                          EOR R17, R16                     ; XOR R16 with R17 and store result in R17
-0001d2 fb16                          BST R17, 6                       ; Take the 7th bit from R17
-0001d3 f925                          BLD random, 5                    ; Place this bit back into random
-0001d4 2725                          EOR random, snake_col            ; XOR random with the snake's column value                  
-0001d5 910f                      	POP R16
-0001d6 911f                      	POP R17
-0001d7 9508                          RET
+000213 931f                      	PUSH R17
+000214 930f                      	PUSH R16
+000215 2f02                          MOV R16, random                
+000216 2f12                          MOV R17, random               
+000217 9526                          LSR random                      
+000218 fb00                          BST R16, 0                       ; Take the LSB from R16
+000219 f926                          BLD random, 6                    ; Place this bit in the 6th position of 'random'
+00021a f916                          BLD R17, 6                       ; Do the same for R17
+00021b 2710                          EOR R17, R16                     ; XOR R16 with R17 and store result in R17
+00021c fb16                          BST R17, 6                       ; Take the 7th bit from R17
+00021d f925                          BLD random, 5                    ; Place this bit back into random
+00021e 2725                          EOR random, snake_col            ; XOR random with the snake's column value                  
+00021f 910f                      	POP R16
+000220 911f                      	POP R17
+000221 9508                          RET
                                  Mixing2:
                                      ; Similar to Mixing, but modifies the random value using the snake's row value instead of the column value.
-0001d8 931f                      	PUSH R17
-0001d9 930f                      	PUSH R16
-0001da 2f02                          MOV R16, random                 ; Clone random to R16
-0001db 2f12                          MOV R17, random                 ; Clone random to R19
-0001dc 9526                          LSR random                      ; Décale random à droite
-0001dd fb00                         BST R16, 0                       ; Take the LSB from R16
-0001de f924                          BLD random, 4                    ; Place this bit in the 4th position of 'random'
-0001df f916                          BLD R17, 6                       ; Do the same for R17
-0001e0 2710                          EOR R17, R16                     ; XOR R16 with R17 and store result in R17
-0001e1 fb14                          BST R17, 4                       ; Take the 7th bit from R17
-0001e2 f925                          BLD random, 5                    ; Place this bit back into 'random'
-0001e3 2724                          EOR random, snake_row            ; XOR random with the snake's row value to introduce further variability
-0001e4 910f                          POP R16
-0001e5 911f                      	POP R17
-0001e6 9508                          RET
+000222 931f                      	PUSH R17
+000223 930f                      	PUSH R16
+000224 2f02                          MOV R16, random                 ; Clone random to R16
+000225 2f12                          MOV R17, random                 ; Clone random to R19
+000226 9526                          LSR random                      ; Décale random à droite
+000227 fb00                         BST R16, 0                       ; Take the LSB from R16
+000228 f924                          BLD random, 4                    ; Place this bit in the 4th position of 'random'
+000229 f916                          BLD R17, 6                       ; Do the same for R17
+00022a 2710                          EOR R17, R16                     ; XOR R16 with R17 and store result in R17
+00022b fb14                          BST R17, 4                       ; Take the 7th bit from R17
+00022c f925                          BLD random, 5                    ; Place this bit back into 'random'
+00022d 2724                          EOR random, snake_row            ; XOR random with the snake's row value to introduce further variability
+00022e 910f                          POP R16
+00022f 911f                      	POP R17
+000230 9508                          RET
                                  
                                  SetFoodBuffer: ; SImilar to GetByteAndMask
                                      ; Updates the screen buffer with the food's position by using the food's row and column to calculate the correct memory address and set the corresponding pixel.
-0001e7 922f                      	PUSH R2
-0001e8 923f                      	PUSH R3
-0001e9 93af                      	PUSH XL
-0001ea 93bf                      	PUSH XH
-0001eb 2e23                          MOV R2, food_row
-0001ec 2e39                          MOV R3, food_col
-0001ed e0a0                          LDI XL, low(0x0100)
-0001ee e0b1                          LDI XH, high(0x0100)
+000231 922f                      	PUSH R2
+000232 923f                      	PUSH R3
+000233 93af                      	PUSH XL
+000234 93bf                      	PUSH XH
+000235 2e23                          MOV R2, food_row
+000236 2e39                          MOV R3, food_col
+000237 e0a0                          LDI XL, low(0x0100)
+000238 e0b1                          LDI XH, high(0x0100)
                                  SetFoodBufferRow:
-0001ef 2022                          TST R2
-0001f0 f019                          BREQ SetFoodBufferP2
-0001f1 9615                          ADIW X, 5          
-0001f2 942a                          DEC R2
-0001f3 cffb                          RJMP SetFoodBufferRow
+000239 2022                          TST R2
+00023a f019                          BREQ SetFoodBufferP2
+00023b 9615                          ADIW X, 5          
+00023c 942a                          DEC R2
+00023d cffb                          RJMP SetFoodBufferRow
                                  SetFoodBufferP2:
-0001f4 e008                          LDI R16, 8          
+00023e e008                          LDI R16, 8          
                                  SetFoodBufferCol:
-0001f5 1630                          CP R3, R16          
-0001f6 f018                          BRLO SetFoodBufferP3  
-0001f7 1a30                          SUB R3, R16
-0001f8 9611                          ADIW X, 1            
-0001f9 cffb                          RJMP SetFoodBufferCol
+00023f 1630                          CP R3, R16          
+000240 f018                          BRLO SetFoodBufferP3  
+000241 1a30                          SUB R3, R16
+000242 9611                          ADIW X, 1            
+000243 cffb                          RJMP SetFoodBufferCol
                                  SetFoodBufferP3:
-0001fa e001                          LDI R16, 0b00000001  
+000244 e001                          LDI R16, 0b00000001  
                                  SetFoodBufferColMask:
-0001fb 2033                          TST R3
-0001fc f019                          BREQ SetFoodBufferEnd
-0001fd 0f00                          LSL R16            
-0001fe 943a                          DEC R3
-0001ff cffb                          RJMP SetFoodBufferColMask
+000245 2033                          TST R3
+000246 f019                          BREQ SetFoodBufferEnd
+000247 0f00                          LSL R16            
+000248 943a                          DEC R3
+000249 cffb                          RJMP SetFoodBufferColMask
                                  SetFoodBufferEnd:
-000200 904c                          LD R4, X            
-000201 2e50                          MOV R5, R16         
-000202 940e 0183                 	CALL CheckPlace
-000204 91bf                      	POP XH
-000205 91af                          POP XL
-000206 903f                          POP R3
-000207 902f                          POP R2
-000208 9508                          RET
+00024a 904c                          LD R4, X            
+00024b 2e50                          MOV R5, R16         
+00024c 940e 01cd                 	CALL CheckPlace
+00024e 91bf                      	POP XH
+00024f 91af                          POP XL
+000250 903f                          POP R3
+000251 902f                          POP R2
+000252 9508                          RET
                                  
                                  CheckFoodCollision:
                                      ; Checks if the snake's current position overlaps with the food's position
-000209 930f                          PUSH R16
-00020a 931f                      	PUSH R17
-00020b 2f03                          MOV R16, food_row    ;  Recovers food position
-00020c 2f19                          MOV R17, food_col  
+000253 930f                          PUSH R16
+000254 931f                      	PUSH R17
+000255 2f03                          MOV R16, food_row    ;  Recovers food position
+000256 2f19                          MOV R17, food_col  
                                  	; Check whether the snake's position is the same as the food's position
-00020d 1740                          CP snake_row, R16
-00020e f431                          BRNE NoCollision
-00020f 1751                          CP snake_col, R17
-000210 f421                          BRNE NoCollision
-000211 e021                          LDI R18, 1 ; if 1 is food collision and not wall colission it is used to differentiate
-000212 910f                      	POP R16
-000213 911f                      	POP R17
-000214 9508                      	RET        
+000257 1740                          CP snake_row, R16
+000258 f431                          BRNE NoCollision
+000259 1751                          CP snake_col, R17
+00025a f421                          BRNE NoCollision
+00025b e021                          LDI R18, 1 ; if 1 is food collision and not wall colission it is used to differentiate
+00025c 910f                      	POP R16
+00025d 911f                      	POP R17
+00025e 9508                      	RET        
                                  NoCollision:
-000215 e020                      	LDI R18,0
-000216 910f                          POP R16
-000217 911f                      	POP R17
-000218 9508                          RET
+00025f e020                      	LDI R18,0
+000260 910f                          POP R16
+000261 911f                      	POP R17
+000262 9508                          RET
                                  
                                  
                                  .INCLUDE "TableDisplay.asm"
@@ -1752,306 +1830,306 @@ C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\L
                                  
                                  GameOver :
                                      ; Displays the "GAME OVER" message and the score on the screen, then jumps to WaitRestart for a restart.
-000219 940e 0029                 	CALL CLearScreen 
-00021b e0c0                      	LDI YL, low(0x0200)                
-00021c e0d2                      	LDI YH, high(0x0200)                
-00021d e00d                      	LDI R16, 13                ; G
-00021e 9309                      	ST Y+, R16
-00021f e00b                      	LDI R16, 11                ; A
-000220 9309                      	ST Y+, R16
-000221 e00f                      	LDI R16, 15                 ; M
-000222 9309                      	ST Y+, R16
-000223 e00c                      	LDI R16, 12
-000224 9309                      	ST Y+, R16                 ; E
-000225 e00a                      	LDI R16, 10                 ; espace 
-000226 9309                      	ST Y+, R16
-000227 e100                      	LDI R16, 16                 ; O
-000228 9309                      	ST Y+, R16
-000229 e105                      	LDI R16, 21                 ; V
-00022a 9309                      	ST Y+, R16
-00022b e00c                      	LDI R16, 12                 ; E
-00022c 9309                      	ST Y+, R16
-00022d e102                      	LDI R16, 18                 ; R
-00022e 9309                      	ST Y+, R16
-00022f 2f07                      	MOV R16, score              ; score
-000230 9309                      	ST Y+, R16
-000231 c019                      	RJMP WaitRestart
+000263 940e 0029                 	CALL CLearScreen 
+000265 e0c0                      	LDI YL, low(0x0200)                
+000266 e0d2                      	LDI YH, high(0x0200)                
+000267 e00d                      	LDI R16, 13                ; G
+000268 9309                      	ST Y+, R16
+000269 e00b                      	LDI R16, 11                ; A
+00026a 9309                      	ST Y+, R16
+00026b e00f                      	LDI R16, 15                 ; M
+00026c 9309                      	ST Y+, R16
+00026d e00c                      	LDI R16, 12
+00026e 9309                      	ST Y+, R16                 ; E
+00026f e00a                      	LDI R16, 10                 ; espace 
+000270 9309                      	ST Y+, R16
+000271 e100                      	LDI R16, 16                 ; O
+000272 9309                      	ST Y+, R16
+000273 e105                      	LDI R16, 21                 ; V
+000274 9309                      	ST Y+, R16
+000275 e00c                      	LDI R16, 12                 ; E
+000276 9309                      	ST Y+, R16
+000277 e102                      	LDI R16, 18                 ; R
+000278 9309                      	ST Y+, R16
+000279 2f07                      	MOV R16, score              ; score
+00027a 9309                      	ST Y+, R16
+00027b c019                      	RJMP WaitRestart
                                  LetsGO:
                                      ; Displays the "LET'S GO BRO" message on the screen and waits for a key press to start the game.
-000232 940e 0029                 	CALL CLearScreen 
-000234 e0c0                      	LDI YL, low(0x0200)                
-000235 e0d2                      	LDI YH, high(0x0200)                
-000236 e00e                      	LDI R16, 14                ; L
-000237 9309                      	ST Y+, R16
-000238 e00c                      	LDI R16, 12                ; E
-000239 9309                      	ST Y+, R16
-00023a e104                      	LDI R16, 20                 ; T
-00023b 9309                      	ST Y+, R16
-00023c e106                      	LDI R16, 22
-00023d 9309                      	ST Y+, R16                 ; '
-00023e e103                      	LDI R16, 19                 ; S 
-00023f 9309                      	ST Y+, R16
-000240 e00d                      	LDI R16, 13                 ; G
-000241 9309                      	ST Y+, R16
-000242 e100                      	LDI R16, 16                 ; 0
-000243 9309                      	ST Y+, R16
-000244 e107                      	LDI R16, 23                 
-000245 9309                      	ST Y+, R16
-000246 e102                      	LDI R16, 18                  
-000247 9309                      	ST Y+, R16
-000248 e100                      	LDI R16,  16             
-000249 9309                      	ST Y+, R16
-00024a c000                      	RJMP WaitRestart
+00027c 940e 0029                 	CALL CLearScreen 
+00027e e0c0                      	LDI YL, low(0x0200)                
+00027f e0d2                      	LDI YH, high(0x0200)                
+000280 e00e                      	LDI R16, 14                ; L
+000281 9309                      	ST Y+, R16
+000282 e00c                      	LDI R16, 12                ; E
+000283 9309                      	ST Y+, R16
+000284 e104                      	LDI R16, 20                 ; T
+000285 9309                      	ST Y+, R16
+000286 e106                      	LDI R16, 22
+000287 9309                      	ST Y+, R16                 ; '
+000288 e103                      	LDI R16, 19                 ; S 
+000289 9309                      	ST Y+, R16
+00028a e00d                      	LDI R16, 13                 ; G
+00028b 9309                      	ST Y+, R16
+00028c e100                      	LDI R16, 16                 ; 0
+00028d 9309                      	ST Y+, R16
+00028e e107                      	LDI R16, 23                 
+00028f 9309                      	ST Y+, R16
+000290 e102                      	LDI R16, 18                  
+000291 9309                      	ST Y+, R16
+000292 e100                      	LDI R16,  16             
+000293 9309                      	ST Y+, R16
+000294 c000                      	RJMP WaitRestart
                                  WaitRestart:
                                      ; Waits for the user to press a key to start/restart the game, checking input
-00024b 940e 00e4                 	CALL ReadKeyboard
-00024d e060                      	LDI R22,0
+000295 940e 00e4                 	CALL ReadKeyboard_Initial
+000297 e060                      	LDI R22,0
                                  
                                  	; The lines above take the good character in character Table and write it on the screen buffer 
-00024e e0ca                      	LDI YL, low(0x020A)                
-00024f e0d2                      	LDI YH, high(0x0200) 
+000298 e0ca                      	LDI YL, low(0x020A)                
+000299 e0d2                      	LDI YH, high(0x0200) 
                                  intermediate :
-000250 e0a0                      	LDI XL, low(0x0100)	
-000251 e0b1                      	LDI XH, high(0x0100)	
-000252 0fa6                      	ADD XL, R22
-000253 3065                      	CPI R22,5
-000254 f4c0                      	BRSH gohigh
+00029a e0a0                      	LDI XL, low(0x0100)	
+00029b e0b1                      	LDI XH, high(0x0100)	
+00029c 0fa6                      	ADD XL, R22
+00029d 3065                      	CPI R22,5
+00029e f4c0                      	BRSH gohigh
                                  EnableHigh:
-000255 e000                      	LDI R16,0								
-000256 e027                      	LDI R18,7						
-000257 e018                      	LDI R17,8
-000258 913a                      	LD R19,-Y ; load value in buffer
+00029f e000                      	LDI R16,0								
+0002a0 e027                      	LDI R18,7						
+0002a1 e018                      	LDI R17,8
+0002a2 913a                      	LD R19,-Y ; load value in buffer
                                  blocksloopGame:
-000259 edee                      	LDI ZL,low(CharTable << 1)
-00025a e0f4                      	LDI ZH,high(CharTable << 1)
-00025b 2f53                      	MOV R21, R19
-00025c 9f51                      	MUL R21,R17 ; multiply to get the right line of the table					
-00025d 2d50                      	MOV R21,R0								
-00025e 0f50                      	ADD R21,R16	; add offset to go trought all row each byte in table is for one row						
-00025f 1fe5                      	ADC ZL, R21 ; add it to Z 
-000260 f410                      	BRCC NoCarry
-000261 e051                      	LDI R21, 1
-000262 0ff5                      	ADD ZH,R21
+0002a3 e7e2                      	LDI ZL,low(CharTable << 1)
+0002a4 e0f5                      	LDI ZH,high(CharTable << 1)
+0002a5 2f53                      	MOV R21, R19
+0002a6 9f51                      	MUL R21,R17 ; multiply to get the right line of the table					
+0002a7 2d50                      	MOV R21,R0								
+0002a8 0f50                      	ADD R21,R16	; add offset to go trought all row each byte in table is for one row						
+0002a9 1fe5                      	ADC ZL, R21 ; add it to Z 
+0002aa f410                      	BRCC NoCarry
+0002ab e051                      	LDI R21, 1
+0002ac 0ff5                      	ADD ZH,R21
                                  	NoCarry:
-000263 9154                      		LPM R21,Z	; load the good byte in table
+0002ad 9154                      		LPM R21,Z	; load the good byte in table
                                  blockGame :
-000264 935c                      	ST X, R21			
-000265 9615                      	ADIW X, 5 ; go to next row ( a line is 5 byte)
-000266 9503                      	INC R16				
-000267 952a                      	DEC R18		; 7 to zero to make all r0w 
-000268 f781                      	BRNE blocksloopGame
-000269 9563                      	INC R22
-00026a 306a                      	CPI R22, 10
-00026b f2f9                      	BREQ WaitRestart
-00026c cfe3                      	RJMP intermediate					
+0002ae 935c                      	ST X, R21			
+0002af 9615                      	ADIW X, 5 ; go to next row ( a line is 5 byte)
+0002b0 9503                      	INC R16				
+0002b1 952a                      	DEC R18		; 7 to zero to make all r0w 
+0002b2 f781                      	BRNE blocksloopGame
+0002b3 9563                      	INC R22
+0002b4 306a                      	CPI R22, 10
+0002b5 f2f9                      	BREQ WaitRestart
+0002b6 cfe3                      	RJMP intermediate					
                                  gohigh:
-00026d 965e                      	ADIW X, 30 
-00026e cfe6                      	RJMP EnableHigh
+0002b7 965e                      	ADIW X, 30 
+0002b8 cfe6                      	RJMP EnableHigh
                                  	
                                  CharTable:
-00026f 111f
-000270 1111
-000271 1111
-000272 001f                      .db 0b00011111,0b00010001,0b00010001,0b00010001,0b00010001,0b00010001,0b00011111,0b00000000 ; 0
-000273 0c04
-000274 0414
-000275 0404
-000276 001f                      .db 0b00000100,0b00001100,0b00010100,0b00000100,0b00000100,0b00000100,0b00011111,0b00000000 ; 1
-000277 111f
-000278 0201
-000279 0804
-00027a 001f                      .db 0b00011111,0b00010001,0b00000001,0b00000010,0b00000100,0b00001000,0b00011111,0b00000000 ; 2
-00027b 011f
-00027c 1f01
-00027d 0101
-00027e 001f                      .db 0b00011111,0b00000001,0b00000001,0b00011111,0b00000001,0b00000001,0b00011111,0b00000000 ; 3
-00027f 1111
-000280 1f11
-000281 0101
-000282 0001                      .db 0b00010001,0b00010001,0b00010001,0b00011111,0b00000001,0b00000001,0b00000001,0b00000000 ; 4
-000283 101f
-000284 1f10
-000285 0101
-000286 001f                      .db 0b00011111,0b00010000,0b00010000,0b00011111,0b00000001,0b00000001,0b00011111,0b00000000 ; 5
-000287 101f
-000288 1f10
-000289 1111
-00028a 001f                      .db 0b00011111,0b00010000,0b00010000,0b00011111,0b00010001,0b00010001,0b00011111,0b00000000 ; 6
-00028b 111f
-00028c 0201
-00028d 0804
-00028e 0010                      .db 0b00011111,0b00010001,0b00000001,0b00000010,0b00000100,0b00001000,0b00010000,0b00000000 ; 7 
-00028f 111f
-000290 1f11
-000291 1111
-000292 001f                      .db 0b00011111,0b00010001,0b00010001,0b00011111,0b00010001,0b00010001,0b00011111,0b00000000 ; 8
-000293 111f
-000294 1f11
-000295 0101
-000296 001f                      .db 0b00011111,0b00010001,0b00010001,0b00011111,0b00000001,0b00000001,0b00011111,0b00000000 ; 9
-000297 0000
-000298 0000
-000299 0000
-00029a 0000                      .db 0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000 ; nothing 10
-00029b 0a04
-00029c 1111
-00029d 111f
-00029e 0011                      .db 0b00000100,0b00001010,0b00010001,0b00010001,0b00011111,0b00010001,0b00010001,0b00000000 ;A => 11
-00029f 101f
-0002a0 1f10
-0002a1 1010
-0002a2 001f                      .db 0b00011111,0b00010000,0b00010000,0b00011111,0b00010000,0b00010000,0b00011111,0b00000000 ;E => 12
-0002a3 101f
-0002a4 1710
-0002a5 1111
-0002a6 001f                      .db 0b00011111,0b00010000,0b00010000,0b00010111,0b00010001,0b00010001,0b00011111,0b00000000 ;G => 13
-0002a7 2020
-0002a8 2020
-0002a9 2020
-0002aa 003f                      .db 0b00100000,0b00100000,0b00100000,0b00100000,0b00100000,0b00100000,0b00111111,0b00000000	;L=>14
-0002ab 1b11
-0002ac 1115
-0002ad 1111
-0002ae 0011                      .db 0b00010001,0b00011011,0b00010101,0b00010001,0b00010001,0b00010001,0b00010001,0b00000000 ;M => 15
-0002af 111f
-0002b0 1111
-0002b1 1111
-0002b2 001f                      .db 0b00011111,0b00010001,0b00010001,0b00010001,0b00010001,0b00010001,0b00011111,0b00000000 ;O => 16
-0002b3 111f
-0002b4 1f11
-0002b5 1010
-0002b6 0010                      .db 0b00011111,0b00010001,0b00010001,0b00011111,0b00010000,0b00010000,0b00010000,0b00000000 ;P => 17
-0002b7 111f
-0002b8 1f11
-0002b9 1214
-0002ba 0011                      .db 0b00011111,0b00010001,0b00010001,0b00011111,0b00010100,0b00010010,0b00010001,0b00000000 ;R => 18
-0002bb 80f8
-0002bc f880
-0002bd 0808
-0002be 00f8                      .db 0b11111000,0b10000000,0b10000000,0b11111000,0b00001000,0b00001000,0b11111000,0b00000000 ;S => 19
-0002bf 041f
-0002c0 0404
-0002c1 0404
-0002c2 0004                      .db 0b00011111,0b00000100,0b00000100,0b00000100,0b00000100,0b00000100,0b00000100,0b00000000 ;T => 20
-0002c3 1111
-0002c4 1111
-0002c5 0a11
-0002c6 0004                      .db 0b00010001,0b00010001,0b00010001,0b00010001,0b00010001,0b00001010,0b00000100,0b00000000 ;V => 21
-0002c7 2020
-0002c8 4020
-0002c9 0000
-0002ca 0000                      .db 0b00100000,0b00100000,0b00100000,0b01000000,0b00000000,0b00000000,0b00000000,0b00000000 ; '=> 22
-0002cb 111e
-0002cc 1e11
-0002cd 1111
-0002ce 001e                      
+0002b9 111f
+0002ba 1111
+0002bb 1111
+0002bc 001f                      .db 0b00011111,0b00010001,0b00010001,0b00010001,0b00010001,0b00010001,0b00011111,0b00000000 ; 0
+0002bd 0c04
+0002be 0414
+0002bf 0404
+0002c0 001f                      .db 0b00000100,0b00001100,0b00010100,0b00000100,0b00000100,0b00000100,0b00011111,0b00000000 ; 1
+0002c1 111f
+0002c2 0201
+0002c3 0804
+0002c4 001f                      .db 0b00011111,0b00010001,0b00000001,0b00000010,0b00000100,0b00001000,0b00011111,0b00000000 ; 2
+0002c5 011f
+0002c6 1f01
+0002c7 0101
+0002c8 001f                      .db 0b00011111,0b00000001,0b00000001,0b00011111,0b00000001,0b00000001,0b00011111,0b00000000 ; 3
+0002c9 1111
+0002ca 1f11
+0002cb 0101
+0002cc 0001                      .db 0b00010001,0b00010001,0b00010001,0b00011111,0b00000001,0b00000001,0b00000001,0b00000000 ; 4
+0002cd 101f
+0002ce 1f10
+0002cf 0101
+0002d0 001f                      .db 0b00011111,0b00010000,0b00010000,0b00011111,0b00000001,0b00000001,0b00011111,0b00000000 ; 5
+0002d1 101f
+0002d2 1f10
+0002d3 1111
+0002d4 001f                      .db 0b00011111,0b00010000,0b00010000,0b00011111,0b00010001,0b00010001,0b00011111,0b00000000 ; 6
+0002d5 111f
+0002d6 0201
+0002d7 0804
+0002d8 0010                      .db 0b00011111,0b00010001,0b00000001,0b00000010,0b00000100,0b00001000,0b00010000,0b00000000 ; 7 
+0002d9 111f
+0002da 1f11
+0002db 1111
+0002dc 001f                      .db 0b00011111,0b00010001,0b00010001,0b00011111,0b00010001,0b00010001,0b00011111,0b00000000 ; 8
+0002dd 111f
+0002de 1f11
+0002df 0101
+0002e0 001f                      .db 0b00011111,0b00010001,0b00010001,0b00011111,0b00000001,0b00000001,0b00011111,0b00000000 ; 9
+0002e1 0000
+0002e2 0000
+0002e3 0000
+0002e4 0000                      .db 0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000,0b00000000 ; nothing 10
+0002e5 0a04
+0002e6 1111
+0002e7 111f
+0002e8 0011                      .db 0b00000100,0b00001010,0b00010001,0b00010001,0b00011111,0b00010001,0b00010001,0b00000000 ;A => 11
+0002e9 101f
+0002ea 1f10
+0002eb 1010
+0002ec 001f                      .db 0b00011111,0b00010000,0b00010000,0b00011111,0b00010000,0b00010000,0b00011111,0b00000000 ;E => 12
+0002ed 101f
+0002ee 1710
+0002ef 1111
+0002f0 001f                      .db 0b00011111,0b00010000,0b00010000,0b00010111,0b00010001,0b00010001,0b00011111,0b00000000 ;G => 13
+0002f1 2020
+0002f2 2020
+0002f3 2020
+0002f4 003f                      .db 0b00100000,0b00100000,0b00100000,0b00100000,0b00100000,0b00100000,0b00111111,0b00000000	;L=>14
+0002f5 1b11
+0002f6 1115
+0002f7 1111
+0002f8 0011                      .db 0b00010001,0b00011011,0b00010101,0b00010001,0b00010001,0b00010001,0b00010001,0b00000000 ;M => 15
+0002f9 111f
+0002fa 1111
+0002fb 1111
+0002fc 001f                      .db 0b00011111,0b00010001,0b00010001,0b00010001,0b00010001,0b00010001,0b00011111,0b00000000 ;O => 16
+0002fd 111f
+0002fe 1f11
+0002ff 1010
+000300 0010                      .db 0b00011111,0b00010001,0b00010001,0b00011111,0b00010000,0b00010000,0b00010000,0b00000000 ;P => 17
+000301 111f
+000302 1f11
+000303 1214
+000304 0011                      .db 0b00011111,0b00010001,0b00010001,0b00011111,0b00010100,0b00010010,0b00010001,0b00000000 ;R => 18
+000305 80f8
+000306 f880
+000307 0808
+000308 00f8                      .db 0b11111000,0b10000000,0b10000000,0b11111000,0b00001000,0b00001000,0b11111000,0b00000000 ;S => 19
+000309 041f
+00030a 0404
+00030b 0404
+00030c 0004                      .db 0b00011111,0b00000100,0b00000100,0b00000100,0b00000100,0b00000100,0b00000100,0b00000000 ;T => 20
+00030d 1111
+00030e 1111
+00030f 0a11
+000310 0004                      .db 0b00010001,0b00010001,0b00010001,0b00010001,0b00010001,0b00001010,0b00000100,0b00000000 ;V => 21
+000311 2020
+000312 4020
+000313 0000
+000314 0000                      .db 0b00100000,0b00100000,0b00100000,0b01000000,0b00000000,0b00000000,0b00000000,0b00000000 ; '=> 22
+000315 111e
+000316 1e11
+000317 1111
+000318 001e                      
                                  
                                  start:
-0002cf e008                          LDI R16, HIGH(RAMEND)
-0002d0 bf0e                          OUT SPH, R16
-0002d1 ef0f                          LDI R16, LOW(RAMEND)
-0002d2 bf0d                          OUT SPL, R16
+000319 e008                          LDI R16, HIGH(RAMEND)
+00031a bf0e                          OUT SPH, R16
+00031b ef0f                          LDI R16, LOW(RAMEND)
+00031c bf0d                          OUT SPL, R16
                                  
                                  
-0002d3 dd4d                      	RCALL InitScreen
-0002d4 de04                      	RCALL InitKeyboard
-0002d5 dd53                          RCALL ClearScreen
+00031d dd03                      	RCALL InitScreen
+00031e ddba                      	RCALL InitKeyboard
+00031f dd09                          RCALL ClearScreen
                                  
                                      ; Configuration du Timer0 in normal mode
-0002d6 e000                      	LDI r16, 0         
-0002d7 9300 0080                 	STS TCCR1A, r16     
-0002d9 e003                          LDI R16, (1<<CS01)|(1<<CS00)
-0002da bd05                          OUT TCCR0B, R16
-0002db e006                          LDI R16, 0x06
-0002dc bd06                          OUT TCNT0, R16
-0002dd e001                          LDI R16, (1<<TOIE0)
-0002de 9300 006e                     STS TIMSK0, R16
+000320 e000                      	LDI r16, 0         
+000321 9300 0080                 	STS TCCR1A, r16     
+000323 e003                          LDI R16, (1<<CS01)|(1<<CS00)
+000324 bd05                          OUT TCCR0B, R16
+000325 e006                          LDI R16, 0x06
+000326 bd06                          OUT TCNT0, R16
+000327 e001                          LDI R16, (1<<TOIE0)
+000328 9300 006e                     STS TIMSK0, R16
                                  
-0002e0 e000                      	LDI r16, 0          
-0002e1 9300 0080                 	STS TCCR1A, r16     
-0002e3 e004                          LDI R16, 4       
-0002e4 9300 0081                     STS TCCR1B, R16
-0002e6 e00f                      	LDI R16, 0x0F             
-0002e7 9300 0085                     STS TCNT1H, R16
-0002e9 ef0f                          LDI R16, 0xFF            
-0002ea 9300 0084                     STS TCNT1L, R16
-0002ec e001                          LDI R16, (1<<TOIE1)
-0002ed 9300 006f                     STS TIMSK1, R16
+00032a e000                      	LDI r16, 0          
+00032b 9300 0080                 	STS TCCR1A, r16     
+00032d e004                          LDI R16, 4       
+00032e 9300 0081                     STS TCCR1B, R16
+000330 e00f                      	LDI R16, 0x0F             
+000331 9300 0085                     STS TCNT1H, R16
+000333 ef0f                          LDI R16, 0xFF            
+000334 9300 0084                     STS TCNT1L, R16
+000336 e001                          LDI R16, (1<<TOIE1)
+000337 9300 006f                     STS TIMSK1, R16
                                  
-0002ef 9478                          SEI
-0002f0 940e 0232                 	CALL LetsGo
+000339 9478                          SEI
+00033a 940e 027c                 	CALL LetsGo
                                  
                                  init:
                                      ; Initialize the game by clearing the screen, setting up obstacles, 
                                      ; initializing the snake, and initializing the food
-0002f2 e000                      	LDI R16, 0
-0002f3 e010                      	LDI R17, 0
-0002f4 2f01                      	MOV R16,R17
-0002f5 e020                      	LDI R18, 0
-0002f6 e030                      	LDI R19, 0
-0002f7 e040                      	LDI R20, 0
-0002f8 e050                      	LDI R21, 0
-0002f9 e060                      	LDI R22, 0
-0002fa e070                      	LDI R23, 0
-0002fb e080                      	LDI R24, 0
-0002fc e090                      	LDI R25, 0
-0002fd dd2b                          RCALL ClearScreen
-0002fe 940e 0141                 	CALL InitObstacles
-000300 940e 0075                     CALL SnakeInit
-000302 d015                      	RCALL Delay ; delay is added just to have the food show after snake to differentiate
-000303 940e 017a                 	CALL FoodInit
+00033c e000                      	LDI R16, 0
+00033d e010                      	LDI R17, 0
+00033e 2f01                      	MOV R16,R17
+00033f e020                      	LDI R18, 0
+000340 e030                      	LDI R19, 0
+000341 e040                      	LDI R20, 0
+000342 e050                      	LDI R21, 0
+000343 e060                      	LDI R22, 0
+000344 e070                      	LDI R23, 0
+000345 e080                      	LDI R24, 0
+000346 e090                      	LDI R25, 0
+000347 dce1                          RCALL ClearScreen
+000348 940e 018b                 	CALL InitObstacles
+00034a 940e 0075                     CALL SnakeInit
+00034c d015                      	RCALL Delay ; delay is added just to have the food show after snake to differentiate
+00034d 940e 01c4                 	CALL FoodInit
                                  
                                  
                                  main_loop:
                                      ; Main game loop that handles input, snake movement
-000305 ddde                      	RCALL ReadKeyboard
-000306 d011                      	RCALL DELAY
-000307 dd72                      	RCALL SnakeMain 
-000308 dddb                      	RCALL ReadKeyboard
-000309 cffb                          RJMP main_loop
+00034f ddde                      	RCALL ReadKeyboard
+000350 d011                      	RCALL DELAY
+000351 dd28                      	RCALL SnakeMain 
+000352 dddb                      	RCALL ReadKeyboard
+000353 cffb                          RJMP main_loop
                                  
                                  
                                  Timer0OverflowInterrupt:
                                      ; Timer0 overflow interrupt handler
                                      ; Reload Timer0 and call the function to display 
-00030a e026                          LDI R18, 0x06
-00030b bd76                          OUT TCNT0, R23
-00030c 940e 0039                     CALL DisplayLine
-00030e 9518                          RETI
+000354 e026                          LDI R18, 0x06
+000355 bd76                          OUT TCNT0, R23
+000356 940e 0039                     CALL DisplayLine
+000358 9518                          RETI
                                  
                                  Timer1OverflowInterrupt:
-00030f e000                          LDI R16, 0x00            
-000310 9300 0085                     STS TCNT1H, R16
-000312 ea0a                          LDI R16, 0xAA          
-000313 9300 0084                     STS TCNT1L, R16
-000315 ddce                      	RCALL ReadKeyboard
-000316 dd63                          RCALL SnakeMain        
-000317 9518                          RETI
+000359 e000                          LDI R16, 0x00            
+00035a 9300 0085                     STS TCNT1H, R16
+00035c ea0a                          LDI R16, 0xAA          
+00035d 9300 0084                     STS TCNT1L, R16
+00035f ddce                      	RCALL ReadKeyboard
+000360 dd19                          RCALL SnakeMain        
+000361 9518                          RETI
                                  
                                  DELAY:
                                      ; Introduces a delay that adjusts based on the score
                                      ; The higher the score, the shorter the delay, thus making the game faster
-000318 e906                          LDI R16,150
-000319 1b07                      	SUB R16, score
-00031a 1b07                      	SUB R16, score
+000362 e906                          LDI R16,150
+000363 1b07                      	SUB R16, score
+000364 1b07                      	SUB R16, score
                                  L1:
-00031b ef1f                          LDI R17,255
-00031c 1b17                      	SUB R17, score
-00031d 1b17                      	SUB R17, score
-00031e 1b17                      	SUB R17, score
-00031f 1b17                      	SUB R17, score
+000365 ef1f                          LDI R17,255
+000366 1b17                      	SUB R17, score
+000367 1b17                      	SUB R17, score
+000368 1b17                      	SUB R17, score
+000369 1b17                      	SUB R17, score
                                  
                                  L2:
-000320 e322                      	LDI R18,50
-000321 1b27                      	SUB R18, score
+00036a e322                      	LDI R18,50
+00036b 1b27                      	SUB R18, score
                                  L3:
-000322 952a                          DEC R18
-000323 f7f1                          BRNE L3
-000324 951a                          DEC R17
-000325 f7d1                      	BRNE L2
-000326 950a                      	DEC R16
-000327 f799                      	BRNE L1
-000328 9508                      	RET
+00036c 952a                          DEC R18
+00036d f7f1                          BRNE L3
+00036e 951a                          DEC R17
+00036f f7d1                      	BRNE L2
+000370 950a                      	DEC R16
+000371 f799                      	BRNE L1
+000372 9508                      	RET
                                  
 
 
@@ -2072,7 +2150,7 @@ counted separately from r26..r31 here.
 "ATmega328P" register use summary:
 x  :   7 y  :  26 z  :  11 r0 :  12 r1 :   9 r2 :  10 r3 :  14 r4 :   4 
 r5 :   3 r6 :   0 r7 :   0 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 
-r13:   0 r14:   0 r15:   0 r16: 165 r17:  94 r18:  41 r19:   8 r20:  18 
+r13:   0 r14:   0 r15:   0 r16: 173 r17: 102 r18:  41 r19:   8 r20:  18 
 r21:  16 r22:  18 r23:  12 r24:   7 r25:   6 r26:   5 r27:   4 r28:   8 
 r29:   8 r30:  14 r31:  13 
 Registers used: 25 out of 35 (71.4%)
@@ -2088,11 +2166,11 @@ clc   :   0 clh   :   0 cli   :   0 cln   :   0 clr   :   0 cls   :   0
 clt   :   0 clv   :   0 clz   :   0 com   :   2 cp    :   5 cpc   :   0 
 cpi   :  17 cpse  :   0 dec   :  18 eor   :   9 fmul  :   0 fmuls :   0 
 fmulsu:   0 icall :   0 ijmp  :   0 in    :   1 inc   :   6 jmp   :   0 
-ld    :   4 ldd   :   0 ldi   : 122 lds   :   0 lpm   :   2 lsl   :   4 
+ld    :   4 ldd   :   0 ldi   : 130 lds   :   0 lpm   :   2 lsl   :   4 
 lsr   :  12 mov   :  29 movw  :   0 mul   :   2 muls  :   0 mulsu :   0 
-neg   :   0 nop   :  15 or    :   2 ori   :   0 out   :  17 pop   :  51 
-push  :  47 rcall :  24 ret   :  37 reti  :   3 rjmp  :  45 rol   :   0 
-ror   :   0 sbc   :   0 sbci  :   0 sbi   :   5 sbic  :   0 sbis  :  20 
+neg   :   0 nop   :  28 or    :   2 ori   :   0 out   :  25 pop   :  51 
+push  :  47 rcall :  24 ret   :  42 reti  :   3 rjmp  :  65 rol   :   0 
+ror   :   0 sbc   :   0 sbci  :   0 sbi   :   5 sbic  :   0 sbis  :  40 
 sbiw  :   0 sbr   :   0 sbrc  :   2 sbrs  :   1 sec   :   0 seh   :   0 
 sei   :   1 sen   :   0 ser   :   0 ses   :   0 set   :   0 sev   :   0 
 sez   :   0 sleep :   0 spm   :   0 st    :  29 std   :   0 sts   :   9 
@@ -2102,7 +2180,7 @@ Instructions used: 49 out of 113 (43.4%)
 "ATmega328P" memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x000652   1364    192   1556   32768   4.7%
+[.cseg] 0x000000 0x0006e6   1512    192   1704   32768   5.2%
 [.dseg] 0x000100 0x000100      0      0      0    2048   0.0%
 [.eseg] 0x000000 0x000000      0      0      0    1024   0.0%
 
