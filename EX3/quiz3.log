@@ -1,0 +1,15 @@
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\CMOS\EX3\quiz3.asc
+Start Time: Tue May 13 16:48:20 2025
+solver = Normal
+Maximum thread count: 20
+tnom = 27
+temp = 27
+method = modified trap
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Direct Newton iteration for .op point succeeded.
+Total elapsed time: 0.190 seconds.
+

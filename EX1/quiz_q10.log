@@ -1,0 +1,13 @@
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\CMOS\EX1\quiz_q10.asc
+Start Time: Tue Apr 29 12:53:51 2025
+solver = Normal
+Maximum thread count: 20
+tnom = 27
+temp = 27
+method = modified trap
+ERROR: Node OUT is floating and connected to current source I1
+
+Direct Newton iteration for .op point succeeded.
+Total elapsed time: 0.064 seconds.
+

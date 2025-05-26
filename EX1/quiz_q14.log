@@ -1,0 +1,13 @@
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\CMOS\EX1\quiz_q14.asc
+Start Time: Wed Apr 30 13:11:26 2025
+solver = Normal
+Maximum thread count: 20
+tnom = 27
+temp = 27
+method = modified trap
+WARNING: Node OUT is floating.
+
+Direct Newton iteration for .op point succeeded.
+Total elapsed time: 0.039 seconds.
+

@@ -1,0 +1,15 @@
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\CMOS\EX3\quiz8.asc
+Start Time: Tue May 13 10:45:36 2025
+solver = Normal
+Maximum thread count: 20
+tnom = 27
+temp = 27
+method = modified trap
+WARNING: Specified period is not longer than the sum of Trise, Tfall, and Ton for v3.  Increasing period to 6e-08
+WARNING: Specified period is not longer than the sum of Trise, Tfall, and Ton for v2.  Increasing period to 6e-08
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+Direct Newton iteration for .op point succeeded.
+Total elapsed time: 0.071 seconds.
+

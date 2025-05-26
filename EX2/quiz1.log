@@ -1,0 +1,94 @@
+LTspice 24.0.12 for Windows
+Circuit: * C:\Users\alexb\OneDrive - Université Libre de Bruxelles\MA1-ULBDrive\ELEC-Y418\LAB\Labs\CMOS\EX2\quiz1.asc
+Start Time: Fri May  2 09:03:42 2025
+solver = Normal
+Maximum thread count: 20
+
+
+
+Warning: Pd = 0 is less than W.
+Warning: Ps = 0 is less than W.
+v2: Missing value, assumed 0V @ DC
+.step div=1
+
+
+
+.step div=1.2
+
+
+
+.step div=1.4
+
+
+
+.step div=1.6
+
+
+
+.step div=1.8
+
+
+
+.step div=2
+
+
+
+.step div=2.2
+
+
+
+.step div=2.4
+
+
+
+.step div=2.6
+
+
+
+.step div=2.8
+
+
+
+.step div=3
+
+
+
+.step div=3.2
+
+
+
+.step div=3.4
+
+
+
+.step div=3.6
+
+
+
+.step div=3.8
+
+
+
+.step div=4
+
+
+
+.step div=4.2
+
+
+
+.step div=4.4
+
+
+
+.step div=4.6
+
+
+
+.step div=4.8
+tnom = 27
+temp = 27
+method = modified trap
+.step div=5
+Total elapsed time: 0.642 seconds.
+
